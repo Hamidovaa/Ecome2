@@ -1,0 +1,58 @@
+﻿@model Products
+
+<div class="page-content">
+    <div class="container-fluid">
+
+
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card job-filter">
+                    <div class="card-body p-3">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card job-filter">
+                                    <div class="card-body p-3">
+                                        <form class="row" method="post" asp-area="Admin" asp-controller="Products" asp-action="Create" enctype="multipart/form-data">
+                                            @Html.AntiForgeryToken()
+                                            <div class="col-md-3">
+                                                <label>Title</label>
+                                                <input asp-for="Title" type="text" class="form-control" />
+                                                <span asp-validation-for="Title" class="text-danger mt-5"></span>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Description</label>
+                                                <input asp-for="Description" type="text" class="form-control" />
+                                                <span asp-validation-for="Description" class="text-danger mt-5"></span>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Price</label>
+                                                <input asp-for="Price" type="text" class="form-control" />
+                                                <span asp-validation-for="Price" class="text-danger mt-5"></span>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Category</label>
+                                                <select class="form-select" asp-for="CategoryId">
+                                                    @foreach(var item in ViewBag.Category)
+                                                    {
+                                                        <option value="@item.Id">@item.Name</option>
+                                                    }
+                                                </select>
+                                            <div class="col-md-3">
+                                                <button type="submit" class="btn btn-danger mt-3 btn-block">Add database</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end col-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end col-->
+        </div>
+    </div> <!-- container-fluid -->
+</div>
+
+
