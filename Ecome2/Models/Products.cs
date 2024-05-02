@@ -13,5 +13,11 @@ namespace Ecome2.Models
         [ForeignKey("CategoryId")]
         [ValidateNever]
         public Category Category { get; set; }
+        public string? ImgUrl { get; set; }
+        [NotMapped]
+        [ValidateNever]
+        public IFormFile file { get; set; }
+        public bool IsCheck { get; set; } = false;
+        public List<Order> Orders { get; set; }
     }
 }

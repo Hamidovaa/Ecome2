@@ -31,6 +31,13 @@
                                                 <span asp-validation-for="Price" class="text-danger mt-5"></span>
                                             </div>
                                             <div class="col-md-3">
+                                                <label>IMG</label>
+                                                <input type="file" asp-for="file" class="form-control" />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <button type="submit" class="btn btn-danger mt-3 btn-block">Add database</button>
+                                            </div>
+                                            <div class="col-md-3">
                                                 <label>Category</label>
                                                 <select class="form-select" asp-for="CategoryId">
                                                     @foreach(var item in ViewBag.Category)

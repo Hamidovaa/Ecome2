@@ -12,7 +12,7 @@
                             <div class="col-lg-12">
                                 <div class="card job-filter">
                                     <div class="card-body p-3">
-                                        <form class="row" method="post" asp-area="Admin" asp-controller="Products" asp-action="Create" enctype="multipart/form-data">
+                                        <form class="row" method="post" asp-area="Admin" asp-controller="Products" asp-action="Edit" enctype="multipart/form-data">
                                             @Html.AntiForgeryToken()
                                             <div class="col-md-3">
                                                 <label>Title</label>
@@ -28,6 +28,16 @@
                                                 <label>Price</label>
                                                 <input asp-for="Price" type="text" class="form-control" />
                                                 <span asp-validation-for="Price" class="text-danger mt-5"></span>
+                                            </div>
+                                            <img width="150px" height="150px" src="~/UploadProducts/@Model.ImgUrl" />
+                                            <div class="col-md-3">
+                                                <label>IMG</label>
+                                                <input asp-for="file" type="file" class="form-control" />
+                                            </div>
+                                            <img width="150px" height="150px" src="~/UploadSlider/@Model.ImgUrl" />
+                                            <div class="col-md-3">
+                                                <label>IMG</label>
+                                                <input asp-for="IsCheck" class="form-check" />
                                             </div>
                                             <div class="col-md-3">
                                                 <label>Category</label>

@@ -1,6 +1,7 @@
 ﻿using Ecome2.DAL;
 using Ecome2.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace Ecome2.Controllers
@@ -18,8 +19,13 @@ namespace Ecome2.Controllers
 
         public IActionResult Index()
         {
-            
-            return View(appDbContext.Sliders.Where(x => x.IsCheck != false).ToList());
+
+            var model = new TwoModels
+            {
+                sliders = appDbContext.Sliders.Where(x => x.IsCheck != false).ToList(),
+                categories = appDbContext.Categories.Include(c => c.Products).Where(c => !c.IsActive).ToList()
+            };
+            return View(model);
         }
 
         public IActionResult Privacy()

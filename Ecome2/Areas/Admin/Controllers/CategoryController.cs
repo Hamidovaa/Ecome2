@@ -1,6 +1,8 @@
 ﻿using Ecome2.DAL;
 using Ecome2.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Drawing.Drawing2D;
 
 namespace Ecome2.Areas.Admin.Controllers
 {
@@ -17,6 +19,8 @@ namespace Ecome2.Areas.Admin.Controllers
         {
             return View(appDbContext.Categories.ToList());
         }
+
+
         [HttpPost]
         public IActionResult Create(Category category)
         {
@@ -28,23 +32,11 @@ namespace Ecome2.Areas.Admin.Controllers
             appDbContext.SaveChanges();
             return RedirectToAction("Index");
         }
-        //public IActionResult Delete(int id)
-        //{
-        //    if (id == 0)
-        //    {
-        //        return NotFound();
-        //    }
-        //    var category = appDbContext.Categories.Find(id);
-        //    if (category != null)
-        //    {
-        //        appDbContext.Categories.Remove(category);
-        //        appDbContext.SaveChanges();
-        //    }
-        //    return RedirectToAction("Index");
-        //}
+      
 
         public JsonResult Delete(int id)
         {
+
             if (id == 0)
             {
                 return Json(new
@@ -64,6 +56,7 @@ namespace Ecome2.Areas.Admin.Controllers
             });
         }
 
+        
 
         [HttpGet]
         public JsonResult Edit(int id)
