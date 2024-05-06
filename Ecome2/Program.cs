@@ -3,6 +3,7 @@ using Ecome2.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -32,6 +33,7 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.SignIn.RequireConfirmedEmail = false; //qeydiyyat etdikden sonra email ile token gönderecek 
     options.SignIn.RequireConfirmedPhoneNumber = false; //telefon do?rulamas?
 });
+builder.Services.AddScoped<Ecome2.EXtentions.IEmailService, Ecome2.EXtentions.EmailSender>();
 
 var app = builder.Build();
 

@@ -2121,7 +2121,7 @@ pre {
     width: 25%; }
 
   .col-lg-4 {
-    width: 33.33333%; }
+    width: 24.33333%; }
 
   .col-lg-5 {
     width: 41.66667%; }
@@ -3907,7 +3907,7 @@ tbody.collapse.in {
           background-image: none; } }
   @media (min-width: 1025px) {
     .navbar-nav {
-      float: left;
+        display:flex;
       margin: 0; }
       .navbar-nav > li {
         float: left; }
@@ -6375,7 +6375,7 @@ button.close {
   border-radius: 20px;
   letter-spacing: 0.2em;
   font-size: 8px;
-  color: #fff;
+  color: #3432c5;
   text-transform: uppercase;
   text-align: center;
   font-weight: 700;
@@ -6388,7 +6388,7 @@ button.close {
     .h-ribbon.v3.e-green:before {
       content: none; }
   .h-ribbon.e-green {
-    background: #42e9a8; }
+    background: white; }
     .h-ribbon.e-green:before {
       content: ' ';
       -webkit-transform: rotate(225deg);
@@ -6401,7 +6401,7 @@ button.close {
       top: 12px;
       border-color: #42e9a8 transparent transparent #42e9a8; }
   .h-ribbon.e-skyblue {
-    background: #55d1e3; }
+    background:white; }
     .h-ribbon.e-skyblue:before {
       content: ' ';
       -webkit-transform: rotate(225deg);
@@ -6412,7 +6412,7 @@ button.close {
       left: 8px;
       border: 4px solid;
       top: 12px;
-      border-color: #55d1e3 transparent transparent #55d1e3; }
+      border-color: white transparent transparent #fff; }
   .h-ribbon.e-red {
     background: #ff5050; }
     .h-ribbon.e-red.v2:before {
@@ -6425,7 +6425,7 @@ button.close {
       left: 8px;
       border: 4px solid;
       top: 12px;
-      border-color: #ff5050 transparent transparent #ff5050; }
+      border-color: white transparent transparent #ff5050; }
   .h-ribbon.h-pos {
     position: absolute;
     top: 0;
@@ -6558,7 +6558,7 @@ ul, li {
 
 img {
     display: block;
-    max-width: 100%;
+    max-width: 90%;
     padding-top: 9px;
     margin:auto;
 }
@@ -15278,21 +15278,22 @@ span.star:before {
 
 .header-search {
   padding-left:5px;
-  padding-top: 10px;
+  padding-top: 5px;
 }
   @media (min-width: 1650px) {
     .header-search form {
-      width: 440px; } }
+      width: 300px; } }
   .header-search form {
     display: table;
     position: relative; }
   .header-search input {
-    height: 62px;
+    height: 42px;
     border-radius: 31px 0 0 31px;
     border: 2px solid #eaeaea;
     padding-left: 34px;
     width: 300px;
     display: table-cell;
+
     border-right: 0;
     -webkit-box-shadow: none;
             box-shadow: none; }
@@ -15325,9 +15326,10 @@ span.star:before {
         width: 470px; } }
     @media (min-width: 1650px) {
       .header-search input {
-        width: 240px; } }
+        width: 150px; } }
   .header-search .select-option {
     width: 220px;
+    /*margin-left:100px;*/
     height: 62px;
     border: 2px solid #eaeaea;
     border-left: 1px solid #eaeaea;
@@ -15343,7 +15345,7 @@ span.star:before {
   .header-search .search-panel {
     display: table-cell;
     vertical-align: middle;
-    width: 100%;
+    width: 50%;
     position: relative;
     border: 2px solid #eaeaea;
     border-left: 1px solid #eaeaea;
@@ -15361,7 +15363,7 @@ span.star:before {
         padding-left: 13px; } }
     @media (min-width: 1681px) {
       .header-search .search-panel {
-        padding-left: 29px; } }
+        padding-left: 9px; } }
     .header-search .search-panel > a {
       display: block;
       color: #999; }
@@ -15421,11 +15423,12 @@ span.star:before {
     right: 5px; }
     .header-search .input-group-btn .button_search {
       color: #fff;
-      width: 50px;
-      height: 50px;
-      line-height: 50px;
+      width: 35px;
+      height: 35px;
+      line-height: 35px;
       font-size: 20px;
       border-radius: 100%;
+      margin-left:19px;
       background: #333333;
       -webkit-transition: all 0.3s ease 0s;
       transition: all 0.3s ease 0s;
@@ -15438,6 +15441,7 @@ span.star:before {
   margin-left: 0; }
 
 .right-panel {
+  margin-top:16px;
   margin-left: auto;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -15483,8 +15487,8 @@ span.star:before {
   border-bottom: 1px solid #eeeeee; }
   @media (min-width: 1025px) {
     .header-center {
-        padding-top: 14px;
-        padding-bottom: 14px;
+        padding-top: 0px;
+        padding-bottom: 0px;
         background-color: black;
     } }
 

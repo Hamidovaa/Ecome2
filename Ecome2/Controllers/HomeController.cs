@@ -23,7 +23,8 @@ namespace Ecome2.Controllers
             var model = new TwoModels
             {
                 sliders = appDbContext.Sliders.Where(x => x.IsCheck != false).ToList(),
-                categories = appDbContext.Categories.Include(c => c.Products).Where(c => !c.IsActive).ToList()
+                categories = appDbContext.Categories.Include(c => c.Products).Where(c => c.IsActive==true).ToList(),
+                
             };
             return View(model);
         }

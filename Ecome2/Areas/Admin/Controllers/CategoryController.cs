@@ -17,7 +17,8 @@ namespace Ecome2.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            return View(appDbContext.Categories.ToList());
+            var categories = appDbContext.Categories.ToList(); // Tüm kategorileri al
+            return View(categories);
         }
 
 
@@ -34,32 +35,27 @@ namespace Ecome2.Areas.Admin.Controllers
         }
       
 
-        public JsonResult Delete(int id)
-        {
+        //public JsonResult Delete(int id)
+        //{
 
-            if (id == 0)
-            {
-                return Json(new
-                {
-                    status = 400
-                });
-            }
-            var category = appDbContext.Categories.Find(id);
-            if (category != null)
-            {
-                appDbContext.Categories.Remove(category);
-                appDbContext.SaveChanges();
-            }
-            return Json(new
-            {
-                status = 200
-            });
-        }
+        //    if (id == 0)
+        //    {
+        //        return Json(new
+        //        {
+        //            status = 400
+        //        });
+        //    }
+        //    var category = appDbContext.Categories.Find(id);
+            
+        //    category.IsActive = false;
+        //    appDbContext.SaveChanges();
+        //    return Json(new
+        //    {
+        //        status = 200
+        //    });
+        //}
 
-        
-
-        [HttpGet]
-        public JsonResult Edit(int id)
+        public JsonResult Activate(int id)
         {
             if (id == 0)
             {
@@ -76,6 +72,36 @@ namespace Ecome2.Areas.Admin.Controllers
                     status = 400
                 });
             }
+            category.IsActive = !category.IsActive;  // Kategoriyi aktif hale getir
+            appDbContext.SaveChanges();
+            return Json(new
+            {
+                status = 200
+            });
+        }
+
+
+
+
+        [HttpGet]
+        public JsonResult Edit(int id)
+        {
+            if (id == 0)
+            {
+                return Json(new
+                {
+                    status = 400
+                });
+            }
+            var category = appDbContext.Categories.FirstOrDefault(x => x.Id == id);
+            if (category == null)
+            {
+                return Json(new
+                {
+                    status = 400
+                });
+            }
+
             return Json(category);
         }
 

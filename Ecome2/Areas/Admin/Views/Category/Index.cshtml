@@ -28,14 +28,22 @@
                                     <tr>
                                         <td>@item.Name</td>
                                         <td>
-                                            <a class="deleteBtn btn btn-danger" asp-area="Admin" asp-controller="Category" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                            @if (item.IsActive)
+                                            {
+                                                <span class="badge bg-success">Active</span>
+                                                <a class="activateBtn btn btn-warning" asp-area="Admin" asp-controller="Category" asp-action="Activate" asp-route-id="@item.Id">Deactivate</a>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-danger">Inactive</span>
+                                                <a class="activateBtn btn btn-success" asp-area="Admin" asp-controller="Category" asp-action="Activate" asp-route-id="@item.Id">Activate</a>
+                                            }
                                         </td>
                                         <td>
-                                            <button data-id="@item.Id" type="button" class="editBtn btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditCategory">
+                                            <button data-id="@item.Id" type="button" class="editBtn btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalEdit">
                                                 Edit
                                             </button>
                                         </td>
-                                        <td><input asp-for="@item.IsActive" class="form-check-input" type="checkbox"  /></td>
                                     </tr>
                                 }                               
                             </tbody>
@@ -84,29 +92,30 @@
 </div>
 
 
-<div class="modal fade" id="EditCategory" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="EditCategoryLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModalEdit" tabindex="-1" aria-labelledby="exampleModalEditLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Create</h1>
+                <h1 class="modal-title fs-5" id="exampleModalEditLabel">Edit Slider</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-
             <div class="modal-body">
-                <form id="EditCategoryForm" method="post" asp-area="Admin" asp-controller="Category" asp-action="Edit" class="row" enctype="multipart/form-data">
-                    @Html.AntiForgeryToken()
+                <form id="CategoryEditForm" class="row" method="post" asp-area="admin" asp-controller="category" asp-action="edit" enctype="multipart/form-data">
+
                     <div class="col-md-12">
-                        <input name="Id" type="hidden" class="form-control" />
+                        <input name="Id" type="hidden" />
                         <label>
-                            Name
+                            Sub Title
                         </label>
                         <input name="Name" type="text" class="form-control" />
                     </div>
+
                 </form>
             </div>
             <div class="modal-footer">
-                <button form="EditCategoryForm" type="submit" class="btn btn-danger editBtn">Add</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                <button form="CategoryEditForm" type="submit" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>
@@ -148,7 +157,7 @@
                                         '',
                                         'success'
                                     )
-                                    element.outerHTML = '';
+                                    element.querySelector('.status').innerHTML = 'Delete';
                                 }
                                 else if (response.status == 400) {
                                     //toastr.error(response.message)
@@ -166,12 +175,13 @@
 
         });
 
+
         $(document).ready(() => {
             //Edit(Get)
             $(document).on('click', '.editBtn', (e) => {
                 const id = $(e.currentTarget).data('id');
 
-                $.ajax({ 
+                $.ajax({
                     url: `/Admin/Category/Edit/${id}`,
                     type: 'GET',
                     success: (response) => {
@@ -180,47 +190,59 @@
                             alert('tapilmadi');
                         }
                         else {
-                            console.log(response)
+                            console.log(response);
                             $('#CategoryEditForm input[name="Id"]').val(response.id);
                             $('#CategoryEditForm input[name="Name"]').val(response.name);
-
                         }
                     }
                 });
             });
-
-
         });
 
-       
+        $(document).on('click', '.activateBtn', function (e) {
+            e.preventDefault();
+            let url = $(this).attr("href");
+            let element = this.parentElement.parentElement;
 
-
-    </script>
-    <script>
-        $(document).ready(function () {
-            $('.form-check-input').change(function () {
-                var id = $(this).data('id');
-                var isActive = $(this).prop('checked');
-
-                $.ajax({
-                    url: '/Admin/Category/UpdateIsActive',
-                    type: 'POST',
-                    data: {
-                        id: Id,
-                        isActive: isActive
-                    },
-                    success: function (response) {
-                        // Başarılı bir şekilde güncellendiğinde yapılacak işlemler
-                        console.log(response);
-                    },
-                    error: function (xhr, status, error) {
-                        // Hata oluştuğunda yapılacak işlemler
-                        console.error(xhr.responseText);
-                    }
-                });
+            Swal.fire({
+                title: 'Dəyişmək istədiyinizə əminsiniz?',
+                text: "",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Dəyiş',
+                cancelButtonText: 'Geri'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        url: url,
+                        type: "get",
+                        dataType: "json",
+                        success: function (response) {
+                            console.log(response)
+                            if (response.status == 200) {
+                                Swal.fire(
+                                    'Dəyişdirildi',
+                                    '',
+                                    'success'
+                                )
+                                element.innerHTML = "";
+                            } else if (response.status == 400) {
+                                Swal.fire({
+                                    title: 'Error!',
+                                    icon: 'error',
+                                    confirmButtonText: 'Cool'
+                                })
+                            }
+                        }
+                    });
+                }
             });
         });
+
     </script>
+
 
 }
 
