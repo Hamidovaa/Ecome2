@@ -198,11 +198,11 @@
                 });
             });
         });
-
         $(document).on('click', '.activateBtn', function (e) {
             e.preventDefault();
             let url = $(this).attr("href");
-            let element = this.parentElement.parentElement;
+            let element = $(this);
+            var span = $(this).prev(); // Butondan önceki span elementini seçiyoruz
 
             Swal.fire({
                 title: 'Dəyişmək istədiyinizə əminsiniz?',
@@ -226,8 +226,24 @@
                                     'Dəyişdirildi',
                                     '',
                                     'success'
-                                )
-                                element.innerHTML = "";
+                                ).then(() => {
+                                    // Butonun içeriğini değiştir
+                                    if (element.text().trim() === "Activate") {
+                                        element.text("Deactivate");
+                                        // Butonun rengini değiştir
+                                        element.removeClass("btn-success").addClass("btn-warning");
+                                    } else {
+                                        element.text("Activate");
+                                        // Butonun rengini değiştir
+                                        element.removeClass("btn-warning").addClass("btn-success");
+                                    }
+                                    // Butona tıkladığınızda yanındaki span'in sınıflarını değiştirme
+                                    if (span.hasClass('bg-success')) {
+                                        span.removeClass('bg-success').addClass('bg-danger').text('Inactive');
+                                    } else {
+                                        span.removeClass('bg-danger').addClass('bg-success').text('Active');
+                                    }
+                                });
                             } else if (response.status == 400) {
                                 Swal.fire({
                                     title: 'Error!',
@@ -240,6 +256,8 @@
                 }
             });
         });
+
+
 
     </script>
 

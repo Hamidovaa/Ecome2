@@ -373,7 +373,7 @@
                         <span class="input-group-btn">
                             <button class="button_search" type="button"><i class="ion-ios-search-strong"></i></button>
                         </span>
-                    </form>
+                    </form> 
                 </div>
                 <div class="col-lg-3 col-md-2 col-sm-6 col-xs-6 header-sub">
                     <div class="right-panel">
@@ -381,6 +381,7 @@
                             @if(SignInManager.IsSignedIn(User))
                             {
                                 <div class="dropdown">
+
                                     <button class="dropbtn">@User.Identity.Name</button>
                                     <div class="dropdown-content">
                                         <a asp-controller="Account" asp-action="Logout">Log Out</a>

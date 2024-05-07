@@ -23,12 +23,7 @@ namespace Ecome2.Areas.Admin.Controllers
             return View(appDbContext.Products.Include(x => x.Category).ToList());
         }
 
-        public IActionResult Create()
-        {
-            ViewBag.Category=appDbContext.Categories.ToList();
-            return View();
-        }
-
+       
         public JsonResult Delete(int id)
         {
             if (id == 0)
@@ -50,6 +45,12 @@ namespace Ecome2.Areas.Admin.Controllers
             });
         }
 
+        public IActionResult Create()
+        {
+            ViewBag.Category = appDbContext.Categories.ToList();
+            return View();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Products model)
@@ -67,13 +68,13 @@ namespace Ecome2.Areas.Admin.Controllers
             }
             string filename = await model.file.SaveFileAsync(_env.WebRootPath, "UploadProducts");
             model.ImgUrl = filename;
-
+             
             appDbContext.Products.Add(model);
             appDbContext.SaveChanges();
             return RedirectToAction("Index");
         }
 
-
+          
         [HttpGet]
         public IActionResult Edit(int id)
         {

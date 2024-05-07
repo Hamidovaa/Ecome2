@@ -18,6 +18,7 @@ namespace Ecome2.Models
         [ValidateNever]
         public IFormFile file { get; set; }
         public bool IsCheck { get; set; } = false;
-        public List<Order> Orders { get; set; }
+        [ValidateNever]
+        public  List<Order> Orders { get; set; }
     }
 }
