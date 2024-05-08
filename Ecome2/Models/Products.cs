@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ecome2.Models
@@ -13,12 +14,17 @@ namespace Ecome2.Models
         [ForeignKey("CategoryId")]
         [ValidateNever]
         public Category Category { get; set; }
-        public string? ImgUrl { get; set; }
+        public string? ImgUrlBase { get; set; }
         [NotMapped]
-        [ValidateNever]
+        [Required]
         public IFormFile file { get; set; }
         public bool IsCheck { get; set; } = false;
         [ValidateNever]
         public  List<Order> Orders { get; set; }
+        [ValidateNever]
+        public List<Images> Images { get; set; }
+        [NotMapped]
+        [ValidateNever]
+        public List<IFormFile> ImagesFiles { get; set; }
     }
 }

@@ -29,12 +29,7 @@
                                                 <input asp-for="Price" type="text" class="form-control" />
                                                 <span asp-validation-for="Price" class="text-danger mt-5"></span>
                                             </div>
-                                            <img width="150px" height="150px" src="~/UploadProducts/@Model.ImgUrl" />
-                                            <div class="col-md-3">
-                                                <label>IMG</label>
-                                                <input asp-for="file" type="file" class="form-control" />
-                                            </div>
-                                            <img width="150px" height="150px" src="~/UploadSlider/@Model.ImgUrl" />
+
                                             <div class="col-md-3">
                                                 <label>IMG</label>
                                                 <input asp-for="IsCheck" class="form-check" />
@@ -50,6 +45,26 @@
                                                 <div class="col-md-3">
                                                     <button type="submit" class="btn btn-danger mt-3 btn-block">Add database</button>
                                                 </div>
+                                           </div>
+                                            <img width="150px" height="150px" src="~/UploadProducts/@Model.ImgUrlBase" />
+                                            <div class="col-md-12">
+                                                <label>Esas sekil</label>
+                                                <input type="file" asp-for="file" class="form-control mt-3" />
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label>Elave sekil</label>
+                                                <div class="row mt-3">
+                                                    @foreach (var item in Model.Images)
+                                                    {
+                                                        <div class="col-md-3">
+                                                            <img width="150px" height="150px" src="~/UploadProducts/@item.ImgUrl" />
+                                                            <a class="btn btn-danger" asp-area="Admin" asp-controller="Products" asp-action="DeleteImages" asp-route-id="@item.Id" >Delete</a>
+                                                        </div>  
+                                                    }
+                                                </div>
+
+                                                <input asp-for="ImagesFiles" type="file" class="form-control mt-3" multiple />
+                                            </div>
                                         </form>
                                     </div>
                                 </div>

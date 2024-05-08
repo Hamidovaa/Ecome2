@@ -31,8 +31,13 @@
                                                 <span asp-validation-for="Price" class="text-danger mt-5"></span>
                                             </div>
                                             <div class="col-md-3">
-                                                <label>IMG</label>
+                                                <label>Elave sekil</label>
+                                                <input asp-for="ImagesFiles" type="file" class="form-control" multiple />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Esas sekil</label>
                                                 <input type="file" asp-for="file" class="form-control" />
+                                                <span asp-validation-for="ImgUrlBase" class="text-danger mt-5"></span>
                                             </div>
                                             <div class="col-md-3">
                                                 <button type="submit" class="btn btn-danger mt-3 btn-block">Add database</button>

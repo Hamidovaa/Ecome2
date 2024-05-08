@@ -67,10 +67,30 @@ namespace Ecome2.Areas.Admin.Controllers
                 return View(model);
             }
             string filename = await model.file.SaveFileAsync(_env.WebRootPath, "UploadProducts");
-            model.ImgUrl = filename;
-             
+            model.ImgUrlBase = filename;
             appDbContext.Products.Add(model);
             appDbContext.SaveChanges();
+
+            if(model.file != null)
+            {
+                foreach (var item in model.ImagesFiles)
+                {
+                    if (!item.IsImage())
+                    {
+                        ModelState.AddModelError("photo", "Image type is not valid");
+                        return View(model);
+                    }
+                    string filename2 = await item.SaveFileAsync(_env.WebRootPath, "UploadProducts");
+
+                    Images images = new Images
+                    {
+                        ProductId = model.Id,
+                        ImgUrl = filename2
+                    };
+                    appDbContext.Images.Add(images);
+                    appDbContext.SaveChanges();
+                }
+            }  
             return RedirectToAction("Index");
         }
 
@@ -79,12 +99,12 @@ namespace Ecome2.Areas.Admin.Controllers
         public IActionResult Edit(int id)
         {
             ViewBag.Category = appDbContext.Categories.ToList();
+            var model = appDbContext.Products.Include(x => x.Images).FirstOrDefault(x => x.Id == id);
 
             if (id == 0)
             {
                 return NotFound();
             }
-            var model = appDbContext.Products.FirstOrDefault(x => x.Id == id);
             if (model == null)
             {
                 return RedirectToAction("Index");
@@ -98,35 +118,70 @@ namespace Ecome2.Areas.Admin.Controllers
         public async Task<IActionResult> Edit(Products products)
         {
             ViewBag.Category = appDbContext.Categories.ToList();
-            var oldProducts = appDbContext.Products.Find(products.Id);
-            //if (!ModelState.IsValid)
-            //{
-            //    return View(slider);
-            //}
-            if (products.file != null)
-            {
+            var oldProducts = appDbContext.Products.FirstOrDefault(x=>x.Id==products.Id);
 
-                if (!products.file.IsImage())
-                {
-                    ModelState.AddModelError("Photo", "Image type is not valid");
-                    return View(products);
-                }
-                string filename = await products.file.SaveFileAsync(_env.WebRootPath, "UploadProducts");
-
-                oldProducts.ImgUrl = filename;
-            }
-            
             oldProducts.Title = products.Title;
             oldProducts.Description = products.Description;
             oldProducts.Price = products.Price;
             oldProducts.IsCheck = products.IsCheck;
             oldProducts.CategoryId = products.CategoryId;
-
-            appDbContext.Products.Update(oldProducts);
             appDbContext.SaveChanges();
+            //if (!ModelState.IsValid)
+            //{
+            //    return View(slider);
+            //}
+
+            if (oldProducts == null)
+            {
+                return RedirectToAction("Index");
+            }
+            if(products.file != null)
+            {
+                if (!products.file.IsImage())
+                {
+                    ModelState.AddModelError("photo", "Image type is not valid");
+                    return View(products);
+                }
+                string filename = await products.file.SaveFileAsync(_env.WebRootPath, "UploadProducts");
+
+                oldProducts.ImgUrlBase = filename;
+                appDbContext.SaveChanges();
+            }
+            if (products.ImagesFiles != null)
+            {
+                foreach(var item in products.ImagesFiles)
+                {
+                    if (!item.IsImage()) 
+                    {
+                        ModelState.AddModelError("photo", "Image type is not valid");
+                        return View(products);
+                    }
+                    string filename2 = await item.SaveFileAsync(_env.WebRootPath, "UploadProducts");
+
+                    Images images = new Images
+                    {
+                        ProductId = products.Id,
+                        ImgUrl = filename2
+                    };
+                    appDbContext.Images.Add(images);
+                    appDbContext.SaveChanges();
+
+
+                }   
+            }
             return RedirectToAction("Index");
         }
 
+        public IActionResult DeleteImages(int id)
+        {
+            if (id != 0)
+            {
+                var model = appDbContext.Images.Find(id);
+                appDbContext.Images.Remove(model);
+                appDbContext.SaveChanges();
+            }
+            return RedirectToAction("Edit");
+        }
         
 
     }
