@@ -1,6 +1,7 @@
 ﻿using Ecome2.DAL;
 using Ecome2.EXtentions;
 using Ecome2.Models;
+using Ecome2.Services;
 using Ecome2.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -34,7 +35,7 @@ namespace Ecome2.Controllers
             ProgramUser programUser = new ProgramUser
             {
                 Email = model.Email,
-                UserName=model.Email
+                UserName = model.Email
             };
             var result=await _userManager.CreateAsync(programUser, model.Password);
             if(result.Succeeded)

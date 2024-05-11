@@ -23,8 +23,7 @@ namespace Ecome2.Areas.Admin.Controllers
             return View(appDbContext.Products.Include(x => x.Category).ToList());
         }
 
-       
-        public JsonResult Delete(int id)
+        public JsonResult Activate(int id)
         {
             if (id == 0)
             {
@@ -34,16 +33,41 @@ namespace Ecome2.Areas.Admin.Controllers
                 });
             }
             var products = appDbContext.Products.Find(id);
-            if (products != null)
+            if (products == null)
             {
-                appDbContext.Products.Remove(products);
-                appDbContext.SaveChanges();
+                return Json(new
+                {
+                    status = 400
+                });
             }
+            products.IsActive = !products.IsActive;  // Kategoriyi aktif hale getir
+            appDbContext.SaveChanges();
             return Json(new
             {
                 status = 200
             });
         }
+
+        //public JsonResult Delete(int id)
+        //{
+        //    if (id == 0)
+        //    {
+        //        return Json(new
+        //        {
+        //            status = 400
+        //        });
+        //    }
+        //    var products = appDbContext.Products.Find(id);
+        //    if (products != null)
+        //    {
+        //        appDbContext.Products.Remove(products);
+        //        appDbContext.SaveChanges();
+        //    }
+        //    return Json(new
+        //    {
+        //        status = 200
+        //    });
+        //}
 
         public IActionResult Create()
         {
@@ -123,7 +147,6 @@ namespace Ecome2.Areas.Admin.Controllers
             oldProducts.Title = products.Title;
             oldProducts.Description = products.Description;
             oldProducts.Price = products.Price;
-            oldProducts.IsCheck = products.IsCheck;
             oldProducts.CategoryId = products.CategoryId;
             appDbContext.SaveChanges();
             //if (!ModelState.IsValid)
@@ -172,7 +195,7 @@ namespace Ecome2.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult DeleteImages(int id)
+        public JsonResult DeleteImages(int id)
         {
             if (id != 0)
             {
@@ -180,7 +203,10 @@ namespace Ecome2.Areas.Admin.Controllers
                 appDbContext.Images.Remove(model);
                 appDbContext.SaveChanges();
             }
-            return RedirectToAction("Edit");
+            return Json(new
+            {
+                status = 200
+            });
         }
         
 

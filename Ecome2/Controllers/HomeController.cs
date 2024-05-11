@@ -23,11 +23,20 @@ namespace Ecome2.Controllers
             var model = new TwoModels
             {
                 sliders = appDbContext.Sliders.Where(x => x.IsCheck != false).ToList(),
-                categories = appDbContext.Categories.Include(c => c.Products).Where(c => c.IsActive==true).ToList(),
+                categories = appDbContext.Categories
+                .Include(c => c.Products.Where(p => p.IsActive == true))
+                .Where(c => c.IsActive==true)
+                .ToList()
                 
             };
             return View(model);
         }
+        public IActionResult GetProductsByCategory(int categoryId)
+        {
+            var productsByCategory = appDbContext.Products.Where(p => p.CategoryId == categoryId && p.IsActive == true).ToList();
+            return Json(productsByCategory);
+        }
+
 
         public IActionResult Privacy()
         {

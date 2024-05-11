@@ -33,9 +33,18 @@
                                         <td>@item.Category.Name</td>
                                         <td>@item.ImgUrlBase</td>
                                         <td> <img width="200" height="200" src="~/UploadProducts/@item.ImgUrlBase" /></td>
-                                        
+
                                         <td>
-                                            <a class="deleteBtn btn btn-danger" asp-area="Admin" asp-controller="Products" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                            @if (item.IsActive)
+                                            {
+                                                <span class="badge bg-success">Active</span>
+                                                <a class="activateBtn btn btn-warning" asp-area="Admin" asp-controller="Products" asp-action="Activate" asp-route-id="@item.Id">Deactivate</a>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-danger">Inactive</span>
+                                                <a class="activateBtn btn btn-success" asp-area="Admin" asp-controller="Products" asp-action="Activate" asp-route-id="@item.Id">Activate</a>
+                                            }
                                         </td>
                                         <td>
                                             <a class="btn btn-success" asp-area="Admin" asp-controller="Products" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
@@ -116,6 +125,67 @@
                 })
             });
         });
+
+
+        $(document).on('click', '.activateBtn', function (e) {
+            e.preventDefault();
+            let url = $(this).attr("href");
+            let element = $(this);
+            var span = $(this).prev(); // Butondan önceki span elementini seçiyoruz
+
+            Swal.fire({
+                title: 'Dəyişmək istədiyinizə əminsiniz?',
+                text: "",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Dəyiş',
+                cancelButtonText: 'Geri'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        url: url,
+                        type: "get",
+                        dataType: "json",
+                        success: function (response) {
+                            console.log(response)
+                            if (response.status == 200) {
+                                Swal.fire(
+                                    'Dəyişdirildi',
+                                    '',
+                                    'success'
+                                ).then(() => {
+                                    // Butonun içeriğini değiştir
+                                    if (element.text().trim() === "Activate") {
+                                        element.text("Deactivate");
+                                        // Butonun rengini değiştir
+                                        element.removeClass("btn-success").addClass("btn-warning");
+                                    } else {
+                                        element.text("Activate");
+                                        // Butonun rengini değiştir
+                                        element.removeClass("btn-warning").addClass("btn-success");
+                                    }
+                                    // Butona tıkladığınızda yanındaki span'in sınıflarını değiştirme
+                                    if (span.hasClass('bg-success')) {
+                                        span.removeClass('bg-success').addClass('bg-danger').text('Inactive');
+                                    } else {
+                                        span.removeClass('bg-danger').addClass('bg-success').text('Active');
+                                    }
+                                });
+                            } else if (response.status == 400) {
+                                Swal.fire({
+                                    title: 'Error!',
+                                    icon: 'error',
+                                    confirmButtonText: 'Cool'
+                                })
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
 
     </script>
 }

@@ -18,7 +18,7 @@ namespace Ecome2.Models
         [NotMapped]
         [Required]
         public IFormFile file { get; set; }
-        public bool IsCheck { get; set; } = false;
+        public bool IsActive { get; set; } = true;
         [ValidateNever]
         public  List<Order> Orders { get; set; }
         [ValidateNever]

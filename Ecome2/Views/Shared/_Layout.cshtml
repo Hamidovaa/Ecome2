@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<ProgramUser> SignInManager
 @inject UserManager<ProgramUser> UserManager
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -380,12 +381,17 @@
                         <div class="header-sub-element row">
                             @if(SignInManager.IsSignedIn(User))
                             {
-                                <div class="dropdown">
+                                Task<ProgramUser> GetCurrentUserAsync() => UserManager.GetUserAsync(User);
+                                var user = await GetCurrentUserAsync();
 
-                                    <button class="dropbtn">@User.Identity.Name</button>
-                                    <div class="dropdown-content">
-                                        <a asp-controller="Account" asp-action="Logout">Log Out</a>
-                                    </div>
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        @user.Name 
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a></li>
+
+                                    </ul>
                                 </div>
                             }
                             else
@@ -569,6 +575,7 @@
     <script src="~/demo/js/slick.js"></script>
     <script src="~/demo/js/countdown.js"></script>
     <script src="~/demo/js/main.js"></script>
+    @RenderSection("Scripts", false);
 </body>
 
 
