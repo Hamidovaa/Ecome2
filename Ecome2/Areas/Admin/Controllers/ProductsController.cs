@@ -23,6 +23,23 @@ namespace Ecome2.Areas.Admin.Controllers
             return View(appDbContext.Products.Include(x => x.Category).ToList());
         }
 
+        public IActionResult Search(string searchText)
+        {
+            // Arama metnini kullanarak ürünleri filtreleyin
+            var filteredProducts = appDbContext.Products
+                .Where(p => p.Title.ToLower().Contains(searchText.ToLower()))
+                .Select(p => new Products
+                {
+                    Title = p.Title,
+                    ImgUrlBase = p.ImgUrlBase
+                })
+                .ToList();
+
+            // JSON formatında filtrelenmiş ürünleri geri döndürün
+            return Json(filteredProducts);
+        }
+
+
         public JsonResult Activate(int id)
         {
             if (id == 0)

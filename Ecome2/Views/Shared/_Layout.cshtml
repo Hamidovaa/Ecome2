@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<ProgramUser> SignInManager
 @inject UserManager<ProgramUser> UserManager
+@model TwoModels
 
 <!DOCTYPE html>
 <html lang="en">
@@ -13,6 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <title>E-come | Multi-Purpose HTML Template for Electronics Store</title>
     <link rel="stylesheet" href="~/demo/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/demo/css/owl.theme.default.min.css">
     <link rel="shortcut icon" href="~/img/favicon.png" type="image/png">
     <link rel="stylesheet" href="~/demo/css/slick.css">
     <link rel="stylesheet" href="~/demo/css/slick-theme.css">
@@ -22,6 +24,7 @@
     <link rel="stylesheet" type="text/css" href="~/demo/css/jquery.fancybox.min.css">
     <link rel="stylesheet" type="text/css" href="~/demo/css/threesixty.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    @RenderSection("Styles", false);
     <style>
         body{
             background-color: #FFFFFF !important;
@@ -97,6 +100,21 @@
             background-color: black;
             color:white;
         }
+
+        .navMid{
+            justify-content:space-between;
+        }
+
+        .dropdown a{
+            color:white;
+        }
+
+        .filter-brand{
+        color:black;
+        }
+        .filter-price{
+            color:black;
+        }
     </style>
 </head>
 
@@ -106,14 +124,6 @@
         <div class="menu-push">
             <span class="close-left js-close"><i class="icon-close f-20"></i></span>
             <div class="clearfix"></div>
-            <form role="search" method="get" id="searchform" class="searchform" action="https://landing.engotheme.com/search">
-                <div>
-                    <label class="screen-reader-text" for="q"></label>
-                    <input type="text" placeholder="Search for products" value="" name="q" id="q" autocomplete="off">
-                    <input type="hidden" name="type" value="product">
-                    <button type="submit" id="searchsubmit"><i class="ion-ios-search-strong"></i></button>
-                </div>
-            </form>
             <ul class="nav-home5 js-menubar">
                 <li class="level1 active dropdown"><a href="#">Home</a>
                     <span class="icon-sub-menu"></span>
@@ -219,7 +229,7 @@
     </div>
     <div class="header-center">
         <div class="container container-240">
-            <div class="row flex  justify-center align-center ">
+            <div class="row flex navMid align-center ">
                 <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3 v-center header-logo">
                     <a class="apple col-sm" href="#">ISpace |<i class="fa-brands fa-apple"></i></a>
                 </div>
@@ -232,66 +242,10 @@
                                     <span class="plus js-plus-icon"></span>
                                 </li>
                                 <li class="level1 dropdown hassub">
-                                    <a href="#">Shop<span class="h-ribbon h-pos e-green">sale</span></a>
-                                    <span class="plus js-plus-icon"></span>
-                                    <div class="menu-level-1 dropdown-menu">
-                                        <ul class="level1">
-                                            <li class="level2 col-4">
-                                                <a href="#">Shop Layout</a>
-                                                <ul class="menu-level-2">
-                                                    <li class="level3"><a href="shop_full.html" title="">Shop Full Width</a></li>
-                                                    <li class="level3"><a href="shopgrid_v1.html" title="">Shop Grid v.1</a></li>
-                                                    <li class="level3"><a href="shopgrid_v2.html" title="">Shop Grid v.2</a><span class="h-ribbon v3 e-red h-pos">Hot</span></li>
-                                                    <li class="level3"><a href="shoplist.html" title="">Shop List</a></li>
-                                                    <li class="level3"><a href="shopleft_sidebar.html" title="">Shop Left Sidebar</a></li>
-                                                    <li class="level3"><a href="shopright_sidebar.html" title="">Shop Right Sidebar</a></li>
-                                                </ul>
-                                                <a href="#">Categories</a>
-                                                <ul class="menu-level-2">
-                                                    <li class="level3"><a href="cat_fullwidth.html" title="">Categories Full Width</a><span class="h-ribbon v3 e-red h-pos">Hot</span></li>
-                                                    <li class="level3"><a href="cat_left_sidebar.html" title="">Categories Left Sidebar</a></li>
-                                                    <li class="level3"><a href="cat_right_sidebar.html" title="">Categories Right Sidebar</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="level2 col-4">
-                                                <a href="# ">Single Product Type</a>
-                                                <ul class="menu-level-2">
-                                                    <li class="level3"><a href="bundle.html" title="">Bundle</a><span class="h-ribbon v3 e-red h-pos">Hot</span></li>
-                                                    <li class="level3"><a href="pin_product.html" title="">Pin Product</a></li>
-                                                    <li class="level3"><a href="360degree.html" title="">360 Degree</a><span class="h-ribbon v3 e-green h-pos">new</span></li>
-                                                    <li class="level3"><a href="feature_video.html" title="">Featued video</a></li>
-                                                    <li class="level3"><a href="simple.html">Simple</a></li>
-                                                    <li class="level3"><a href="variable.html">Variable</a></li>
-                                                    <li class="level3"><a href="affilate.html">External / Affiliate</a></li>
-                                                    <li class="level3"><a href="grouped.html">Grouped</a></li>
-                                                    <li class="level3"><a href="outofstock.html">Out of stock</a></li>
-                                                    <li class="level3"><a href="onsale.html">On sale</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="level2 col-4">
-                                                <a href="#">Single Product Layout</a>
-                                                <ul class="menu-level-2">
-                                                    <li class="level3"><a href="product_extended.html" title="">Product Extended</a><span class="h-ribbon v3 e-red h-pos">Hot</span></li>
-                                                    <li class="level3"><a href="product_sidebar.html" title="">Product Left Sidebar</a></li>
-                                                    <li class="level3"><a href="product_right_sidebar.html" title="">Product Right Sideba</a></li>
-                                                </ul>
-                                                <a href="#">Other Pages</a>
-                                                <ul class="menu-level-2">
-                                                    <li class="level3"><a href="shop_full.html" title="">Shop</a></li>
-                                                    <li class="level3"><a href="cart.html" title="">Cart</a></li>
-                                                    <li class="level3"><a href="wishlist.html" title="">My Wishlist</a></li>
-                                                    <li class="level3"><a href="checkout.html" title="">Checkout</a></li>
-                                                    <li class="level3"><a href="myaccount.html" title="">My Account</a></li>
-                                                    <li class="level3"><a href="track.html" title="">Track Your Order</a></li>
-                                                    <li class="level3"><a href="quickview.html" title="">Quick View</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                        <div class="clearfix"></div>
-                                    </div>
+                                    <a asp-controller="Shop" asp-action="Index" >Shop</a>
                                 </li>
                                 <li class="level1 active dropdown">
-                                    <a href="#">Pages<span class="h-ribbon h-pos e-skyblue">new</span></a>
+                                    <a href="#">Pages</a>
                                     <span class="plus js-plus-icon"></span>
                                     <ul class="dropdown-menu menu-level-1">
                                         <li class="level2"><a asp-controller="Home" asp-action="About" title="About Us ">About Us </a></li>
@@ -314,69 +268,38 @@
                         </div>
                     </nav>
                 </div>
-                <div class="col-lg-3 col-md-4  header-search hidden-xs hidden-sm">
-                    <form method="get" class="searchform ajax-search" action="https://landing.engotheme.com/search" role="search">
+                <div class="col-lg-4 col-md-4  header-search hidden-xs hidden-sm">
+                    <form method="POST" class="searchform ajax-search"   role="search">
                         <input type="hidden" name="type" value="product">
-                        <input type="text" onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" name="q" class="form-control" placeholder="i’m shoping for...">
+                        <input type="text" id="searchInput" name="searchText" class="form-control" placeholder="i’m shoping for...">
                         <ul class="list-product-search hidden-xs hidden-sm">
-                            <li>
-                                <a class="flex align-center" href="#">
-                                    <div class="product-img">
-                                        <img src="~/img/product/iphonex.jpg" alt="">
-                                    </div>
-                                    <h3 class="product-title">Notebook Black Spire Smartphone Black 2.0</h3>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="flex align-center" href="#">
-                                    <div class="product-img">
-                                        <img src="~/demo/img/product/sound.jpg" alt="">
-                                    </div>
-                                    <h3 class="product-title">Smartphone 6S 64GB LTE</h3>
-                                </a>
-                            <li>
-                                <a class="flex align-center" href="#">
-                                    <div class="product-img">
-                                        <img src="~/demo/img/product/phone4.jpg" alt="">
-                                    </div>
-                                    <h3 class="product-title">Notebook Black Spire Smartphone Black 2.0</h3>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="flex align-center" href="#">
-                                    <div class="product-img">
-                                        <img src="~/demo/img/product/phone5.jpg" alt="">
-                                    </div>
-                                    <h3 class="product-title">Smartphone 6S 64GB LTE </h3>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="flex align-center" href="#">
-                                    <div class="product-img">
-                                        <img src="~/demo/img/product/phone1.jpg" alt="">
-                                    </div>
-                                    <h3 class="product-title">Notebook Black Spire Smartphone Black 2.0</h3>
-                                </a>
-                            </li>
+                            @if (Model.products != null)
+                            {
+                                @foreach (var p in Model.products)
+                                {
+                                    <li>
+                                        <a class="flex align-center">
+                                            <div class="product-img">
+                                                <img src="~/UploadProducts/@p.ImgUrlBase" alt="">
+                                            </div>
+                                            <h3 class="product-title">@p.Title</h3>
+                                        </a>
+                                    </li>
+                                }
+                            }
+                            else
+                            {
+                                <li>No products found</li>
+                            }
                         </ul>
-                        <div class="search-panel">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href='#'>All categories <span class="fa fa-caret-down"></span></a>
-                            <ul id="category" class="dropdown-menu dropdown-category">
-                                <li><a href="#">TV & Video</a></li>
-                                <li><a href="#">Home Audio & Theater</a></li>
-                                <li><a href="#">Camera, Photo & Video</a></li>
-                                <li><a href="#">Cell Phones & Accessories</a></li>
-                                <li><a href="#">Headphones</a></li>
-                                <li><a href="#">Car Electronics</a></li>
-                                <li><a href="#">Electronics Showcase</a></li>
-                            </ul>
-                        </div>
+                        
+                        
                         <span class="input-group-btn">
-                            <button class="button_search" type="button"><i class="ion-ios-search-strong"></i></button>
+                            <button class="button_search" type="submit"><i class="ion-ios-search-strong"></i></button>
                         </span>
                     </form> 
                 </div>
-                <div class="col-lg-3 col-md-2 col-sm-6 col-xs-6 header-sub">
+                <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 header-sub">
                     <div class="right-panel">
                         <div class="header-sub-element row">
                             @if(SignInManager.IsSignedIn(User))
@@ -396,15 +319,15 @@
                             }
                             else
                             {
-                                <a class="hidden-xs hidden-sm" asp-controller="Account" asp-action="Login"><img src="~/demo/img/icon-user.png" alt=""></a>
+                                <a  asp-controller="Account" asp-action="Login"><img src="~/demo/img/icons8-user-24.png" alt=""></a>
                                 
                             }
 
   
-                            <a href="#"><img src="~/demo/img/icon-heart.png" alt=""></a>
+                            <a href="#"><img src="~/demo/img/icons8-heart-24.png" alt=""></a>
                             <div class="cart">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="label5">
-                                    <img src="~/demo/img/icon-cart.png" alt="">
+                                    <img src="~/demo/img/icons8-bag-24.png" alt="">
                                     <span class="count cart-count">0</span>
                                 </a>
                                 <div class="dropdown-menu dropdown-cart">
@@ -570,11 +493,54 @@
     </div>
     <script data-cfasync="false" src="../../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="~/demo/js/jquery.js"></script>
+    <script src="~/demo/js/jquery.fancybox.min.js"></script>
     <script src="~/demo/js/bootstrap.js"></script>
+    <script src="~/demo//js/bootstrap-slider.min.js"></script>
     <script src="~/demo/js/owl.carousel.min.js"></script>
     <script src="~/demo/js/slick.js"></script>
     <script src="~/demo/js/countdown.js"></script>
     <script src="~/demo/js/main.js"></script>
+    <script src="~/demo/js/threesixty.min.js"></script>
+    <script>
+        function showFilteredProducts(filteredProducts) {
+            // Ürün listesini temizle
+            $('.list-product-search').empty();
+
+            // Filtrelenmiş ürünleri ekrana ekle
+            filteredProducts.forEach(function (product) {
+                var listItem = $('<li>').appendTo('.list-product-search');
+                $('<a>').addClass('flex align-center').attr('href', '#').appendTo(listItem)
+                    .append($('<div>').addClass('product-img').append($('<img>').attr('src', product.imageUrl).attr('alt', '')))
+                    .append($('<h3>').addClass('product-title').text(product.name));
+            });
+        }
+    </script>
+    <script>
+        $('.ajax-search').on('submit', function (event) {
+            // Formun varsayılan davranışını engelle
+            event.preventDefault();
+
+            // Arama metnini al
+            var searchText = $('#searchInput').val();
+
+            // Arama metnini AJAX isteği ile sunucuya gönder
+            $.ajax({
+                url: '/Products/Search',
+                type: 'POST',
+                data: { searchText: searchText },
+                dataType: 'json',
+                success: function (data) {
+                    // AJAX başarılı olduğunda, dönen ürünleri ekrana göster
+                    showFilteredProducts(data);
+                },
+                error: function (xhr, status, error) {
+                    console.error(status + ': ' + error);
+                }
+            });
+        });
+
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     @RenderSection("Scripts", false);
 </body>
 

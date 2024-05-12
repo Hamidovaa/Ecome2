@@ -1,16 +1,7 @@
 jQuery(document).ready(function($) {
     "use strict";
     // Ajax search
-    $('.ajax-search input[type="text"]').on('blur',function(){
-        $('.list-product-search').removeClass('active');
-    });
-    $('.ajax-search input[type="text"]').on('keydown',function(){
-        if($(this).val()==""){
-            $('.list-product-search').removeClass('active');
-        }else{
-            $('.list-product-search').addClass('active');
-        }
-    });
+    
     // close quickview
     
     $(".quickview-close").on("click", function() {

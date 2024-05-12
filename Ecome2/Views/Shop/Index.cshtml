@@ -1,0 +1,243 @@
+﻿@model TwoModels
+
+
+<div class="container container-240 shop-collection">
+    <ul class="breadcrumb">
+        <li><a href="#">Home</a></li>
+        <li class="active">Shop</li>
+    </ul>
+    <div class="filter-collection-left hidden-lg hidden-md">
+        <a class="btn">Filter</a>
+    </div>
+
+    <div class="row shop-colect">
+
+        <div class="col-md-3 col-sm-3 col-xs-12 col-left collection-sidebar" id="filter-sidebar">
+            <div class="close-sidebar-collection hidden-lg hidden-md">
+                <span>filter</span><i class="icon_close ion-close"></i>
+            </div>
+            <div class="filter filter-cate">
+                <ul class="wiget-content v2">
+                    @foreach (var item in Model.categories)
+                    {
+                        <li class="active">
+                            <a href="#">
+                                @item.Name<span class="number">(80)</span>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="filter filter-group">
+                <h1 class="widget-blog-title" style="color:black" >Product filter</h1>
+                <div class="filter-price filter-inside">
+                    <h3>Price</h3>
+                    <div class="filter-content">
+                        <div class="price-range-holder">
+                            <input type="text" class="price-slider" value="">
+                        </div>
+                        <span class="min-max">
+                            Price: $25 — $258
+                        </span>
+                        <a href="#" class="btn-filter e-gradient">Filter</a>
+                    </div>
+                </div>
+                <div class="filter-brand filter-inside">
+                    <h3>Color</h3>
+                    <ul class="e-filter brand-filter">
+                        <li><a href="#">Black</a></li>
+                        <li class="active-filter"><a href="#">Blue</a></li>
+                        <li><a href="#">Pink</a></li>
+                        <li><a href="#">Green</a></li>
+                        <li><a href="#">Yellow </a></li>
+                    </ul>
+                    <a href="#" class="btn-showmore">Show more +</a>
+                </div>
+                <div class="filter-color filter-brand filter-inside">
+                    <h3>Internal Memory Size</h3>
+                    <ul class="e-filter brand-filter">
+                        <li><a href="#">256 GB </a></li>
+                        <li><a href="#">128 GB </a></li>
+                        <li class="active-filter"><a href="#">1 TB </a></li>
+                    </ul>
+                    <a href="#" class="btn-showmore">Show more +</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-12 col-xs-12 collection-list">
+            <div class="e-product">
+               @*  <div class="pd-top">
+                    <h1 class="title">Shop</h1>
+                    <div class="show-element"><span>Showing 1–15 of 20 results</span></div>
+                </div> *@
+                <div class="pd-middle">
+                    <div class="view-mode view-group">
+                        <a class="grid-icon col"><img src="~/demo/img/grid.png" alt=""></a>
+                        <a class="grid-icon col2"><img src="~/demo/img/grid2.png" alt=""></a>
+                        <a class="list-icon list active"><img src="~/demo/img/list.png" alt=""></a>
+                    </div>
+                    <div class="pd-sort">
+                        <div class="filter-sort">
+                            <div class="dropdown">
+                                <button class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    <span class="dropdown-label">Default sorting</span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="manual.html">Featured</a></li>
+                                    <li><a href="best-selling.html">Best Selling</a></li>
+                                    <li><a href="title-ascending.html">Alphabetically, A-Z</a></li>
+                                    <li><a href="title-descending.html">Alphabetically, A-Z</a></li>
+                                    <li><a href="price-descending.html">Price, high to low</a></li>
+                                    <li><a href="price-ascending.html">Price, low to high</a></li>
+                                    <li><a href="created-ascending.html">Date, old to new</a></li>
+                                    <li><a href="created-descending.html">Date, new to old</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="filter-show">
+                            <div class="dropdown">
+                                <button class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    Show
+                                    <span class="dropdown-label">12</span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">12</a></li>
+                                    <li><a href="#">24</a></li>
+                                    <li><a href="#">36</a></li>
+                                    <li><a href="#">48</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-collection-grid product-grid product-list product-grid-v2">
+                    <div class="row">
+                        @foreach (var product in Model.products)
+                        {
+                            <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 product-item">
+                                <div class="pd-bd product-inner">
+                                    <div class="product-img">
+                                        <a href="#"><img src="~/UploadProducts/@product.ImgUrlBase" alt="" class="img-reponsive"></a>
+                                    </div>
+                                    <div class="product-info">
+                                        <div class="color-group"></div>
+                                        <div class="element-list element-list-left">
+                                            <ul class="desc-list">
+                                                <li>Connects directly to Bluetooth</li>
+                                                <li>Battery Indicator light</li>
+                                                <li>DPI Selection:2600/2000/1600/1200/800</li>
+                                                <li>Computers running Windows</li>
+                                            </ul>
+                                        </div>
+                                        <div class="element-list element-list-middle">
+                                            <div class="product-rating bd-rating">
+                                                <span class="star star-5"></span>
+                                                <span class="star star-4"></span>
+                                                <span class="star star-3"></span>
+                                                <span class="star star-2"></span>
+                                                <span class="star star-1"></span>
+                                                <div class="number-rating">( 896 reviews )</div>
+                                            </div>
+                                            <h3 class="product-title"><a href="#">@product.Title</a></h3>
+                                            <p class="product-cate">@product.Description</p>
+                                            <div class="product-bottom">
+                                                <div class="product-price"><span>@product.Price AZN</span></div>
+                                                <a href="#" class="btn-icon btn-view">
+                                                    <span class="icon-bg icon-view"></span>
+                                                </a>
+                                            </div>
+                                            <div class="product-bottom-group">
+                                                <a href="#" class="btn-icon">
+                                                    <span class="icon-bg icon-cart"></span>
+                                                </a>
+                                                <a href="#" class="btn-icon">
+                                                    <span class="icon-bg icon-wishlist"></span>
+                                                </a>
+                                                <a href="#" class="btn-icon">
+                                                    <span class="icon-bg icon-compare"></span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="product-button-group">
+                                            <a href="#" class="btn-icon">
+                                                <span class="icon-bg icon-cart"></span>
+                                            </a>
+                                            <a href="#" class="btn-icon">
+                                                <span class="icon-bg icon-wishlist"></span>
+                                            </a>
+                                            <a href="#" class="btn-icon">
+                                                <span class="icon-bg icon-compare"></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+                <div class="pd-middle space-v1">
+                    <ul class="pagination">
+                        <li class="active"><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#"><i class="ion-ios-arrow-forward"></i></a></li>
+                    </ul>
+                    <div class="pd-sort">
+                        <div class="filter-sort">
+                            <div class="dropdown">
+                                <button class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    <span class="dropdown-label">Default sorting</span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="manual.html">Featured</a></li>
+                                    <li><a href="best-selling.html">Best Selling</a></li>
+                                    <li><a href="title-ascending.html">Alphabetically, A-Z</a></li>
+                                    <li><a href="title-descending.html">Alphabetically, A-Z</a></li>
+                                    <li><a href="price-descending.html">Price, high to low</a></li>
+                                    <li><a href="price-ascending.html">Price, low to high</a></li>
+                                    <li><a href="created-ascending.html">Date, old to new</a></li>
+                                    <li><a href="created-descending.html">Date, new to old</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="filter-show">
+                            <div class="dropdown">
+                                <button class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    Show
+                                    <span class="dropdown-label">12</span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">12</a></li>
+                                    <li><a href="#">24</a></li>
+                                    <li><a href="#">36</a></li>
+                                    <li><a href="#">48</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+   <script>
+        $(".view-mode > a").on("click", function () {
+            $(this).addClass('active').siblings().removeClass('active');;
+
+            if ($(this).hasClass('col2')) {
+                $(".product-grid").addClass("product-grid-v2");
+                $(".product-grid").removeClass("product-list");
+            }
+            if ($(this).hasClass('col')) {
+                $(".product-grid").removeClass("product-grid-v2 product-list");
+            }
+            if ($(this).hasClass('list')) {
+                $(".product-grid").addClass("product-list product-grid-v2");
+            }
+        });
+   </script>
+
+}

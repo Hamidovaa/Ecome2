@@ -4,7 +4,7 @@
 <div class="header-bottom hidden-xs hidden-sm" style="background-color: #FFFFFF">
     <div class="container container-240">
         <div class="row">
-            <div class="col-lg-3 widget-verticalmenu">
+            <div class="col-lg-2 widget-verticalmenu">
                 <div class="vertical-wrapper">
                     <ul class="vertical-group">
                         @foreach (var item in Model.categories)
@@ -32,13 +32,13 @@
     <div class="ads-group v2 nospc">
         <div class="container container-240">
             <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 set-w hidden-xs hidden-sm "></div>
-                <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 set-flex ">
+                <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12 set-w hidden-xs hidden-sm "></div>
+                <div class="col-lg-10 col-md-9 col-sm-12 col-xs-12 set-flex ">
                     <div class="slide-home3">
                         <div class="e-slide v2 js-slider-3items">
                             @foreach (var item in Model.sliders)
                             {
-                                <div class="e-slide-img">
+                                <div class="e-slide-img" >
                                     <a href="#"><img src="~/UploadSlider/@item.ImgUrl" alt=""></a>
                                     <div class="slide-content v2">
                                         <h3 class="v2">@item.Title</h3>
@@ -454,8 +454,6 @@
             }
         };
     </script>
-
-
 }
 
 

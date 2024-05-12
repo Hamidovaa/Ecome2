@@ -2526,7 +2526,7 @@ output {
   padding: 6px 12px;
   font-size: 14px;
   line-height: 1.42857;
-  color: #555555;
+  color: white;
   background-color: black;
   background-image: none;
   border: 1px solid #ccc;
@@ -7625,7 +7625,7 @@ span.star:before {
     padding: 0 5px; }
   @media (min-width: 1025px) {
     .ads-group .set-w {
-      width: 23.41%; } }
+      width: 12.41%; } }
   .ads-group .set-flex {
     padding-left: 0; }
     @media (min-width: 1025px) {
@@ -8185,7 +8185,7 @@ span.star:before {
   position: absolute; }
   .slide-content.v1 {
     top: 171px;
-    left: 65px;
+    left: 10px;
     max-width: 260px; }
     @media (max-width: 1024px) {
       .slide-content.v1 {
@@ -8195,7 +8195,7 @@ span.star:before {
         left: 45px; } }
   .slide-content.v2 {
     top: 146px;
-    left: 110px; }
+    left:60px; }
     @media (min-width: 480px) {
       .slide-content.v2 {
         max-width: 400px; } }
@@ -9389,7 +9389,7 @@ span.star:before {
   -webkit-box-pack: justify;
           justify-content: space-between;
   -ms-flex-pack: space-between;
-  padding: 30px 0; }
+  padding: 0px 0; }
   @media (max-width: 480px) {
     .pd-top, .pd-middle {
       padding-bottom: 10px; } }
@@ -9401,7 +9401,7 @@ span.star:before {
     color: #999999; }
 
 .pd-middle {
-  padding-top: 10px; }
+  padding-bottom: 10px; }
   @media (max-width: 480px) {
     .pd-middle {
       -moz-flex-direction: column;
@@ -15288,7 +15288,7 @@ span.star:before {
     position: relative; }
   .header-search input {
     height: 42px;
-    border-radius: 31px 0 0 31px;
+    border-radius: 20px;
     border: 2px solid #eaeaea;
     padding-left: 34px;
     width: 300px;
@@ -15326,7 +15326,7 @@ span.star:before {
         width: 470px; } }
     @media (min-width: 1650px) {
       .header-search input {
-        width: 150px; } }
+        width: 279px; } }
   .header-search .select-option {
     width: 220px;
     /*margin-left:100px;*/
@@ -15419,8 +15419,8 @@ span.star:before {
   .header-search .input-group-btn {
     padding: 0;
     width: 50px;
-    top: 6px;
-    right: 5px; }
+    top: 4px;
+    right: 26px; }
     .header-search .input-group-btn .button_search {
       color: #fff;
       width: 35px;
@@ -15881,7 +15881,7 @@ span.star:before {
     font-size: 16px;
     font-weight: 500;
     position: relative;
-    color: #666666; }
+    color: white; }
     .navbar-nav > li > a:hover {
       color: #333; }
     @media (min-width: 1199px) {
