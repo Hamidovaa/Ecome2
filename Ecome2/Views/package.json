@@ -1,0 +1,13 @@
+{
+  "name": "google-login-example",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "tedious": "^14.0.0",
+    
+    "passport": "^0.4.1",
+    "passport-google-oauth20": "^2.0.0",
+    "express-session": "^1.17.1"
+  }
+}

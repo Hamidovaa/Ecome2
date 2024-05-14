@@ -10,7 +10,7 @@ namespace Ecome2.Models
         [ForeignKey("ProductId")]
         public Products Products { get; set; }
         [ForeignKey("UserId")]
-        public Users Users { get; set; }
+        public Users Users { get; set; } //programuser
     }
 }
 

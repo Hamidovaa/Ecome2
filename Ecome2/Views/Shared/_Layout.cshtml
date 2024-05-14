@@ -269,52 +269,37 @@
                     </nav>
                 </div>
                 <div class="col-lg-4 col-md-4  header-search hidden-xs hidden-sm">
-                    <form method="POST" class="searchform ajax-search"   role="search">
-                        <input type="hidden" name="type" value="product">
+                    <form method="Get" class="searchform ajax-search" action="https://landing.engotheme.com/search" role="search">
                         <input type="text" id="searchInput" name="searchText" class="form-control" placeholder="i’m shoping for...">
-                        <ul class="list-product-search hidden-xs hidden-sm">
-                            @if (Model.products != null)
-                            {
-                                @foreach (var p in Model.products)
-                                {
-                                    <li>
-                                        <a class="flex align-center">
-                                            <div class="product-img">
-                                                <img src="~/UploadProducts/@p.ImgUrlBase" alt="">
-                                            </div>
-                                            <h3 class="product-title">@p.Title</h3>
-                                        </a>
-                                    </li>
-                                }
-                            }
-                            else
-                            {
-                                <li>No products found</li>
-                            }
-                        </ul>
-                        
-                        
                         <span class="input-group-btn">
-                            <button class="button_search" type="submit"><i class="ion-ios-search-strong"></i></button>
+                            <button class="button_search" type="submit" asp-controller="Shop" asp-action="Index" ><i class="ion-ios-search-strong"></i></button>
                         </span>
+
+                       @*  <button class="btn-icon btn-close-lg search-popup__reset pb-0 me-2" type="reset"></button> *@
+
+                        <div class="position-absolute start-0 top-100 m-0 w-100">
+                            <div class="search-result"></div>
+                        </div>
+
                     </form> 
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 header-sub">
                     <div class="right-panel">
                         <div class="header-sub-element row">
-                            @if(SignInManager.IsSignedIn(User))
+                            @if (SignInManager.IsSignedIn(User))
                             {
                                 Task<ProgramUser> GetCurrentUserAsync() => UserManager.GetUserAsync(User);
+
                                 var user = await GetCurrentUserAsync();
 
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        @user.Name 
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a></li>
 
-                                    </ul>
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      Hello  @user.Name
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" style="background-color:skyblue; color:red;" asp-controller="Account" asp-action="Logout">Logout</a>
+                                    </div>
                                 </div>
                             }
                             else

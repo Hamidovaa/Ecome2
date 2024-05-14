@@ -23,11 +23,12 @@
                             <label>Email address <span class="f-red">*</span></label>
                             <input type="email" asp-for="Email" class="form-control bdr">
                             <label>Password <span class="f-red">*</span></label>
-                            <input asp-for="Password" type="password" class="form-control bdr" required>
+                            <input asp-for="Password" id="password" type="password" class="form-control bdr" required>
                             <span style="color:red" asp-validation-for="Password"></span>
                             <label>Confirm Password <span class="f-red">*</span></label>
-                            <input asp-for="ConfirmPassword" type="password" class="form-control bdr" required>
+                            <input asp-for="ConfirmPassword" id="confirmPassword" type="password" class="form-control bdr" required>
                             <span style="color:red" asp-validation-for="Password"></span>
+                            <button id="showHidePasswords" type="button">Şifreleri Göster/Gizle</button>
                         </div>
                         <div class="flex lr">
                             <button type="submit" class="btn btn-submit btn-gradient">
@@ -47,3 +48,26 @@
         </div>
     </div>
 </div>
+@section Scripts{
+    <script>
+        // Şifre alanlarını göster/gizle fonksiyonu
+        function togglePasswords() {
+            const passwordField = document.getElementById("password");
+            const confirmPasswordField = document.getElementById("confirmPassword");
+
+            if (passwordField.type === "password" && confirmPasswordField.type === "password") {
+                passwordField.type = "text";
+                confirmPasswordField.type = "text";
+            } else {
+                passwordField.type = "password";
+                confirmPasswordField.type = "password";
+            }
+        }
+
+        // Şifre alanlarını göster/gizle özelliğini dinlemek için
+        document.getElementById("showHidePasswords").addEventListener("click", function (event) {
+            event.preventDefault();// Formun submit olmasını engeller
+            togglePasswords();
+        });
+    </script>
+}

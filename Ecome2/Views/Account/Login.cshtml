@@ -14,22 +14,28 @@
                 <div class="page-content">
                     <p>Sign in to your account</p>
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <form asp-controller="Account" asp-action="Login" method="post">
+                    <form asp-controller="Account" id="loginForm" asp-action="Login" method="post">
                         <div class="form-group">
                             <label>Username or email address <span class="f-red">*</span></label>
                             <input type="email" asp-for="Email" class="form-control bdr">
                             <label>Password <span class="f-red">*</span></label>
-                            <input asp-for="Password" type="password" class="form-control bdr" required>
+                            <input asp-for="Password" id="password" type="password" class="form-control bdr" required>
                             <span style="color:red" asp-validation-for="Password"></span>
+                            <button id="showHidePasswords" type="button">Şifreleri Göster/Gizle</button>
                         </div>
                         <div class="flex lr">
                             <button type="submit" class="btn btn-submit btn-gradient">
                                 Login
                             </button>
+
                             <div class="checkbox checkbox-default">
                                 <input asp-for="IsRemember" class="form-check" />
                                 <label for="remember"><span class="chk-span" tabindex="2"></span>Remember me</label>
                             </div>
+                        </div>
+                        <div>
+                            <button type="button" onclick="loginWithFacebook()">Facebook ile Giriş Yap</button>
+                            <button type="button" onclick="loginWithGoogle()">Google ile Giriş Yap</button>
                         </div>
                     </form>
                     <a href="#" class="btn-lostpwd spc">Lost your password?</a>
@@ -38,3 +44,65 @@
         </div>
     </div>
 </div>
+@section Scripts {
+    <script>
+        // Şifre alanlarını göster/gizle fonksiyonu
+        function togglePasswords() {
+            const passwordField = document.getElementById("password");
+
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+            } else {
+                passwordField.type = "password";
+            }
+        }
+
+        // Şifre alanlarını göster/gizle özelliğini dinlemek için
+        document.getElementById("showHidePasswords").addEventListener("click", function (event) {
+            event.preventDefault();// Formun submit olmasını engeller
+            togglePasswords();
+        });
+    </script>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+    <script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '{your-app-id}',
+                cookie: true,
+                xfbml: true,
+                version: '{api-version}'
+            });
+
+            FB.AppEvents.logPageView();
+        };
+
+        function loginWithFacebook() {
+            FB.login(function (response) {
+                if (response.status === 'connected') {
+                    // Kullanıcı başarıyla giriş yaptı
+                    // response.authResponse.accessToken ile kullanıcı verilerine erişebilirsiniz
+                } else {
+                    // Kullanıcı giriş yapmadı
+                }
+            }, { scope: 'public_profile,email' });
+        }
+    </script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script>
+        function loginWithGoogle() {
+            gapi.load('auth2', function () {
+                var auth2 = gapi.auth2.init({
+                    client_id: '{your-client-id}.apps.googleusercontent.com',
+                    cookiepolicy: 'single_host_origin',
+                });
+
+                auth2.signIn().then(function (googleUser) {
+                    var profile = googleUser.getBasicProfile();
+                    // Kullanıcı başarıyla giriş yaptı
+                    // profile.getId(), profile.getEmail() vb. ile kullanıcı verilerine erişebilirsiniz
+                });
+            });
+        }
+    </script>
+
+}

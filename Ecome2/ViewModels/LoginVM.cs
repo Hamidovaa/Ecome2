@@ -12,5 +12,7 @@ namespace Ecome2.ViewModels
         public string Password { get; set; }
         [ValidateNever]
         public bool IsRemember {  get; set; }
+        [ValidateNever]
+        public string Name {  get; set; }
     }
 }
