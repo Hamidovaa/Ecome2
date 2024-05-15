@@ -1,0 +1,204 @@
+﻿<div class="container container-240">
+    <div class="checkout">
+        <ul class="breadcrumb v3">
+            <li><a href="#">Home</a></li>
+            <li class="active">Cart</li>
+        </ul>
+        <div class="row">
+            <div class="col-md-8 col-sm-12 col-xs-12">
+                <div class="shopping-cart bd-7">
+                    <div class="cmt-title text-center abs">
+                        <h1 class="page-title v2">Cart</h1>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table cart-table">
+                            <tbody id="shopping-cart">
+                                <!-- Ürünler buraya eklenecek -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-cart-bottom">
+                        
+                        <a href="#" class="btn btn-update">Update cart</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="cart-total bd-7">
+                    <div class="cmt-title text-center abs">
+                        <h1 class="page-title v3">Cart totals</h1>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="shop_table">
+                            <tbody>
+                                <tr class="cart-subtotal">
+                                    <th>Subtotal</th>
+                                    <td id="cart-subtotal">$0.00</td>
+                                </tr>
+                                <tr class="cart-shipping">
+                                    <th>Shipping</th>
+                                    <td class="td">
+                                        <ul class="shipping">
+                                            <li>
+                                                <input type="radio" name="gender" value="Flat" id="radio1" checked="checked">
+                                                <label for="radio1">Flat rate : $12</label>
+                                            </li>
+                                            <li>
+                                                <input type="radio" name="gender" value="Free" id="radio2">
+                                                <label for="radio2">Free Shipping</label>
+                                            </li>
+                                        </ul>
+                                        <a href="#" class="calcu">Calculate shipping</a>
+                                    </td>
+                                </tr>
+                                <tr class="order-total">
+                                    <th>Total</th>
+                                    <td id="cart-total">$0.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="cart-total-bottom">
+                        <a href="#" class="btn-gradient btn-checkout">Proceed to checkout</a>
+                    </div>
+                    <div class="sign-in-divider">
+                        <span>or</span>
+                    </div>
+                    <div class="cart-total-bottom pp-checkout">
+                        <a href="#"><img src="img/checkoutpp.jpg" alt="" class="img-responsive"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        function loadCartItems() {
+            var existingData = localStorage.getItem('productObjects');
+            var productObjects = existingData ? JSON.parse(existingData) : [];
+            var cartItemsContainer = document.getElementById('shopping-cart');
+            cartItemsContainer.innerHTML = ''; // Mevcut içeriği temizle
+
+            var subtotal = 0;
+
+            productObjects.forEach(function (product, index) {
+                var cartItem = document.createElement('tr');
+                cartItem.className = 'item_cart';
+                cartItem.innerHTML = `
+                            <td class="product-name flex align-center">
+                                <a href="#" class="btn-del" onclick="removeCartItem(${index})"><i class="ion-ios-close-empty"></i></a>
+                                <div class="product-img">
+                                    <img src="${product.sekil}" alt="${product.ad}" class="img-responsive">
+                                </div>
+                                <div class="product-info">
+                                    <a href="#" title="">${product.ad}</a>
+                                </div>
+                            </td>
+                            <td class="bcart-quantity single-product-detail">
+                                <div class="single-product-info">
+                                    <div class="e-quantity">
+                                                <input type="number" step="1" min="1" max="999" name="quantity" value="1" value="${product.quantity}" data-index="${index}" 
+                                                data-id="${product.id}" title="Qty" class="qty input-text js-number" size="4" onchange="updateQuantity(this, ${index})">
+                                        <div class="tc pa">
+                                            <a class="js-plus quantity-right-plus" onclick="increaseQuantity(${index})"><i class="fa fa-caret-up"></i></a>
+                                            <a class="js-minus quantity-left-minus" onclick="decreaseQuantity(${index})"><i class="fa fa-caret-down"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="total-price">
+                                <p class="price">${product.qiymet} AZN</p>
+                            </td>
+                        `;
+                cartItemsContainer.appendChild(cartItem);
+
+                subtotal += parseFloat(product.qiymet)* product.quantity;
+            });
+
+            // Ara toplam ve toplamı güncelle
+            document.getElementById('cart-subtotal').textContent = subtotal.toFixed(2) + " AZN";
+            document.getElementById('cart-total').textContent = subtotal.toFixed(2) + " AZN";
+        }
+
+      
+        function increaseQuantity(index) {
+            var input = document.querySelector(`[data-index="${index}"]`);
+            input.value = parseInt(input.value) + 1;
+            updateCart(index, parseInt(input.value));
+        }
+
+        function decreaseQuantity(index) {
+            var input = document.querySelector(`[data-index="${index}"]`);
+            if (input.value > 1) {
+                input.value = parseInt(input.value) - 1;
+                updateCart(index, parseInt(input.value));
+            } else {
+                removeCartItem(index);
+            }
+        }
+        function updateQuantity(input) {
+            var index = input.dataset.index;
+            var quantity = parseInt(input.value);
+            if (quantity < 1) {
+                removeCartItem(index);
+            } else {
+                updateCart(index, quantity);
+            }
+        }
+
+        function removeCartItem(index) {
+            var existingData = localStorage.getItem('productObjects');
+            var productObjects = existingData ? JSON.parse(existingData) : [];
+            productObjects.splice(index, 1);
+            localStorage.setItem('productObjects', JSON.stringify(productObjects));
+            loadCartItems();
+        }
+
+
+        function updateCart() {
+            var existingData = localStorage.getItem('productObjects');
+            var productObjects = existingData ? JSON.parse(existingData) : [];
+            var cartItemsContainer = document.getElementById('shopping-cart').querySelectorAll('tr.item_cart');
+            var subtotal = 0;
+
+            cartItemsContainer.forEach(function (item, index) {
+                var quantity = parseInt(item.querySelector('.qty').value);
+                var price = parseFloat(productObjects[index].qiymet);
+                var total = quantity * price;
+                subtotal += total;
+                item.querySelector('.total-price .price').textContent = total.toFixed(2) + " AZN";
+            });
+
+            document.getElementById('cart-subtotal').textContent = subtotal.toFixed(2) + " AZN";
+            document.getElementById('cart-total').textContent = subtotal.toFixed(2) + " AZN";
+        }
+
+        // Sayfa yüklendiğinde sepet öğelerini yükle
+        window.onload = loadCartItems;
+    </script>
+    <script>
+        const addToCart = (product_id) => {
+            let positionThisProductInCart = cart.findIndex((value) => value.product_id == product_id);
+            if (cart.length <= 0) {
+                cart = [{
+                    product_id: product_id,
+                    quantity: 1
+                }];
+            } else if (positionThisProductInCart < 0) {
+                cart.push({
+                    product_id: product_id,
+                    quantity: 1
+                });
+            } else {
+                cart[positionThisProductInCart].quantity = cart[positionThisProductInCart].quantity + 1;
+            }
+            addCartToHTML();
+            addCartToMemory();
+        }
+        const addCartToMemory = () => {
+            localStorage.setItem('productObjects', JSON.stringify(cart));
+        }
+    </script>
+}
+

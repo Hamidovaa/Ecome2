@@ -137,35 +137,35 @@ jQuery(document).ready(function($) {
     });
     // SHOPPING CART Quantity increment buttons
 
-    var quantitiy = 0;
-    $('.js-plus').on("click", function(e) {
+    //var quantitiy = 0;
+    //$('.js-plus').on("click", function(e) {
 
-        // Stop acting like a button
-        e.preventDefault();
-        // Get the field name
-        var quantity = parseInt($('.js-number').val(), 10);
+    //    // Stop acting like a button
+    //    e.preventDefault();
+    //    // Get the field name
+    //    var quantity = parseInt($('.js-number').val(), 10);
 
-        // If is not undefined
+    //    // If is not undefined
 
-        $('.js-number').val(quantity + 1);
+    //    $('.js-number').val(quantity + 1);
 
 
-        // Increment    
-    });
+    //    // Increment    
+    //});
 
-    $('.js-minus').on("click", function(e) {
-        // Stop acting like a button
-        e.preventDefault();
-        // Get the field name
-        var quantity = parseInt($('.js-number').val(), 10);
+    //$('.js-minus').on("click", function(e) {
+    //    // Stop acting like a button
+    //    e.preventDefault();
+    //    // Get the field name
+    //    var quantity = parseInt($('.js-number').val(), 10);
 
-        // If is not undefined
+    //    // If is not undefined
 
-        // Increment
-        if (quantity > 0) {
-            $('.js-number').val(quantity - 1);
-        }
-    });
+    //    // Increment
+    //    if (quantity > 0) {
+    //        $('.js-number').val(quantity - 1);
+    //    }
+    //});
     // Js product single slider
     $('.js-click-product').slick({
         slidesToShow: 4,

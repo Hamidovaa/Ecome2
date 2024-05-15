@@ -35,7 +35,8 @@ namespace Ecome2.Controllers
             ProgramUser programUser = new ProgramUser
             {
                 Email = model.Email,
-                UserName = model.Email
+                UserName = model.Email,
+                Name=model.Name,
             };
             var result=await _userManager.CreateAsync(programUser, model.Password);
             if(result.Succeeded)

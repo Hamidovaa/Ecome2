@@ -147,7 +147,7 @@
                                                 </a>
                                             </div>
                                             <div class="product-bottom-group">
-                                                <a href="#" class="btn-icon">
+                                                <a href="#" onclick="addto_cart(this);" class="btn-icon">
                                                     <span class="icon-bg icon-cart"></span>
                                                 </a>
                                                 <a href="#" class="btn-icon">
@@ -239,5 +239,36 @@
             }
         });
    </script>
+
+    <script>
+        // Include the updated JavaScript code here
+        function addTodo(value, price, imageUrl) {
+            var existingData = localStorage.getItem('productObjects');
+            var productObjects = existingData ? JSON.parse(existingData) : [];
+            var newProductObject = {
+                ad: value,
+                qiymet: price,
+                sekil: imageUrl
+            };
+            productObjects.push(newProductObject);
+            var updatedData = JSON.stringify(productObjects);
+            localStorage.setItem('productObjects', updatedData);
+        }
+
+        function addto_cart(element) {
+            var productItem = element.closest('.product-item');
+            if (productItem) {
+                var productTitle = productItem.querySelector('.product-title a').textContent.trim();
+                var productPrice = productItem.querySelector('.product-price span').textContent.trim().replace(' AZN', '');
+                var productImage = productItem.querySelector('.product-img img').getAttribute('src');
+
+                alert(productTitle + " " + productPrice + " " + productImage);
+
+                addTodo(productTitle, productPrice, productImage);
+            } else {
+                console.log("No .product-item element found within the clicked div.");
+            }
+        }
+    </script>
 
 }

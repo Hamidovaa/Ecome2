@@ -30,6 +30,12 @@ namespace Ecome2.Controllers
             };
             return View(model);
         }
+        public IActionResult Cart()
+        {
+            
+            return View();
+        }
+
 
         //[HttpPost]
         //public async Task<IActionResult> Index(int[] ctgIds, int[] colorIds, int[] sizeIds, int min, int max)

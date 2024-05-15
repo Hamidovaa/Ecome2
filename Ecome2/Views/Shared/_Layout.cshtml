@@ -291,11 +291,9 @@
                                 Task<ProgramUser> GetCurrentUserAsync() => UserManager.GetUserAsync(User);
 
                                 var user = await GetCurrentUserAsync();
-
-
                                 <div class="dropdown">
                                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                      Hello  @user.Name
+                                        @user.Name
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <a class="dropdown-item" style="background-color:skyblue; color:red;" asp-controller="Account" asp-action="Logout">Logout</a>
@@ -315,44 +313,19 @@
                                     <img src="~/demo/img/icons8-bag-24.png" alt="">
                                     <span class="count cart-count">0</span>
                                 </a>
+
                                 <div class="dropdown-menu dropdown-cart">
                                     <ul class="mini-products-list">
-                                        <li class="item-cart">
-                                            <div class="product-img-wrap">
-                                                <a href="#"><img src="~/demo/img/cart1.jpg" alt="" class="img-reponsive"></a>
-                                            </div>
-                                            <div class="product-details">
-                                                 <div class="inner-left">
-                                                    <div class="product-name"><a href="#">Harman Kardon Onyx Studio </a></div>
-                                                    <div class="product-price">
-                                                        $ 60.00 <span>( x2)</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <a href="#" class="e-del"><i class="ion-ios-close-empty"></i></a>
-                                        </li>
-                                        <li class="item-cart">
-                                            <div class="product-img-wrap">
-                                                <a href="#"><img src="~/demo/img/cart1.jpg" alt="" class="img-reponsive"></a>
-                                            </div>
-                                            <div class="product-details">
-                                                <div class="inner-left">
-                                                    <div class="product-name"><a href="#">Harman Kardon Onyx Studio </a></div>
-                                                    <div class="product-price">
-                                                        $ 60.00 <span>( x2)</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <a href="#" class="e-del"><i class="ion-ios-close-empty"></i></a>
-                                        </li>
+
                                     </ul>
+                                    
                                     <div class="bottom-cart">
                                         <div class="cart-price">
                                             <span>Subtotal</span>
-                                            <span class="price-total">$ 120.00</span>
+                                            
                                         </div>
                                         <div class="button-cart">
-                                            <a href="#" class="cart-btn btn-viewcart">View Cart</a>
+                                            <a asp-controller="Shop" asp-action="Cart" class="cart-btn btn-viewcart">View Cart</a>
                                             <a href="#" class="cart-btn e-checkout btn-gradient">Checkout</a>
                                         </div>
                                     </div>
@@ -486,6 +459,7 @@
     <script src="~/demo/js/countdown.js"></script>
     <script src="~/demo/js/main.js"></script>
     <script src="~/demo/js/threesixty.min.js"></script>
+    <script src="~/demo/js/cart.js"></script>
     <script>
         function showFilteredProducts(filteredProducts) {
             // Ürün listesini temizle
@@ -525,6 +499,9 @@
         });
 
     </script>
+  
+
+   
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     @RenderSection("Scripts", false);
 </body>
