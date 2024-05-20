@@ -2,12 +2,14 @@
 using Ecome2.DAL;
 using Ecome2.EXtentions;
 using Ecome2.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecome2.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class ProductsController : Controller
     {
         private readonly AppDbContext appDbContext;

@@ -2,12 +2,14 @@
 using Ecome2.DAL;
 using Ecome2.EXtentions;
 using Ecome2.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecome2.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class SliderController : Controller
     {
         private  AppDbContext appDbContext;

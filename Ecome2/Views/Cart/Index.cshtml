@@ -1,0 +1,208 @@
+﻿@model Ecome2.Models.TwoModels
+
+<div class="container container-240">
+    <div class="checkout">
+        <ul class="breadcrumb v3">
+            <li><a href="#">Home</a></li>
+            <li class="active">Cart</li>
+        </ul>
+        <div class="row">
+            <div class="col-md-8 col-sm-12 col-xs-12">
+                <div class="shopping-cart bd-7">
+                    <div class="cmt-title text-center abs">
+                        <h1 class="page-title v2">Cart</h1>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table cart-table">
+
+                            <tbody>
+                                @foreach (var item in Model.CartModel.CartItems)
+                                {
+                                    <tr class="item_cart">
+                                        <td class="product-name flex align-center">
+                                            <a href="#" class="remove-cart x-remove" data-product-id="@item.ProductId"><i class="ion-ios-close-empty"></i></a>
+                                            <div class="product-img">
+                                                <img width="100px" height="100px" src="~/UploadProducts/@item.ImageUrlBase" alt="Futurelife">
+                                            </div>
+                                            <div class="product-info">
+                                                <a href="#" title="">@item.ProductName </a>
+                                            </div>
+                                        </td>
+
+                                        <td class="bcart-quantity single-product-detail">
+                                            <div class="single-product-info">
+                                                <div class="e-quantity">
+                                                    <input type="number" step="1" min="1" max="999" name="quantity" value="@item.Quantity"  class="qty input-text js-number" size="4">
+                                                    <div class="tc pa">
+                                                        <a class="js-plus quantity-right-plus" data-product-id="@item.ProductId"><i class="fa fa-caret-up"></i></a>
+                                                        <a class="js-minus quantity-left-minus" data-product-id="@item.ProductId"><i class="fa fa-caret-down"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="total-price">
+                                            <p class="price">@item.Total</p>
+                                        </td>
+                                    </tr>
+                                }
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-cart-bottom">
+
+                        <form class="form_coupon" action="#" method="post">
+                            <input type="email" value="" placeholder="Coupon code" name="EMAIL" id="mail" class="newsletter-input form-control">
+                            <div class="input-icon">
+                                <img src="img/coupon-icon.png" alt="">
+                            </div>
+                            <button id="subscribe2" class="button_mini btn" type="submit">
+                                Apply coupon
+                            </button>
+                        </form>
+
+                        <a href="#" class="btn btn-update">Update cart</a>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="cart-total bd-7">
+                    <div class="cmt-title text-center abs">
+                        <h1 class="page-title v3">Cart totals</h1>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="shop_table">
+                            <tbody>
+                                <tr class="cart-subtotal">
+                                    <th>Subtotal</th>
+        
+                                    <td>@Model.CartModel.GrandTotal.ToString("c")</td>
+                                </tr>
+                                <tr class="cart-shipping">
+                                    <th>Shipping</th>
+                                    <td class="td">
+                                        <ul class="shipping">
+                                            <li>
+                                                <input type="radio" name="gender" value="Flat" id="radio1" checked="checked">
+                                                <label for="radio1">Flat rate : $ 12</label>
+                                            </li>
+                                            <li>
+                                                <input type="radio" name="gender" value="Free" id="radio2">
+                                                <label for="radio2">Free Shipping</label>
+                                            </li>
+                                        </ul>
+                                        <a href="#" class="calcu">Calculate shipping</a>
+                                    </td>
+                                </tr>
+                                <tr class="order-total">
+                                    <th>Total</th>
+                                    <td>@Model.CartModel.GrandTotal.ToString("c")</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="cart-total-bottom">
+                        <a href="#" class="btn-gradient btn-checkout">Proceed to checkout</a>
+                    </div>
+                    <div class="sign-in-divider">
+                        <span>or</span>
+                    </div>
+                    <div class="cart-total-bottom pp-checkout">
+                        <a href="#"><img src="img/checkoutpp.jpg" alt="" class="img-responsive"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        // Increment quantity
+        $('.js-plus').click(function () {
+            var productId = $(this).data('product-id');
+            var input = $(this).closest('.e-quantity').find('.js-number');
+            var currentValue = parseInt(input.val());
+            input.val(currentValue + 1);
+
+            // AJAX call to update quantity on the server
+            $.ajax({
+                url: '/Cart/Increase?id=' + productId,
+                method: 'POST',
+                success: function (response) {
+                    // Handle success
+                    console.log('Quantity increased successfully');
+                    updateTotalPrices(response.grandTotal, response.subTotal);
+                },
+                error: function () {
+                    // Handle error
+                    console.error('Error increasing quantity');
+                }
+            });
+        });
+
+        // Decrement quantity
+        $('.js-minus').click(function () {
+            var productId = $(this).data('product-id');
+            var input = $(this).closest('.e-quantity').find('.js-number');
+            var currentValue = parseInt(input.val());
+            if (currentValue > 1) {
+                input.val(currentValue - 1);
+
+                // AJAX call to update quantity on the server
+                $.ajax({
+                    url: '/Cart/Decrease?id=' + productId,
+                    method: 'POST',
+                    success: function (response) {
+                        // Handle success
+                        console.log('Quantity decreased successfully');
+                        updateTotalPrices(response.grandTotal);
+                    },
+                    error: function () {
+                        // Handle error
+                        console.error('Error decreasing quantity');
+                    }
+                });
+            }
+        });
+
+        // Function to update total prices
+        function updateTotalPrices(grandTotal) {
+            // Update grandtotal
+            $('.order-total td').text(grandTotal.toFixed(2));
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+
+            // Remove item from cart
+            $('.remove-cart').click(function (e) {
+                e.preventDefault();
+                var productId = $(this).data('product-id');
+
+                // AJAX call to remove item from cart
+                $.ajax({
+                    url: '/Cart/Delete/' + productId,
+                    method: 'POST',
+                    success: function (response) {
+                        // Handle success
+                        console.log('Product removed successfully');
+                        $(`.remove-cart[data-product-id=${productId}]`).closest('.item_cart').remove();
+                        updateTotalPrices(response.grandTotal, response.subTotal);
+                    },
+                    error: function () {
+                        // Handle error
+                        console.error('Error removing product');
+                    }
+                });
+            });
+
+            // Function to update total prices
+            function updateTotalPrices(grandTotal, subTotal) {
+                $('.order-total td').text(grandTotal.toFixed(2));
+                $('.cart-subtotal td').text(subTotal.toFixed(2));
+            }
+
+        });
+    </script>
+}

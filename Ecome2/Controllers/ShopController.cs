@@ -30,11 +30,11 @@ namespace Ecome2.Controllers
             };
             return View(model);
         }
-        public IActionResult Cart()
-        {
+        //public IActionResult Cart()
+        //{
             
-            return View();
-        }
+        //    return View();
+        //}
 
 
         //[HttpPost]

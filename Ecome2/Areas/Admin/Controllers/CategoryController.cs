@@ -1,5 +1,6 @@
 ﻿using Ecome2.DAL;
 using Ecome2.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Drawing.Drawing2D;
@@ -7,6 +8,7 @@ using System.Drawing.Drawing2D;
 namespace Ecome2.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class CategoryController : Controller
     {
         private readonly AppDbContext appDbContext;

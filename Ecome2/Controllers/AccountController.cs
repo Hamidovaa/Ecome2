@@ -12,14 +12,20 @@ namespace Ecome2.Controllers
     {
         private readonly AppDbContext appDbContext;
         private readonly UserManager<ProgramUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<ProgramUser> _signInManager;
         private readonly IEmailService _emailService;
-        public AccountController(AppDbContext _appDbContext, UserManager<ProgramUser> userManager, SignInManager<ProgramUser> signInManager, IEmailService emailService)
+        public AccountController(AppDbContext _appDbContext, 
+            UserManager<ProgramUser> userManager,
+            SignInManager<ProgramUser> signInManager, 
+            IEmailService emailService,
+            RoleManager<IdentityRole> roleManager)
         {
             appDbContext = _appDbContext;
             _userManager = userManager;
-            _signInManager =signInManager;
-            _emailService=emailService;
+            _signInManager = signInManager;
+            _emailService = emailService;
+            _roleManager = roleManager;
         }
         public IActionResult Register()
         {
@@ -44,6 +50,9 @@ namespace Ecome2.Controllers
                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(programUser);
                 var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = programUser.Id, token = token }, Request.Scheme);
                 await _emailService.SendEmailAsync(model.Email, "Confirm your email", $"Please confirm your account by <a href='{confirmationLink}'>clicking here</a>.");
+
+               await _userManager.AddToRoleAsync(programUser, "User");
+                await _signInManager.SignInAsync(programUser, true);
 
                 return RedirectToAction("Index", "Home");
             }
@@ -82,6 +91,40 @@ namespace Ecome2.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        public async Task SeedRoles()
+        {
+           if(!await _roleManager.RoleExistsAsync(roleName: "Admin"))
+           {
+                await _roleManager.CreateAsync(new IdentityRole(roleName: "Admin"));
+           }
+           if (!await _roleManager.RoleExistsAsync(roleName: "User"))
+           {
+                await _roleManager.CreateAsync(new IdentityRole(roleName: "User"));
+           }
+        }
+
+        public async Task SeedAdmin()
+        {
+            if (_userManager.FindByEmailAsync("hemidoffa55@gmail.com").Result == null)
+            {
+                ProgramUser programUser = new ProgramUser
+                {
+                    Email = "hemidoffa55@gmail.com",
+                    UserName = "hemidoffa55@gmail.com",
+                    Name = "",
+                };
+                var result =await _userManager.CreateAsync(programUser, "Ecome2");
+                if(result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(programUser, "Admin");
+                    await _signInManager.SignInAsync(programUser, true);
+
+                    RedirectToAction ("Index", "Home");
+
+                }
+            }
         }
     }
 }

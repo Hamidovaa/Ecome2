@@ -26,5 +26,7 @@ namespace Ecome2.Models
         [NotMapped]
         [ValidateNever]
         public List<IFormFile> ImagesFiles { get; set; }
+        [Required]
+        public int StockQuantity { get; set; }
     }
 }

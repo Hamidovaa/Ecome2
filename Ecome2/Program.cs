@@ -3,6 +3,7 @@ using Ecome2.Models;
 using Ecome2.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Ecome2.EXtentions;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -37,7 +38,17 @@ builder.Services.Configure<IdentityOptions>(options =>
 });
 builder.Services.AddScoped< IEmailService, EmailService >();
 
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Oturumun ne kadar süre aktif kalaca??n? belirleyin
+    options.Cookie.HttpOnly = true; // XSS korumas? için
+    options.Cookie.IsEssential = true; // Oturum çerezlerinin temel oldu?undan emin olun
+});
+
+
 var app = builder.Build();
+
+app.UseSession();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -63,3 +74,5 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+

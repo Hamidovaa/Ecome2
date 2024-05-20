@@ -147,9 +147,10 @@
                                                 </a>
                                             </div>
                                             <div class="product-bottom-group">
-                                                <a href="#" onclick="addto_cart(this);" class="btn-icon">
+                                                <a onclick="addToCart(@product.Id)" class="btn-icon">
                                                     <span class="icon-bg icon-cart"></span>
                                                 </a>
+
                                                 <a href="#" class="btn-icon">
                                                     <span class="icon-bg icon-wishlist"></span>
                                                 </a>
@@ -171,9 +172,8 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> 
                         }
-
                     </div>
                 </div>
                 <div class="pd-middle space-v1">
@@ -239,36 +239,23 @@
             }
         });
    </script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-        // Include the updated JavaScript code here
-        function addTodo(value, price, imageUrl) {
-            var existingData = localStorage.getItem('productObjects');
-            var productObjects = existingData ? JSON.parse(existingData) : [];
-            var newProductObject = {
-                ad: value,
-                qiymet: price,
-                sekil: imageUrl
-            };
-            productObjects.push(newProductObject);
-            var updatedData = JSON.stringify(productObjects);
-            localStorage.setItem('productObjects', updatedData);
-        }
-
-        function addto_cart(element) {
-            var productItem = element.closest('.product-item');
-            if (productItem) {
-                var productTitle = productItem.querySelector('.product-title a').textContent.trim();
-                var productPrice = productItem.querySelector('.product-price span').textContent.trim().replace(' AZN', '');
-                var productImage = productItem.querySelector('.product-img img').getAttribute('src');
-
-                alert(productTitle + " " + productPrice + " " + productImage);
-
-                addTodo(productTitle, productPrice, productImage);
-            } else {
-                console.log("No .product-item element found within the clicked div.");
-            }
+        function addToCart(productId) {
+            $.ajax({
+                url: '@Url.Action("AddToCart", "Cart")',
+                type: 'POST',
+                data: { id: productId },
+                success: function (response) {
+                    window.location.href = '@Url.Action("Index", "Cart")';
+                },
+                error: function () {
+                    alert('Ürün sepete eklenemedi.');
+                }
+            });
         }
     </script>
+
+ 
 
 }
