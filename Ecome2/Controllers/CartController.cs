@@ -41,9 +41,7 @@ namespace Ecome2.Controllers
             if (product == null)
             {
                 return NotFound();
-            }
-               
-
+            } 
             List<CartItem> cart = HttpContext.Session.GetJson<List<CartItem>>("Cart") ?? new List<CartItem>();
 
             CartItem cartItem = cart.FirstOrDefault(c => c.ProductId == id);
@@ -58,7 +56,8 @@ namespace Ecome2.Controllers
                     ProductId = product.Id,
                     ProductName = product.Title,
                     Price = product.Price,
-                    Quantity = 1
+                    Quantity = 1,
+                    ImageUrlBase = product.ImgUrlBase
                 });
             }
 
@@ -67,8 +66,9 @@ namespace Ecome2.Controllers
             // Calculate total prices
             decimal grandTotal = cart.Sum(item => item.Total);
             decimal subTotal = cart.Sum(item => item.Quantity * item.Price);
+            decimal Total = cart.Sum(item => item.Quantity * item.Price);
 
-            return Json(new { success = true, grandTotal, subTotal });
+            return Json(new { success = true, grandTotal, subTotal, Total });
         }
         [HttpPost]
         public async Task<IActionResult> Increase(int id)
@@ -99,8 +99,9 @@ namespace Ecome2.Controllers
             // Calculate total prices
             decimal grandTotal = cart.Sum(item => item.Total);
             decimal subTotal = cart.Sum(item => item.Quantity * item.Price);
+            decimal itemTotal = cartItem.Quantity * cartItem.Price;
 
-            return Json(new { success = true, grandTotal, subTotal });
+            return Json(new { success = true, grandTotal, subTotal, itemTotal});
         }
 
         [HttpPost]
@@ -131,8 +132,9 @@ namespace Ecome2.Controllers
             // Calculate total prices
             decimal grandTotal = cart.Sum(item => item.Total);
             decimal subTotal = cart.Sum(item => item.Quantity * item.Price);
+            decimal itemTotal = cartItem.Quantity * cartItem.Price;
 
-            return Json(new { success = true, grandTotal, subTotal });
+            return Json(new { success = true, grandTotal, subTotal,itemTotal });
         }
 
         public IActionResult Delete(int id)
@@ -152,15 +154,13 @@ namespace Ecome2.Controllers
                 // Calculate total prices
                 decimal grandTotal = cart.Sum(item => item.Total);
                 decimal subTotal = cart.Sum(item => item.Quantity * item.Price);
+                decimal itemTotal = cartItem.Quantity * cartItem.Price;
+                int itemCount = cart.Count;
 
-                return Json(new { success = true, grandTotal, subTotal });
+                return Json(new { success = true, grandTotal, subTotal, itemTotal, itemCount });
             }
 
             return Json(new { status = 404 });
         }
-
-
-
-
     }
 }

@@ -13,9 +13,9 @@
                         <h1 class="page-title v2">Cart</h1>
                     </div>
                     <div class="table-responsive">
-                        <table class="table cart-table">
+                        <table class="table cart-table" id="cart-view-items">
 
-                            <tbody>
+                            <tbody >
                                 @foreach (var item in Model.CartModel.CartItems)
                                 {
                                     <tr class="item_cart">
@@ -41,7 +41,7 @@
                                             </div>
                                         </td>
                                         <td class="total-price">
-                                            <p class="price">@item.Total</p>
+                                            <p class="price">@item.Total.ToString("c")</p>
                                         </td>
                                     </tr>
                                 }
@@ -132,7 +132,10 @@
                 success: function (response) {
                     // Handle success
                     console.log('Quantity increased successfully');
-                    updateTotalPrices(response.grandTotal, response.subTotal);
+                    updateTotalPrices(response.grandTotal);
+                    updateSubTotalPrices(response.subTotal);
+                    updateOneProductTotalPrices(productId, response.itemTotal);
+                    
                 },
                 error: function () {
                     // Handle error
@@ -157,6 +160,9 @@
                         // Handle success
                         console.log('Quantity decreased successfully');
                         updateTotalPrices(response.grandTotal);
+                        updateSubTotalPrices(response.subTotal);
+                        updateOneProductTotalPrices(productId, response.itemTotal);
+                        
                     },
                     error: function () {
                         // Handle error
@@ -171,6 +177,18 @@
             // Update grandtotal
             $('.order-total td').text(grandTotal.toFixed(2));
         }
+        function updateSubTotalPrices(subTotal) {
+            // Update grandtotal
+            $('.cart-subtotal td').text(subTotal.toFixed(2));
+        }
+        function updateOneProductTotalPrices(productId, itemTotal) {
+            var productRow = $(`.remove-cart[data-product-id=${productId}]`).closest('.item_cart');
+            productRow.find('.total-price p').text(itemTotal.toFixed(2));
+        }
+        function removeDropdownItem(productId) {
+            $(`.e-del[data-product-id=${productId}]`).closest('.item-cart').remove();
+        }
+        
     </script>
     <script>
         $(document).ready(function () {
@@ -188,7 +206,9 @@
                         // Handle success
                         console.log('Product removed successfully');
                         $(`.remove-cart[data-product-id=${productId}]`).closest('.item_cart').remove();
-                        updateTotalPrices(response.grandTotal, response.subTotal);
+                        updateTotalPrices(response.grandTotal);
+                        updateSubTotalPrices(response.subTotal);
+                        removeDropdownItem(productId);
                     },
                     error: function () {
                         // Handle error
@@ -197,11 +217,7 @@
                 });
             });
 
-            // Function to update total prices
-            function updateTotalPrices(grandTotal, subTotal) {
-                $('.order-total td').text(grandTotal.toFixed(2));
-                $('.cart-subtotal td').text(subTotal.toFixed(2));
-            }
+            
 
         });
     </script>

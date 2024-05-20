@@ -307,17 +307,41 @@
                             }
 
   
-                            <a href="#"><img src="~/demo/img/icons8-heart-24.png" alt=""></a>
+                            <a  asp-controller="wishlist" asp-action="Index" ><img src="~/demo/img/icons8-heart-24.png" alt=""></a>
                             <div class="cart">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="label5">
                                     <img src="~/demo/img/icons8-bag-24.png" alt="">
-                                    <span class="count cart-count">0</span>
+                                    <span class="count cart-count"></span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-cart">
-                                    <ul class="mini-products-list">
+                                    @if (Model != null && Model.CartModel != null && Model.CartModel.CartItems != null)
+                                    {
+                                        <ul class="mini-products-list">
+                                            @foreach (var item in Model.CartModel.CartItems)
+                                            {
+                                                <li class="item-cart">
+                                                    <div class="product-img-wrap">
+                                                        <a href="#"><img src="~/UploadProducts/@item.ImageUrlBase" alt="" class="img-reponsive"></a>
+                                                    </div>
+                                                    <div class="product-details">
+                                                        <div class="inner-left">
+                                                            <div class="product-name"><a href="#">@item.ProductName </a></div>
+                                                            <div class="product-price">
+                                                                @item.Price <span></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <a href="#" data-product-id="@item.ProductId" class="e-del"><i class="ion-ios-close-empty"></i></a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
+                                    else
+                                    {
+                                        <p>No items in the cart.</p>
+                                    }
 
-                                    </ul>
                                     
                                     <div class="bottom-cart">
                                         <div class="cart-price">
@@ -325,7 +349,7 @@
                                             
                                         </div>
                                         <div class="button-cart">
-                                            <a asp-controller="Shop" asp-action="Cart" class="cart-btn btn-viewcart">View Cart</a>
+                                            <a asp-controller="Cart" asp-action="Index" class="cart-btn btn-viewcart">View Cart</a>
                                             <a href="#" class="cart-btn e-checkout btn-gradient">Checkout</a>
                                         </div>
                                     </div>
@@ -500,10 +524,57 @@
 
     </script>
     @RenderSection("Scripts", required: false)
-   
-  
 
-   
+    <!-- jQuery (veya Vanilla JS) ile AJAX -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Remove item from cart
+            $('.e-del').click(function (e) {
+                e.preventDefault();
+                var productId = $(this).data('product-id');
+
+                // AJAX call to remove item from cart
+                $.ajax({
+                    url: '@Url.Action("Delete", "Cart")',
+                    method: 'POST',
+                    data: { id: productId },
+                    success: function (response) {
+                        if (response.success) {
+                            console.log('Product removed successfully');
+                            $(`.e-del[data-product-id=${productId}]`).closest('.item-cart').remove();
+                            updateTotalPrices(response.grandTotal, response.subTotal);
+                            updateCartCount(response.itemCount);
+                            removeViewCartItem(productId);
+                        } else {
+                            console.error('Product not found');
+                        }
+                    },
+                    error: function () {
+                        console.error('Error removing product');
+                    }
+                });
+            });
+
+            // Function to update total prices
+            function updateTotalPrices(grandTotal, subTotal) {
+                $('.order-total td').text(grandTotal.toFixed(2));
+                $('.cart-subtotal td').text(subTotal.toFixed(2));
+            }
+
+            // Function to update cart count
+            function updateCartCount(count) {
+                $('.cart-count').text(count);
+            }
+            function removeViewCartItem(productId) {
+                $(`.remove-cart[data-product-id=${productId}]`).closest('.item_cart').remove();
+            }
+        });
+    </script>
+
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 
