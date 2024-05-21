@@ -20,7 +20,7 @@ namespace Ecome2.Models
         public IFormFile file { get; set; }
         public bool IsActive { get; set; } = true;
         [ValidateNever]
-        public  List<Order> Orders { get; set; }
+        public List<OrderItem> OrderItems { get; set; }
         [ValidateNever]
         public List<Images> Images { get; set; }
         [NotMapped]

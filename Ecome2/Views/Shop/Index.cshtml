@@ -151,7 +151,7 @@
                                                     <span class="icon-bg icon-cart"></span>
                                                 </a>
 
-                                                <a href="#" class="btn-icon">
+                                                <a onclick="AddToWisList(@product.Id)" class="btn-icon">
                                                     <span class="icon-bg icon-wishlist"></span>
                                                 </a>
                                                 <a href="#" class="btn-icon">
@@ -251,6 +251,21 @@
                 },
                 error: function () {
                     alert('Ürün sepete eklenemedi.');
+                }
+            });
+        }
+    </script>
+     <script>
+        function AddToWisList(productId) {
+            $.ajax({
+                url: '@Url.Action("AddToWisList", "Wishlist")',
+                type: 'POST',
+                data: { id: productId },
+                success: function (response) {
+                    window.location.href = '@Url.Action("Index", "Wishlist")';
+                },
+                error: function () {
+                    alert('Ürün favorilere eklenemedi.');
                 }
             });
         }

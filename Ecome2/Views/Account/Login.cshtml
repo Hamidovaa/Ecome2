@@ -16,7 +16,9 @@
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <form asp-controller="Account" id="loginForm" asp-action="Login" method="post">
                         <div class="form-group">
-                            <label>Username or email address <span class="f-red">*</span></label>
+                            <label>Username <span class="f-red">*</span></label>
+                            <input type="text" asp-for="Name" class="form-control bdr">
+                            <label>email address <span class="f-red">*</span></label>
                             <input type="email" asp-for="Email" class="form-control bdr">
                             <label>Password <span class="f-red">*</span></label>
                             <input asp-for="Password" id="password" type="password" class="form-control bdr" required>

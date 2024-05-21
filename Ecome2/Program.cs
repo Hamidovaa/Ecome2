@@ -4,6 +4,7 @@ using Ecome2.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Ecome2.EXtentions;
+using Stripe;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -45,6 +46,19 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true; // Oturum çerezlerinin temel oldu?undan emin olun
 });
 
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
+    options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
+    options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireAuthenticatedUser", policy => policy.RequireAuthenticatedUser());
+});
+
+
 
 var app = builder.Build();
 
@@ -63,7 +77,16 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
+
+app.UseStatusCodePagesWithReExecute("/Error/NotFound", "?statusCode={0}");
+
 app.UseAuthorization();
+
+
+
+app.UseAuthentication(); 
+
 
 app.MapControllerRoute(
     name: "Admin",

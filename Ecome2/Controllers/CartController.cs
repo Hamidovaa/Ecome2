@@ -70,6 +70,8 @@ namespace Ecome2.Controllers
 
             return Json(new { success = true, grandTotal, subTotal, Total });
         }
+
+
         [HttpPost]
         public async Task<IActionResult> Increase(int id)
         {
