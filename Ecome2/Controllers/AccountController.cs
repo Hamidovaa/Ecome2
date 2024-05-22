@@ -31,6 +31,9 @@ namespace Ecome2.Controllers
         {
             return View();
         }
+
+      
+
         [HttpPost]
         public async Task<ActionResult> Register(RegisterVM model)
         {
@@ -93,38 +96,7 @@ namespace Ecome2.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public async Task SeedRoles()
-        {
-           if(!await _roleManager.RoleExistsAsync(roleName: "Admin"))
-           {
-                await _roleManager.CreateAsync(new IdentityRole(roleName: "Admin"));
-           }
-           if (!await _roleManager.RoleExistsAsync(roleName: "User"))
-           {
-                await _roleManager.CreateAsync(new IdentityRole(roleName: "User"));
-           }
-        }
+     
 
-        public async Task SeedAdmin()
-        {
-            if (_userManager.FindByEmailAsync("hemidoffa55@gmail.com").Result == null)
-            {
-                ProgramUser programUser = new ProgramUser
-                {
-                    Email = "hemidoffa55@gmail.com",
-                    UserName = "hemidoffa55@gmail.com",
-                    Name = "",
-                };
-                var result =await _userManager.CreateAsync(programUser, "Ecome2");
-                if(result.Succeeded)
-                {
-                    await _userManager.AddToRoleAsync(programUser, "Admin");
-                    await _signInManager.SignInAsync(programUser, true);
-
-                    RedirectToAction ("Index", "Home");
-
-                }
-            }
-        }
     }
 }

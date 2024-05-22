@@ -30,6 +30,10 @@
             background-color: #FFFFFF !important;
         }
 
+        .button_search i{
+            color:white !important;
+        }
+
         .apple{
         font-size:30px;
         font-weight:bolder;
@@ -269,10 +273,10 @@
                     </nav>
                 </div>
                 <div class="col-lg-4 col-md-4  header-search hidden-xs hidden-sm">
-                    <form method="Get" class="searchform ajax-search" action="https://landing.engotheme.com/search" role="search">
-                        <input type="text" id="searchInput" name="searchText" class="form-control" placeholder="i’m shoping for...">
+                    <form method="Get" class="searchform ajax-search" role="search" asp-controller="Shop" asp-action="Search">
+                        <input type="search" id="searchInput" name="query" class="form-control" placeholder="i’m shoping for...">
                         <span class="input-group-btn">
-                            <button class="button_search" type="submit" asp-controller="Shop" asp-action="Index" ><i class="ion-ios-search-strong"></i></button>
+                            <button class="button_search" type="submit" ><i class="ion-ios-search-strong"></i></button>
                         </span>
 
                        @*  <button class="btn-icon btn-close-lg search-popup__reset pb-0 me-2" type="reset"></button> *@
@@ -293,10 +297,17 @@
                                 var user = await GetCurrentUserAsync();
                                 <div class="dropdown">
                                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        @user.Name
+                                        @(user != null ? user.Name : "Guest")
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" style="background-color:skyblue; color:red;" asp-controller="Account" asp-action="Logout">Logout</a>
+                                        @if (user != null)
+                                        {
+                                            <a class="dropdown-item" style="background-color:skyblue; color:red;" asp-controller="Account" asp-action="Logout">Logout</a>
+                                        }
+                                        else
+                                        {
+                                            <a class="dropdown-item" style="background-color:skyblue; color:red;" asp-controller="Account" asp-action="Login">Login</a>
+                                        }
                                     </div>
                                 </div>
                             }
@@ -484,49 +495,8 @@
     <script src="~/demo/js/main.js"></script>
     <script src="~/demo/js/threesixty.min.js"></script>
     <script src="~/demo/js/cart.js"></script>
-    <script>
-        function showFilteredProducts(filteredProducts) {
-            // Ürün listesini temizle
-            $('.list-product-search').empty();
-
-            // Filtrelenmiş ürünleri ekrana ekle
-            filteredProducts.forEach(function (product) {
-                var listItem = $('<li>').appendTo('.list-product-search');
-                $('<a>').addClass('flex align-center').attr('href', '#').appendTo(listItem)
-                    .append($('<div>').addClass('product-img').append($('<img>').attr('src', product.imageUrl).attr('alt', '')))
-                    .append($('<h3>').addClass('product-title').text(product.name));
-            });
-        }
-    </script>
-    <script>
-        $('.ajax-search').on('submit', function (event) {
-            // Formun varsayılan davranışını engelle
-            event.preventDefault();
-
-            // Arama metnini al
-            var searchText = $('#searchInput').val();
-
-            // Arama metnini AJAX isteği ile sunucuya gönder
-            $.ajax({
-                url: '/Products/Search',
-                type: 'POST',
-                data: { searchText: searchText },
-                dataType: 'json',
-                success: function (data) {
-                    // AJAX başarılı olduğunda, dönen ürünleri ekrana göster
-                    showFilteredProducts(data);
-                },
-                error: function (xhr, status, error) {
-                    console.error(status + ': ' + error);
-                }
-            });
-        });
-
-    </script>
+  
     @RenderSection("Scripts", required: false)
-
-    <!-- jQuery (veya Vanilla JS) ile AJAX -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
@@ -573,9 +543,6 @@
             }
         });
     </script>
-
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 
 

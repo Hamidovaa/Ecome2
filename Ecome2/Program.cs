@@ -23,6 +23,7 @@ builder.Services.AddIdentity<ProgramUser, IdentityRole>()
     .AddDefaultTokenProviders();
 
 
+
 builder.Services.Configure<IdentityOptions>(options =>
 {
     options.Password.RequireDigit = false; //R?q?m t?l?b edin
@@ -37,6 +38,16 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.SignIn.RequireConfirmedEmail = false; //qeydiyyat etdikden sonra email ile token gönderecek 
     options.SignIn.RequireConfirmedPhoneNumber = false; //telefon do?rulamas?
 });
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Login";
+    options.AccessDeniedPath = "/Home/AccessDenied";
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+    options.SlidingExpiration = true;
+});
+
+
 builder.Services.AddScoped< IEmailService, EmailService >();
 
 builder.Services.AddSession(options =>
@@ -55,12 +66,20 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("RequireAuthenticatedUser", policy => policy.RequireAuthenticatedUser());
+    options.AddPolicy("RequireAdminRole", policy =>
+        policy.RequireRole("Admin"));
 });
 
-
-
 var app = builder.Build();
+
+// Call SeedDataAsync after app is built
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = services.GetRequiredService<UserManager<ProgramUser>>();
+    await SeedDataAsync(roleManager, userManager);
+}
 
 app.UseSession();
 
@@ -99,3 +118,39 @@ app.MapControllerRoute(
 app.Run();
 
 
+async Task SeedDataAsync(RoleManager<IdentityRole> roleManager, UserManager<ProgramUser> userManager)
+{
+    if (!await roleManager.RoleExistsAsync("Admin"))
+    {
+        await roleManager.CreateAsync(new IdentityRole("Admin"));
+    }
+    if (!await roleManager.RoleExistsAsync("User"))
+    {
+        await roleManager.CreateAsync(new IdentityRole("User"));
+    }
+
+    var adminEmail = "hemidoffa55@gmail.com";
+    var adminUser = await userManager.FindByEmailAsync(adminEmail);
+    if (adminUser == null)
+    {
+        var programUser = new ProgramUser
+        {
+            Email = adminEmail,
+            UserName = "hemidoffa",
+            Name = "hemidoffa",
+        };
+        var result = await userManager.CreateAsync(programUser, "Ecome7777");
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(programUser, "Admin");
+        }
+        else
+        {
+            // Kullan?c? zaten mevcutsa, rolünü kontrol et ve ekle
+            if (!await userManager.IsInRoleAsync(adminUser, "Admin"))
+            {
+                await userManager.AddToRoleAsync(adminUser, "Admin");
+            }
+        }
+    }
+}

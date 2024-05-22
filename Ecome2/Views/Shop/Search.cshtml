@@ -1,6 +1,5 @@
 ﻿@model TwoModels
 
-
 <div class="container container-240 shop-collection">
     <ul class="breadcrumb">
         <li><a href="#">Home</a></li>
@@ -12,63 +11,14 @@
 
     <div class="row shop-colect">
 
-        <div class="col-md-3 col-sm-3 col-xs-12 col-left collection-sidebar" id="filter-sidebar">
-            <div class="close-sidebar-collection hidden-lg hidden-md">
-                <span>filter</span><i class="icon_close ion-close"></i>
-            </div>
-            <div class="filter filter-cate">
-                <ul class="wiget-content v2">
-                    @foreach (var item in Model.categories)
-                    {
-                        <li class="active">
-                            <a href="#">
-                                @item.Name<span class="number">(80)</span>
-                            </a>
-                        </li>
-                    }
-                </ul>
-            </div>
-            <div class="filter filter-group">
-                <h1 class="widget-blog-title" style="color:black" >Product filter</h1>
-                <div class="filter-price filter-inside">
-                    <h3>Price</h3>
-                    <div class="filter-content">
-                        <div class="price-range-holder">
-                            <input type="text" class="price-slider" value="">
-                        </div>
-                        <span class="min-max">
-                            Price: $25 — $258
-                        </span>
-                        <a href="#" class="btn-filter e-gradient">Filter</a>
-                    </div>
-                </div>
-                <div class="filter-brand filter-inside">
-                    <h3>Color</h3>
-                    <ul class="e-filter brand-filter">
-                        <li><a href="#">Black</a></li>
-                        <li class="active-filter"><a href="#">Blue</a></li>
-                        <li><a href="#">Pink</a></li>
-                        <li><a href="#">Green</a></li>
-                        <li><a href="#">Yellow </a></li>
-                    </ul>
-                    <a href="#" class="btn-showmore">Show more +</a>
-                </div>
-                <div class="filter-color filter-brand filter-inside">
-                    <h3>Internal Memory Size</h3>
-                    <ul class="e-filter brand-filter">
-                        <li><a href="#">256 GB </a></li>
-                        <li><a href="#">128 GB </a></li>
-                        <li class="active-filter"><a href="#">1 TB </a></li>
-                    </ul>
-                    <a href="#" class="btn-showmore">Show more +</a>
-                </div>
-            </div>
+        <div class="col-md-1 col-sm-1 col-xs-12 col-left collection-sidebar">
         </div>
-        <div class="col-md-9 col-sm-12 col-xs-12 collection-list">
+
+        <div class="col-md-11 col-sm-11 col-xs-12 collection-list">
             <div class="e-product">
-               @*  <div class="pd-top">
-                    <h1 class="title">Shop</h1>
-                    <div class="show-element"><span>Showing 1–15 of 20 results</span></div>
+                @*  <div class="pd-top">
+                <h1 class="title">Shop</h1>
+                <div class="show-element"><span>Showing 1–15 of 20 results</span></div>
                 </div> *@
                 <div class="pd-middle">
                     <div class="view-mode view-group">
@@ -117,7 +67,7 @@
                             <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 product-item">
                                 <div class="pd-bd product-inner">
                                     <div class="product-img">
-                                        <a asp-controller="Shop" asp-action="ProductDetail" asp-route-id="@product.Id"><img src="~/UploadProducts/@product.ImgUrlBase" alt="" class="img-reponsive"></a>
+                                        <a href="#"><img src="~/UploadProducts/@product.ImgUrlBase" alt="" class="img-reponsive"></a>
                                     </div>
                                     <div class="product-info">
                                         <div class="color-group"></div>
@@ -138,7 +88,7 @@
                                                 <span class="star star-1"></span>
                                                 <div class="number-rating">( 896 reviews )</div>
                                             </div>
-                                            <h3 class="product-title"><a asp-controller="Shop" asp-action="ProductDetail" asp-route-id="@product.Id">@product.Title</a></h3>
+                                            <h3 class="product-title"><a href="#">@product.Title</a></h3>
                                             <p class="product-cate">@product.Description</p>
                                             <div class="product-bottom">
                                                 <div class="product-price"><span>@product.Price AZN</span></div>
@@ -172,7 +122,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div> 
+                            </div>
                         }
                     </div>
                 </div>
@@ -220,57 +170,3 @@
         </div>
     </div>
 </div>
-
-
-@section Scripts {
-   <script>
-        $(".view-mode > a").on("click", function () {
-            $(this).addClass('active').siblings().removeClass('active');;
-
-            if ($(this).hasClass('col2')) {
-                $(".product-grid").addClass("product-grid-v2");
-                $(".product-grid").removeClass("product-list");
-            }
-            if ($(this).hasClass('col')) {
-                $(".product-grid").removeClass("product-grid-v2 product-list");
-            }
-            if ($(this).hasClass('list')) {
-                $(".product-grid").addClass("product-list product-grid-v2");
-            }
-        });
-   </script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-        function addToCart(productId) {
-            $.ajax({
-                url: '@Url.Action("AddToCart", "Cart")',
-                type: 'POST',
-                data: { id: productId },
-                success: function (response) {
-                    window.location.href = '@Url.Action("Index", "Cart")';
-                },
-                error: function () {
-                    alert('Ürün sepete eklenemedi.');
-                }
-            });
-        }
-    </script>
-     <script>
-        function AddToWisList(productId) {
-            $.ajax({
-                url: '@Url.Action("AddToWisList", "Wishlist")',
-                type: 'POST',
-                data: { id: productId },
-                success: function (response) {
-                    window.location.href = '@Url.Action("Index", "Wishlist")';
-                },
-                error: function () {
-                    alert('Ürün favorilere eklenemedi.');
-                }
-            });
-        }
-    </script>
-
- 
-
-}
