@@ -13,6 +13,11 @@ namespace Ecome2.DAL
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Images> Images { get; set; }
+        public DbSet<ProductSize> ProductSizes { get; set; }
+        public DbSet<ProductColor> ProductColors { get; set; }
+        public DbSet<Size> Sizes { get; set; }
+        public DbSet<Color> Colors { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

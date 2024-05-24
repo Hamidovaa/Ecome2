@@ -7166,7 +7166,7 @@ body {
       .wiget-content li a:hover:before {
         color: #000; }
 .wiget-content.v2 li.active a:before {
-  content: "\f3d1";
+  content: "\003E";
   font-family: "ionicons";
   position: absolute;
   top: 0;
@@ -9742,7 +9742,7 @@ span.star:before {
     display: block;
     margin-left: 13px; }
     .desc-list li:before {
-      content: "\f363";
+      content: "\003E";
       font-family: "ionicons";
       position: absolute;
       top: 0;
@@ -16480,6 +16480,7 @@ span.star:before {
     right: 26px;
     top: 16px;
     font-size: 19px; }
+
 .widget-verticalmenu .vertical-group {
   border: 2px solid #eaeaea;
   border-radius: 10px;
@@ -16503,7 +16504,7 @@ span.star:before {
     .widget-verticalmenu .vertical-group .vertical-item.vertical-drop > a {
       color: #666; }
       .widget-verticalmenu .vertical-group .vertical-item.vertical-drop > a:before {
-        content: '\f3d3';
+        content: '\003E';
         font-family: ionicons;
         text-align: center;
         font-size: 17px;

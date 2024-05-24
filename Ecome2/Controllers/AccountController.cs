@@ -72,23 +72,52 @@ namespace Ecome2.Controllers
             return View();
         }
         [HttpPost]
-        public async Task <IActionResult> Login(LoginVM model)
+        public async Task<IActionResult> Login(LoginVM model, string returnUrl = null)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("", "Something went wrong");  
+                ModelState.AddModelError("", "Something went wrong");
+                return View(model);
             }
-            var user =await _userManager.FindByEmailAsync(model.Email);
-            if (user!=null)
-            { 
-               var result= await _signInManager.PasswordSignInAsync(user, model.Password, model.IsRemember, false );
-                if (!result.Succeeded)
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user != null)
+            {
+                var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.IsRemember, false);
+                if (result.Succeeded)
+                {
+                    // Kullanıcının rollerini kontrol et
+                    var roles = await _userManager.GetRolesAsync(user);
+                    if (roles.Contains("Admin"))
+                    {
+                        if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                        {
+                            return Redirect(returnUrl);
+                        }
+                        return RedirectToAction("Index", "Admin");
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                        {
+                            return Redirect(returnUrl);
+                        }
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+                else
                 {
                     ModelState.AddModelError("", "Password or email incorrect");
                 }
             }
-            return RedirectToAction("Index", "Home");
+            else
+            {
+                ModelState.AddModelError("", "No user found with this email");
+            }
+
+            return View(model);
         }
+
 
         public async Task<IActionResult> Logout()
         {

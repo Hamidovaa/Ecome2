@@ -93,6 +93,8 @@ namespace Ecome2.Areas.Admin.Controllers
         public IActionResult Create()
         {
             ViewBag.Category = appDbContext.Categories.ToList();
+            ViewBag.Color=appDbContext.Colors.ToList();
+            ViewBag.Size=appDbContext.Sizes.ToList();
             return View();
         }
 
@@ -103,6 +105,8 @@ namespace Ecome2.Areas.Admin.Controllers
             if (!ModelState.IsValid)
             {
                 ViewBag.Category = appDbContext.Categories.ToList();
+                ViewBag.Color = appDbContext.Colors.ToList();
+                ViewBag.Size=appDbContext.Sizes.ToList() ;
                 return View(model);
             }
 
@@ -135,7 +139,34 @@ namespace Ecome2.Areas.Admin.Controllers
                     appDbContext.Images.Add(images);
                     appDbContext.SaveChanges();
                 }
-            }  
+            }
+            if (model.file != null)
+            {
+                foreach (var item in model.ColorsId)
+                {
+                    ProductColor productColor = new ProductColor
+                    {
+                        ProductId = model.Id,
+                        ColorId =item
+                    };
+                    appDbContext.ProductColors.Add(productColor);
+                    appDbContext.SaveChanges();
+                }
+            }
+            if (model.file != null)
+            {
+                foreach (var i in model.ProductSizes)
+                {
+                    ProductSize productSize = new  ProductSize
+                    {
+                        ProductId = model.Id,
+                        SizeId = i,
+                    };
+                    appDbContext.ProductSizes.Add(productSize);
+                    appDbContext.SaveChanges();
+                }
+            }
+
             return RedirectToAction("Index");
         }
 
@@ -144,8 +175,21 @@ namespace Ecome2.Areas.Admin.Controllers
         public IActionResult Edit(int id)
         {
             ViewBag.Category = appDbContext.Categories.ToList();
-            var model = appDbContext.Products.Include(x => x.Images).FirstOrDefault(x => x.Id == id);
-
+            ViewBag.Color = appDbContext.Colors.ToList();
+            ViewBag.Size = appDbContext.Sizes.ToList();
+            var model = appDbContext.Products.Include(x => x.ProductColors).Include(x => x.Images).FirstOrDefault(x => x.Id == id);
+            var dbColors=appDbContext.ProductColors.Where(x=>x.ProductId == id).ToList();
+            var dbSizes=appDbContext.ProductSizes.Where(x=>x.ProductId == id).ToList();
+            model.ColorsId = new List<int>();
+            model.ProductSizes=new List<ProductSize>();
+            foreach(var item in dbColors)
+            {
+                model.ColorsId.Add(item.ColorId);
+            }
+            foreach (var item in dbSizes)
+            {
+                model.ColorsId.Add(item.SizeId);
+            }
             if (id == 0)
             {
                 return NotFound();
@@ -163,18 +207,29 @@ namespace Ecome2.Areas.Admin.Controllers
         public async Task<IActionResult> Edit(Products products)
         {
             ViewBag.Category = appDbContext.Categories.ToList();
+            ViewBag.Color = appDbContext.Colors.ToList();
+            ViewBag.Size = appDbContext.Sizes.ToList();
             var oldProducts = appDbContext.Products.FirstOrDefault(x=>x.Id==products.Id);
 
             oldProducts.Title = products.Title;
             oldProducts.Description = products.Description;
             oldProducts.Price = products.Price;
             oldProducts.CategoryId = products.CategoryId;
+            oldProducts.ColorsId = products.ColorsId;
+            oldProducts.ProductSizes = products.ProductSizes;
             appDbContext.SaveChanges();
             //if (!ModelState.IsValid)
             //{
             //    return View(slider);
             //}
-
+            if (products.ColorsId == null)
+            {
+                return RedirectToAction("Edit");
+            }
+            if (products.ProductSizes == null)
+            {
+                return RedirectToAction("Edit");
+            }
             if (oldProducts == null)
             {
                 return RedirectToAction("Index");
@@ -212,6 +267,32 @@ namespace Ecome2.Areas.Admin.Controllers
 
 
                 }   
+            }
+            var colorsDb = appDbContext.ProductColors.Where(x => x.ProductId == products.Id);
+                appDbContext.ProductColors.RemoveRange(colorsDb);
+                appDbContext.SaveChanges();
+            var sizesDb = appDbContext.ProductSizes.Where(x => x.ProductId == products.Id);
+            appDbContext.ProductSizes.RemoveRange(sizesDb);
+            appDbContext.SaveChanges();
+            foreach (var item in products.ColorsId)
+            {
+                ProductColor productColor = new ProductColor
+                {
+                    ProductId = products.Id,
+                    ColorId = item
+                };
+                appDbContext.ProductColors.Add(productColor);
+                appDbContext.SaveChanges();
+            }
+            foreach (var i in products.ProductSizes)
+            {
+                ProductSize productSize = new ProductSize
+                {
+                    ProductId = products.Id,
+                    SizeId = i
+                };
+                appDbContext.ProductSizes.Add(productSize);
+                appDbContext.SaveChanges();
             }
             return RedirectToAction("Index");
         }

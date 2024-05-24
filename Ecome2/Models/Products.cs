@@ -28,5 +28,12 @@ namespace Ecome2.Models
         public List<IFormFile> ImagesFiles { get; set; }
         [Required]
         public int StockQuantity { get; set; }
+        [ValidateNever]
+        public List<ProductColor> ProductColors { get; set; }
+        [ValidateNever]
+        public List<ProductSize> ProductSizes { get; set; }
+        [NotMapped]
+        [ValidateNever]
+        public List<int> ColorsId { get; set; }
     }
 }

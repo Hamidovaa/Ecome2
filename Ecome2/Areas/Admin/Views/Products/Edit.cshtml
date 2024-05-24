@@ -2,7 +2,8 @@
 
 @section Styles {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.min.css" rel="stylesheet" />
-} 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/css/select2.min.css" rel="stylesheet" />
+}
 
 <div class="page-content">
     <div class="container-fluid">
@@ -18,7 +19,7 @@
                                     <div class="card-body p-3">
                                         <form class="row" method="post" asp-area="Admin" asp-controller="Products" asp-action="Edit" enctype="multipart/form-data">
                                             @Html.AntiForgeryToken()
-                                            <div class="col-md-3">
+                                            <div class="col-md-2">
                                                 <label>Title</label>
                                                 <input asp-for="Title" type="text" class="form-control" />
                                                 <span asp-validation-for="Title" class="text-danger mt-5"></span>
@@ -28,12 +29,12 @@
                                                 <input asp-for="Description" type="text" class="form-control" />
                                                 <span asp-validation-for="Description" class="text-danger mt-5"></span>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-2">
                                                 <label>Price</label>
                                                 <input asp-for="Price" type="text" class="form-control" />
                                                 <span asp-validation-for="Price" class="text-danger mt-5"></span>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-2">
                                                 <label>Category</label>
                                                 <select class="form-select" asp-for="CategoryId">
                                                     @foreach (var item in ViewBag.Category)
@@ -43,6 +44,45 @@
                                                 </select>
                                                 
                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Color</label>
+                                                <br />
+                                                <select class="form-select js-example-basic-multiple" asp-for="ColorsId" multiple>
+                                                    <span asp-validation-for="ColorsId" class="text-danger mt-5"></span>
+                                                    @foreach (var item in ViewBag.Color)
+                                                    {
+                                                        if (Model.ColorsId.Any(x => x == item.Id))
+                                                        {
+                                                            <option value="@item.Id" selected>@item.Name</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@item.Id" >@item.Name</option>
+                                                        }
+                                                       
+                                                    }
+                                                </select>
+
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Size</label>
+                                                <br />
+                                                <select class="form-select js-example-basic-multiple" asp-for="ProductSizes" multiple>
+                                                    @foreach (var item in ViewBag.Size)
+                                                    {
+                                                        if (Model.ProductSizes.Any(x => x == item.Id))
+                                                        {
+                                                            <option value="@item.Id" selected>@item.Name</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@item.Id">@item.Name</option>
+                                                        }
+
+                                                    }
+                                                </select>
+
+                                            </div>
                                             <div class="col-md-3 pt-5">
                                                 <label>Esas sekil</label>
                                                 <br />
@@ -130,6 +170,12 @@
             });
         });
 
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.js-example-basic-multiple').select2();
+        });
     </script>
 }
 

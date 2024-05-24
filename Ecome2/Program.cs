@@ -66,7 +66,7 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("RequireAdminRole", policy =>
+    options.AddPolicy("Admin", policy =>
         policy.RequireRole("Admin"));
 });
 
@@ -100,12 +100,8 @@ StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey"
 
 app.UseStatusCodePagesWithReExecute("/Error/NotFound", "?statusCode={0}");
 
+app.UseAuthentication();
 app.UseAuthorization();
-
-
-
-app.UseAuthentication(); 
-
 
 app.MapControllerRoute(
     name: "Admin",

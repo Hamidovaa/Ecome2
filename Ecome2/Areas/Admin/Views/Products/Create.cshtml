@@ -1,5 +1,9 @@
 ﻿@model Products
 
+@section Styles{
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/css/select2.min.css" rel="stylesheet" />
+}
+
 <div class="page-content">
     <div class="container-fluid">
 
@@ -51,6 +55,24 @@
                                                     }
                                                 </select>
                                             </div>
+                                            <div class="col-md-3">
+                                                <label>Colors</label>
+                                                <select class="form-select js-example-basic-multiple" asp-for="ColorsId" multiple>
+                                                    @foreach (var c in ViewBag.Color)
+                                                    {
+                                                        <option value="@c.Id">@c.Name</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Size</label>
+                                                <select class="form-select js-example-basic-multiple" asp-for="ProductSizes" multiple>
+                                                    @foreach (var s in ViewBag.Size)
+                                                    {
+                                                        <option value="@s.Id">@s.Name</option>
+                                                    }
+                                                </select>
+                                            </div>
                                         </form>
                                     </div>
                                 </div>
@@ -64,5 +86,12 @@
         </div>
     </div> <!-- container-fluid -->
 </div>
-
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.js-example-basic-multiple').select2();
+        });
+    </script>
+}
 
