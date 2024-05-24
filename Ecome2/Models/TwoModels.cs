@@ -6,5 +6,7 @@
         public List<Category> categories { get; set; }
         public List<Products> products { get; set; }
         public CartViewModel CartModel { get; set; }
+        public List<Color> colors { get; set; }
+        public List<Size> sizes { get; set; }
     }
 }

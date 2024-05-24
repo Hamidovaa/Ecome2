@@ -66,7 +66,7 @@
                                             </div>
                                             <div class="col-md-3">
                                                 <label>Size</label>
-                                                <select class="form-select js-example-basic-multiple" asp-for="ProductSizes" multiple>
+                                                <select class="form-select js-example-basic-multiple" asp-for="SizesId" multiple>
                                                     @foreach (var s in ViewBag.Size)
                                                     {
                                                         <option value="@s.Id">@s.Name</option>

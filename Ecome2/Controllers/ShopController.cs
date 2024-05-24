@@ -26,9 +26,16 @@ namespace Ecome2.Controllers
                .Where(c => c.IsActive == true)
                .ToList(),
                 products = appDbContext.Products
-                .Include(p => p.Category)  // Kategori ilişkisini dahil etmek istiyorsanız ekleyebilirsiniz
+                .Include(p => p.Category)
                 .Where(p => p.IsActive == true)
-                .ToList()
+                .ToList(),
+                colors = appDbContext.Colors
+                .Where(c => c.IsActive == true)
+                .ToList(),
+                sizes=appDbContext.Sizes.
+                Where(p => p.IsActive == true)
+                .ToList(),
+
 
             };
             return View(model);

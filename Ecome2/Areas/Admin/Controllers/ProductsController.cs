@@ -155,7 +155,7 @@ namespace Ecome2.Areas.Admin.Controllers
             }
             if (model.file != null)
             {
-                foreach (var i in model.ProductSizes)
+                foreach (var i in model.SizesId)
                 {
                     ProductSize productSize = new  ProductSize
                     {
@@ -177,18 +177,18 @@ namespace Ecome2.Areas.Admin.Controllers
             ViewBag.Category = appDbContext.Categories.ToList();
             ViewBag.Color = appDbContext.Colors.ToList();
             ViewBag.Size = appDbContext.Sizes.ToList();
-            var model = appDbContext.Products.Include(x => x.ProductColors).Include(x => x.Images).FirstOrDefault(x => x.Id == id);
+            var model = appDbContext.Products.Include(x => x.ProductColors).Include(x => x.ProductSizes).Include(x => x.Images).FirstOrDefault(x => x.Id == id);
             var dbColors=appDbContext.ProductColors.Where(x=>x.ProductId == id).ToList();
             var dbSizes=appDbContext.ProductSizes.Where(x=>x.ProductId == id).ToList();
             model.ColorsId = new List<int>();
-            model.ProductSizes=new List<ProductSize>();
+            model.SizesId=new List<int>();
             foreach(var item in dbColors)
             {
                 model.ColorsId.Add(item.ColorId);
             }
             foreach (var item in dbSizes)
             {
-                model.ColorsId.Add(item.SizeId);
+                model.SizesId.Add(item.SizeId);
             }
             if (id == 0)
             {
@@ -216,7 +216,7 @@ namespace Ecome2.Areas.Admin.Controllers
             oldProducts.Price = products.Price;
             oldProducts.CategoryId = products.CategoryId;
             oldProducts.ColorsId = products.ColorsId;
-            oldProducts.ProductSizes = products.ProductSizes;
+            oldProducts.SizesId = products.SizesId;
             appDbContext.SaveChanges();
             //if (!ModelState.IsValid)
             //{
@@ -226,7 +226,7 @@ namespace Ecome2.Areas.Admin.Controllers
             {
                 return RedirectToAction("Edit");
             }
-            if (products.ProductSizes == null)
+            if (products.SizesId == null)
             {
                 return RedirectToAction("Edit");
             }
@@ -284,7 +284,7 @@ namespace Ecome2.Areas.Admin.Controllers
                 appDbContext.ProductColors.Add(productColor);
                 appDbContext.SaveChanges();
             }
-            foreach (var i in products.ProductSizes)
+            foreach (var i in products.SizesId)
             {
                 ProductSize productSize = new ProductSize
                 {

@@ -24,7 +24,7 @@
                                                 <input asp-for="Title" type="text" class="form-control" />
                                                 <span asp-validation-for="Title" class="text-danger mt-5"></span>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-2">
                                                 <label>Description</label>
                                                 <input asp-for="Description" type="text" class="form-control" />
                                                 <span asp-validation-for="Description" class="text-danger mt-5"></span>
@@ -44,7 +44,7 @@
                                                 </select>
                                                 
                                            </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-2">
                                                 <label>Color</label>
                                                 <br />
                                                 <select class="form-select js-example-basic-multiple" asp-for="ColorsId" multiple>
@@ -64,13 +64,13 @@
                                                 </select>
 
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-2">
                                                 <label>Size</label>
                                                 <br />
-                                                <select class="form-select js-example-basic-multiple" asp-for="ProductSizes" multiple>
+                                                <select class="form-select js-example-basic-multiple" asp-for="SizesId" multiple>
                                                     @foreach (var item in ViewBag.Size)
                                                     {
-                                                        if (Model.ProductSizes.Any(x => x == item.Id))
+                                                        if (Model.SizesId.Any(x => x == item.Id))
                                                         {
                                                             <option value="@item.Id" selected>@item.Name</option>
                                                         }

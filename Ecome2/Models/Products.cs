@@ -35,5 +35,8 @@ namespace Ecome2.Models
         [NotMapped]
         [ValidateNever]
         public List<int> ColorsId { get; set; }
+        [NotMapped]
+        [ValidateNever]
+        public List<int> SizesId { get; set; }
     }
 }

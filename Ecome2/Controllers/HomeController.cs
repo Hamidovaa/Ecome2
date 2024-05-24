@@ -26,7 +26,7 @@ namespace Ecome2.Controllers
                 categories = appDbContext.Categories
                 .Include(c => c.Products.Where(p => p.IsActive == true))
                 .Where(c => c.IsActive==true)
-                .ToList()
+                .ToList(),
                 
             };
             return View(model);
