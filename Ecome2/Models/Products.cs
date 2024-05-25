@@ -10,10 +10,14 @@ namespace Ecome2.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public int Price { get; set; }
+
+
         public int CategoryId { get; set; }
         [ForeignKey("CategoryId")]
         [ValidateNever]
         public Category Category { get; set; }
+
+
         public string? ImgUrlBase { get; set; }
         [NotMapped]
         [Required]

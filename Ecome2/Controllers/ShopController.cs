@@ -27,7 +27,7 @@ namespace Ecome2.Controllers
                .ToList(),
                 products = appDbContext.Products
                 .Include(p => p.Category)
-                .Where(p => p.IsActive == true)
+                .Where(p => p.IsActive == true && p.StockQuantity > 0)
                 .ToList(),
                 colors = appDbContext.Colors
                 .Where(c => c.IsActive == true)
@@ -91,10 +91,5 @@ namespace Ecome2.Controllers
 
             return View(model);
         }
-
-
-
-
-
     }
 }

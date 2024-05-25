@@ -20,6 +20,7 @@
                                     <th scope="col">Description</th>
                                     <th scope="col">Price</th>
                                     <th scope="col">Category name</th>
+                                    <th scope="col">Stock Quantity</th>
 
                                 </tr>
                             </thead>
@@ -31,8 +32,9 @@
                                         <td>@item.Description</td>
                                         <td>@item.Price</td>
                                         <td>@item.Category.Name</td>
-                                        <td>@item.ImgUrlBase</td>
-                                        <td> <img width="200" height="200" src="~/UploadProducts/@item.ImgUrlBase" /></td>
+                                        <td>@item.StockQuantity</td>
+                                       @*  <td>@item.ImgUrlBase</td> *@
+                                        <td> <img width="100" height="100" src="~/UploadProducts/@item.ImgUrlBase" /></td>
 
                                         <td>
                                             @if (item.IsActive)
@@ -50,13 +52,6 @@
                                             <a class="btn btn-success" asp-area="Admin" asp-controller="Products" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                                         </td>
                                        
-                                        @* <td>
-                                    <button data-id="@item.Id" type="button" class="btn btn-primary mb-3 editBtn" data-bs-toggle="modal" data-bs-target="#exampleModalEdit">
-                                    Edit Slider
-                                    </button>
-                                    </td> *@
-
-
                                     </tr>
                                 };
 

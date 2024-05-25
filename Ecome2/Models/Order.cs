@@ -38,7 +38,7 @@ namespace Ecome2.Models
         public string UserId { get; set; }
         public ProgramUser User { get; set; }
 
-        public List<OrderItem> OrderItems { get; set; }
+        public List<OrderItem> OrderItems { get; set; }= new List<OrderItem>();
     }
 }
 

@@ -302,24 +302,6 @@
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
 
-    <script>
-        $("#slider-range").slider({
-            range: true,
-            min: 0,
-            max: 3500,
-            step: 50,
-            slide: function (event, ui) {
-                $("#min-price").html(ui.values[0]);
-
-                suffix = '';
-                if (ui.values[1] == $("#max-price").data('max')) {
-                    suffix = ' +';
-                }
-                $("#max-price").html(ui.values[1] + suffix);
-            }
-        })
-
-    </script>
 
 
 }

@@ -35,6 +35,11 @@
                                                 <span asp-validation-for="Price" class="text-danger mt-5"></span>
                                             </div>
                                             <div class="col-md-2">
+                                                <label>StockQuantity</label>
+                                                <input asp-for="StockQuantity" type="text" class="form-control" />
+                                                <span asp-validation-for="StockQuantity" class="text-danger mt-5"></span>
+                                            </div>
+                                            <div class="col-md-2">
                                                 <label>Category</label>
                                                 <select class="form-select" asp-for="CategoryId">
                                                     @foreach (var item in ViewBag.Category)

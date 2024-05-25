@@ -12796,21 +12796,21 @@ if (typeof jQuery === 'undefined') {
 
   Tooltip.TRANSITION_DURATION = 150
 
-  Tooltip.DEFAULTS = {
-    animation: true,
-    placement: 'top',
-    selector: false,
-    template: '<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
-    trigger: 'hover focus',
-    title: '',
-    delay: 0,
-    html: false,
-    container: false,
-    viewport: {
-      selector: 'body',
-      padding: 0
-    }
-  }
+  //Tooltip.DEFAULTS = {
+  //  animation: true,
+  //  placement: 'top',
+  //  selector: false,
+  //  template: '<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
+  //  trigger: 'hover focus',
+  //  title: '',
+  //  delay: 0,
+  //  html: false,
+  //  container: false,
+  //  viewport: {
+  //    selector: 'body',
+  //    padding: 0
+  //  }
+  //}
 
   Tooltip.prototype.init = function (type, element, options) {
     this.enabled   = true

@@ -41,7 +41,7 @@ namespace Ecome2.Controllers
             if (product == null)
             {
                 return NotFound();
-            } 
+            }
             List<CartItem> cart = HttpContext.Session.GetJson<List<CartItem>>("Cart") ?? new List<CartItem>();
 
             CartItem cartItem = cart.FirstOrDefault(c => c.ProductId == id);
@@ -57,7 +57,10 @@ namespace Ecome2.Controllers
                     ProductName = product.Title,
                     Price = product.Price,
                     Quantity = 1,
-                    ImageUrlBase = product.ImgUrlBase
+                    ImageUrlBase = product.ImgUrlBase,
+                    Color = "Pink",
+                    Size = "1TB"
+
                 });
             }
 

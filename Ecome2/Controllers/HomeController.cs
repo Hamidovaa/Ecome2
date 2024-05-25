@@ -24,7 +24,7 @@ namespace Ecome2.Controllers
             {
                 sliders = appDbContext.Sliders.Where(x => x.IsCheck != false).ToList(),
                 categories = appDbContext.Categories
-                .Include(c => c.Products.Where(p => p.IsActive == true))
+                .Include(c => c.Products.Where(p => p.IsActive == true&& p.StockQuantity > 0))
                 .Where(c => c.IsActive==true)
                 .ToList(),
                 

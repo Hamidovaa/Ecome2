@@ -54,6 +54,7 @@ namespace Ecome2.Areas.Admin.Controllers
                 });
             }
             var products = appDbContext.Products.Find(id);
+
             if (products == null)
             {
                 return Json(new
@@ -61,12 +62,29 @@ namespace Ecome2.Areas.Admin.Controllers
                     status = 400
                 });
             }
-            products.IsActive = !products.IsActive;  // Kategoriyi aktif hale getir
+            bool newStatus = !products.IsActive;
+
+            if (products.StockQuantity == 0)
+            {
+                return Json(new
+                {
+                    status = 400,
+                    message = "Ürün stokta olmadığı için aktivasyon işlemi yapılamaz"
+                });
+            }
+
+            // Yeni durumu toggle yap
+
+            products.IsActive = newStatus;
             appDbContext.SaveChanges();
+
             return Json(new
             {
-                status = 200
+                status = 200,
+                isActive = newStatus, // İlgili ürünün yeni durumunu da geri döndür
+                message = "Ürün durumu başarıyla güncellendi"
             });
+
         }
 
         //public JsonResult Delete(int id)
@@ -217,16 +235,31 @@ namespace Ecome2.Areas.Admin.Controllers
             oldProducts.CategoryId = products.CategoryId;
             oldProducts.ColorsId = products.ColorsId;
             oldProducts.SizesId = products.SizesId;
+            oldProducts.StockQuantity= products.StockQuantity;
             appDbContext.SaveChanges();
             //if (!ModelState.IsValid)
             //{
             //    return View(slider);
             //}
+            if (oldProducts.StockQuantity == 0)
+            {
+                oldProducts.IsActive = false;
+            }
+            else
+            {
+                oldProducts.IsActive = true;
+            }
+            appDbContext.SaveChanges();
+
             if (products.ColorsId == null)
             {
                 return RedirectToAction("Edit");
             }
             if (products.SizesId == null)
+            {
+                return RedirectToAction("Edit");
+            }
+            if (products.StockQuantity== 0)
             {
                 return RedirectToAction("Edit");
             }

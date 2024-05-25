@@ -27,10 +27,10 @@ namespace Ecome2.Controllers
         private static decimal total = 0;
 
         [HttpPost]
-        public IActionResult Checkout(Models.Order order, string code)
+        public IActionResult Checkout(Models.Order order)
         {
             var list = HttpContext.Session.GetJson<List<CartItem>>("Cart");
-            decimal prcntg = 0;
+        
             if (list == null)
             {
                 return RedirectToAction("ShopCart", "Cart");
@@ -51,7 +51,7 @@ namespace Ecome2.Controllers
                 {
                     PriceData = new SessionLineItemPriceDataOptions
                     {
-                        UnitAmountDecimal = item.Price * 100 * (1 - prcntg / 100),
+                        UnitAmountDecimal = item.Price * 100,
                         Currency = "usd",
                         ProductData = new SessionLineItemPriceDataProductDataOptions
                         {
@@ -60,7 +60,7 @@ namespace Ecome2.Controllers
                     },
                     Quantity = item.Quantity
                 };
-                total += item.Total * (1 - prcntg / 100);
+                total += item.Total;
                 options.LineItems.Add(sessionListItem);
             }
             var service = new SessionService();
@@ -76,6 +76,23 @@ namespace Ecome2.Controllers
             ViewBag.StripePublishableKey = "your_publishable_key";
             return View();
         }
+
+        //public IActionResult Success(int orderId)
+        //{
+        //    var order = appDbContext.Orders
+        //        .Include(x => x.OrderItems)
+        //        .ThenInclude(x => x.Product)
+        //        .FirstOrDefault(x => x.Id == orderId);
+
+        //    if (order == null)
+        //    {
+        //        return RedirectToAction("Index", "Home");
+        //    }
+
+        //    return View(order);
+        //}
+
+
         [Authorize]
         [HttpGet]
         public IActionResult Invoice()
@@ -86,20 +103,12 @@ namespace Ecome2.Controllers
                 return View("Failed");
             }
 
-            var order = appDbContext.Orders
-                                    .Include(o => o.OrderItems)
-                                    .ThenInclude(oi => oi.Product)
-                                    .Where(o => o.UserId == user.Id)
-                                    .OrderByDescending(o => o.Date)
-                                    .FirstOrDefault();
 
-            if (order == null)
-            {
-                return View("Failed");
-            }
+            var cartList = HttpContext.Session.GetJson<List<CartItem>>("Cart");
 
-            return View(order);
+            return View();
         }
+
 
         public async Task<IActionResult> OrderConfirmation()
         {
@@ -118,6 +127,7 @@ namespace Ecome2.Controllers
                 tempOrder.OrderNumber = random.Next(100000, 1000000);
                 tempOrder.Date = DateTime.Now;
                 tempOrder.Total = total;
+
 
                 appDbContext.Orders.Add(tempOrder);
                 appDbContext.SaveChanges();

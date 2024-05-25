@@ -26,6 +26,7 @@
             Price = product.Price;
             ImageUrlBase = product.ImgUrlBase;
             ImageUrl = product.Images[0].ImgUrl;
+           
         }
     }
 

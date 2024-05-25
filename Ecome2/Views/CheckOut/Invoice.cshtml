@@ -1,9 +1,9 @@
 ﻿@model Order
 
-@{
+@* @{
     ViewBag.Title = "Invoice";
 }
-
+ *@
 <div class="main-content space1">
     <div class="container container-240">
         <ul class="breadcrumb">
@@ -129,7 +129,7 @@
                                         Product<span>Total</span>
                                     </p>
                                     <ul class="co-pd-list">
-                                        @foreach (var item in Model.OrderItems)
+                                      @*   @foreach (var item in Model.OrderItems)
                                         {
                                             <li class="clearfix">
                                                 <div class="co-name">
@@ -139,25 +139,25 @@
                                                     $@item.Subtotal
                                                 </div>
                                             </li>
-                                        };
+                                        }; *@
                                     </ul>
                                 </div>
                                 <table class="shop_table">
                                     <tbody>
                                         <tr class="cart-subtotal">
                                             <th>Subtotal</th>
-                                            <td>$@Model.Total</td>
+                                          @*   <td>$@Model.Total</td> *@
                                         </tr>
                                         <tr class="cart-shipping v2">
                                             <th>Shipping</th>
                                             <td class="td">
                                                 <ul class="shipping">
                                                     <li>
-                                                        <input type="radio" name="gender" value="Flat" id="radio1" checked="checked">
+                                                        <input type="radio" name="Shipping" value="Flat" id="radio1" checked="checked">
                                                         <label for="radio1">Flat rate : $ 12</label>
                                                     </li>
                                                     <li>
-                                                        <input type="radio" name="gender" value="Free" id="radio2">
+                                                        <input type="radio" name="Shipping" value="Free" id="radio2">
                                                         <label for="radio2">Free Shipping</label>
                                                     </li>
                                                 </ul>
@@ -165,7 +165,7 @@
                                         </tr>
                                         <tr class="order-total v2">
                                             <th>Total</th>
-                                            <td>$@Model.Total</td>
+                                           @*  <td>$@Model.Total</td> *@
                                         </tr>
                                     </tbody>
                                 </table>
@@ -207,26 +207,3 @@
     </div>
 </div>
 
-@section Scripts {
-    <script>
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
-        (function () {
-            'use strict';
-            window.addEventListener('load', function () {
-                // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                var forms = document.getElementsByClassName('co');
-                // Loop over them and prevent submission
-                var validation = Array.prototype.filter.call(forms, function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (form.checkValidity() === false) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                        form.classList.add('was-validated');
-                    }, false);
-                });
-            }, false);
-        })();
-    </script>
-
-}
