@@ -9,6 +9,7 @@ using Stripe.Climate;
 using System.Linq;
 using Stripe;
 using Microsoft.EntityFrameworkCore;
+using Ecome2.ViewModels;
 
 namespace Ecome2.Controllers
 {
@@ -27,7 +28,7 @@ namespace Ecome2.Controllers
         private static decimal total = 0;
 
         [HttpPost]
-        public IActionResult Checkout(Models.Order order)
+        public IActionResult Checkout(Models.Order order, int orderId)
         {
             var list = HttpContext.Session.GetJson<List<CartItem>>("Cart");
         
@@ -79,18 +80,38 @@ namespace Ecome2.Controllers
 
         //public IActionResult Success(int orderId)
         //{
-        //    var order = appDbContext.Orders
-        //        .Include(x => x.OrderItems)
-        //        .ThenInclude(x => x.Product)
-        //        .FirstOrDefault(x => x.Id == orderId);
+        //    var order = appDbContext.Orders.Include(x => x.OrderItems).ThenInclude(x => x.Product).FirstOrDefault(x => x.Id == orderId);
 
-        //    if (order == null)
+        //    var viewModel = new OrderVM
         //    {
-        //        return RedirectToAction("Index", "Home");
-        //    }
+        //        OrderItemList = new OrderItem
+        //        {
+        //            Order = order,
+        //            OrderId = orderId,
+        //        },
+        //        OrderList = new Models.Order()
+                
+        //    };
 
-        //    return View(order);
+        //    return View(viewModel);
+
+        //    //var orderVM = new OrderVM
+        //    //{
+        //    //    OrderItemList = appDbContext.OrderItems.ToList(),
+        //    //    OrderList = appDbContext.Orders.ToList()
+        //    //};
+
+        //    //appDbContext.Orders
+        //    // .Include(x => x.OrderItems)
+        //    // .ThenInclude(x => x.Product)
+        //    // .FirstOrDefault(x => x.Id == orderId)
+
+        //    //appDbContext.Orders
+        //    // .Include(x => x.OrderItems)
+        //    // .ThenInclude(x => x.Product)
+        //    // .FirstOrDefault(x => x.Id == orderId)
         //}
+
 
 
         [Authorize]
@@ -109,7 +130,6 @@ namespace Ecome2.Controllers
             return View();
         }
 
-
         public async Task<IActionResult> OrderConfirmation()
         {
             var service = new SessionService();
@@ -127,7 +147,6 @@ namespace Ecome2.Controllers
                 tempOrder.OrderNumber = random.Next(100000, 1000000);
                 tempOrder.Date = DateTime.Now;
                 tempOrder.Total = total;
-
 
                 appDbContext.Orders.Add(tempOrder);
                 appDbContext.SaveChanges();
@@ -151,10 +170,21 @@ namespace Ecome2.Controllers
                 }
                 appDbContext.SaveChanges();
 
-                var _order = appDbContext.Orders.Include(x => x.OrderItems).ThenInclude(x => x.Product).FirstOrDefault(x => x.Id == tempOrder.Id);
-                return View("Success", _order);
+                var _order = appDbContext.Orders
+                                .Include(x => x.OrderItems)
+                                .ThenInclude(x => x.Product)
+                                .FirstOrDefault(x => x.Id == tempOrder.Id);
+
+                var viewModel = new TwoModels
+                {
+                    Order = _order,
+                    OrderItems = _order.OrderItems
+                };
+
+                return View("Success", viewModel);
             }
             return View("Fail");
         }
+
     }
 }

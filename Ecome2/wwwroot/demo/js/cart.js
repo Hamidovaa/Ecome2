@@ -1,4 +1,15 @@
-﻿//function addTodo(value, price, imageUrl) {
+﻿
+
+
+
+
+
+
+
+
+
+
+//function addTodo(value, price, imageUrl) {
 //    // Retrieve existing data from localStorage
 //    var existingData = localStorage.getItem('productObjects');
 //    // Parse existing data into an array or initialize an empty array

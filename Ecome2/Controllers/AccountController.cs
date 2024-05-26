@@ -32,6 +32,7 @@ namespace Ecome2.Controllers
             return View();
         }
 
+
       
 
         [HttpPost]
@@ -55,7 +56,7 @@ namespace Ecome2.Controllers
                 await _emailService.SendEmailAsync(model.Email, "Confirm your email", $"Please confirm your account by <a href='{confirmationLink}'>clicking here</a>.");
 
                await _userManager.AddToRoleAsync(programUser, "User");
-                await _signInManager.SignInAsync(programUser, true);
+                await _signInManager.SignInAsync(programUser, false);
 
                 return RedirectToAction("Index", "Home");
             }
@@ -63,9 +64,38 @@ namespace Ecome2.Controllers
             {
                 ModelState.AddModelError("", item.Description);
             }
-            return View();
+            return View(model);
             
         }
+
+        [HttpGet]
+        public async Task<IActionResult> ConfirmEmail(string userId, string token)
+        {
+            if (userId == null || token == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+
+            if (result.Succeeded)
+            {
+                // Email onaylama başarılı olduysa, burada gerekli işlemleri yapabilirsiniz
+                return View("ConfirmEmail"); // Örneğin bir onay sayfasına yönlendirme yapılabilir
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home"); // Email onaylama başarısız olursa
+            }
+        }
+
 
         public IActionResult Login()
         {

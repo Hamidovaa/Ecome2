@@ -91,5 +91,46 @@ namespace Ecome2.Controllers
 
             return View(model);
         }
+
+        public async Task<IActionResult> Filter(TwoModels model)
+        {
+            _logger.LogInformation("Selected Colors: {0}", string.Join(",", model.SelectedColors ?? new List<int>()));
+            _logger.LogInformation("Selected Sizes: {0}", string.Join(",", model.SelectedSizes ?? new List<int>()));
+            _logger.LogInformation("Price Range: {0} - {1}", model.MinPrice, model.MaxPrice);
+
+            var products = appDbContext.Products
+                .Include(p => p.Category)
+                .Where(p => p.IsActive && p.StockQuantity > 0)
+                .AsQueryable();
+
+            if (model.SelectedColors != null && model.SelectedColors.Any())
+            {
+                products = products.Where(p => model.SelectedColors.Contains(p.Id));
+            }
+
+            if (model.SelectedSizes != null && model.SelectedSizes.Any())
+            {
+                products = products.Where(p => model.SelectedSizes.Contains(p.Id));
+            }
+
+            if (model.MinPrice > 0 || model.MaxPrice < 4000)
+            {
+                products = products.Where(p => p.Price >= model.MinPrice && p.Price <= model.MaxPrice);
+            }
+
+            model.products = await products.ToListAsync();
+            model.categories = await appDbContext.Categories
+                .Include(c => c.Products.Where(p => p.IsActive))
+                .Where(c => c.IsActive)
+                .ToListAsync();
+            model.colors = await appDbContext.Colors.Where(c => c.IsActive).ToListAsync();
+            model.sizes = await appDbContext.Sizes.Where(s => s.IsActive).ToListAsync();
+
+            return View("Index", model);
+        }
+
+
+
+
     }
 }
