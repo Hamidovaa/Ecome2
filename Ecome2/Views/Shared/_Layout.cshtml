@@ -1,7 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<ProgramUser> SignInManager
 @inject UserManager<ProgramUser> UserManager
-@model TwoModels
 
 <!DOCTYPE html>
 <html lang="en">
@@ -36,22 +35,45 @@
         }
 
         .apple{
-        font-size:30px;
+        font-size:20px;
         font-weight:bolder;
         color:white;
-        padding-top:25px;
+        padding-top:20px;
         }
         .apple i{
             padding-left:5px;
         }
         .header-center{
             background-color:black;
+            height:55px;
         }
         .header-top-banner a{
             width:50%;
             margin:auto;
             align-items:center;
             text-align:center;
+        }
+        .log{
+            background-color: light-dark(rgb(232, 240, 254), rgba(70, 90, 126, 0.4)) !important;
+            color:black;
+        }
+        .showp{
+            padding-left:20px;
+            background-color: light-dark(rgb(232, 240, 254), rgba(70, 90, 126, 0.4)) !important;
+            position: absolute;
+            bottom: 15px;
+            right: 11px;
+        }
+
+        .showpt {
+            padding-left: 20px;
+            background-color: light-dark(rgb(232, 240, 254), rgba(70, 90, 126, 0.4)) !important;
+            position: absolute;
+            bottom: 136px;
+            right: 11px;
+        }
+        .formr{
+            position:relative;
         }
         /* Dropdown Button */
         .dropbtn {
@@ -105,14 +127,14 @@
 
 
 
-        *,
-        *:before,
+
+       /*  *:before,
         *:after {
             padding: 0;
             margin: 0;
             box-sizing: border-box;
             font-family: "Poppins",sans-serif;
-        }
+        } */
 
         .wrapper {
             position: relative;
@@ -242,6 +264,10 @@
             justify-content: center;
         }
 
+        .remove-cart{
+            padding-right:15px;
+        }
+
     </style>
 </head>
 
@@ -360,7 +386,7 @@
                 <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3 v-center header-logo">
                     <a class="apple col-sm" href="#">ISpace |<i class="fa-brands fa-apple"></i></a>
                 </div>
-                <div class="MM col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
                     <nav class="main-menu d-flex">
                         <div class="collapse navbar-collapse" id="myNavbar">
                             <ul class="nav navbar-nav js-menubar">
@@ -395,11 +421,11 @@
                         </div>
                     </nav>
                 </div>
-                <div class="col-lg-4 col-md-4  header-search hidden-xs hidden-sm">
+                <div class="col-lg-3 col-md-4  header-search hidden-xs hidden-sm">
                     <form method="Get" class="searchform ajax-search" role="search" asp-controller="Shop" asp-action="Search">
                         <input type="search" id="searchInput" name="query" class="form-control" placeholder="i’m shoping for...">
                         <span class="input-group-btn">
-                            <button class="button_search" type="submit" ><i class="ion-ios-search-strong"></i></button>
+                            <button class="button_search" type="submit" ><img src="~/demo/img/icons8-search-20.png"></button>
                         </span>
 
                        @*  <button class="btn-icon btn-close-lg search-popup__reset pb-0 me-2" type="reset"></button> *@
@@ -410,7 +436,7 @@
 
                     </form> 
                 </div>
-                <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 header-sub">
+                <div class="col-lg-3 col-md-2 col-sm-6 col-xs-6 header-sub">
                     <div class="right-panel">
                         <div class="header-sub-element row">
                             @if (SignInManager.IsSignedIn(User))
@@ -425,7 +451,8 @@
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         @if (user != null)
                                         {
-                                            <a class="dropdown-item" style="background-color:skyblue; color:red;" asp-controller="Account" asp-action="Logout">Logout</a>
+                                            <a class="dropdown-item" style="background-color:white; color:grey; display:block; border-bottom:1px solid grey" asp-controller="Account" asp-action="Logout">Logout</a>
+                                            <a class="dropdown-item" style="background-color:white; color:grey; display:block" asp-controller="MyOrder" asp-action="Index">My Orders</a>
                                         }
                                         else
                                         {
@@ -448,7 +475,7 @@
                                     <span class="count cart-count"></span>
                                 </a>
 
-                                <div class="dropdown-menu dropdown-cart">
+                               @*  <div class="dropdown-menu dropdown-cart">
                                     @if (Model != null && Model.CartModel != null && Model.CartModel.CartItems != null)
                                     {
                                         <ul class="mini-products-list">
@@ -487,7 +514,7 @@
                                             <a href="#" class="cart-btn e-checkout btn-gradient">Checkout</a>
                                         </div>
                                     </div>
-                                </div>
+                                </div> *@
                             </div>
                             <a href="#" class="hidden-md hidden-lg icon-pushmenu js-push-menu">
                                 <i class="fa fa-bars f-15"></i>

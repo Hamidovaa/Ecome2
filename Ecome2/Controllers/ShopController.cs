@@ -1,4 +1,5 @@
 ﻿using Ecome2.DAL;
+using Ecome2.EXtentions;
 using Ecome2.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -71,9 +72,12 @@ namespace Ecome2.Controllers
         }
         public async Task<IActionResult> ProductDetail(int id)
         {
-            var product = await appDbContext.Products
-                .Include(p => p.Category)
-                .FirstOrDefaultAsync(p => p.Id == id);
+            var product = appDbContext.Products
+            .Include(p => p.ProductColors)
+            .ThenInclude(pc => pc.Color)
+            .Include(p => p.ProductSizes) 
+            .ThenInclude(s => s.Size) 
+            .FirstOrDefault(p => p.Id == id);
 
             if (product == null || !product.IsActive)
             {
@@ -86,7 +90,9 @@ namespace Ecome2.Controllers
                 categories = appDbContext.Categories
                     .Include(c => c.Products.Where(p => p.IsActive))
                     .Where(c => c.IsActive)
-                    .ToList()
+                    .ToList(),
+                colors = product.ProductColors.Select(pc => pc.Color).ToList(),
+                sizes=product.ProductSizes.Select(s => s.Size).ToList()
             };
 
             return View(model);
@@ -128,6 +134,14 @@ namespace Ecome2.Controllers
 
             return View("Index", model);
         }
+
+        // ShopController.cs
+        [HttpPost]
+        public IActionResult AddToCartt(int productId, int selectedColorId, int selectedSizeId, int quantity)
+        {
+            return RedirectToAction("AddToCartt", "Cart", new { productId, selectedColorId, selectedSizeId, quantity });
+        }
+
 
 
 

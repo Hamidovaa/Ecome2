@@ -33,6 +33,7 @@ namespace Ecome2.Controllers
             return View(twoModels);
         }
 
+
         [HttpPost]
         public IActionResult AddToCart(int id)
         {
@@ -167,5 +168,57 @@ namespace Ecome2.Controllers
 
             return Json(new { status = 404 });
         }
+
+        [HttpPost]
+        public IActionResult AddToCartt(int productId, int selectedColorId, int selectedSizeId, int quantity)
+        {
+            var product = appDbContext.Products
+                .Include(p => p.ProductColors)
+                    .ThenInclude(pc => pc.Color)
+                .Include(p => p.ProductSizes)
+                    .ThenInclude(ps => ps.Size)
+                .FirstOrDefault(p => p.Id == productId);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            var selectedColor = product.ProductColors.FirstOrDefault(pc => pc.ColorId == selectedColorId)?.Color;
+            var selectedSize = product.ProductSizes.FirstOrDefault(ps => ps.SizeId == selectedSizeId)?.Size;
+
+            List<CartItem> cart = HttpContext.Session.GetJson<List<CartItem>>("Cart") ?? new List<CartItem>();
+
+            CartItem cartItem = cart.FirstOrDefault(c => c.ProductId == productId && c.Color == selectedColor.Name && c.Size == selectedSize.Name);
+            if (cartItem != null)
+            {
+                cartItem.Quantity += quantity;
+            }
+            else
+            {
+                cart.Add(new CartItem
+                {
+                    ProductId = product.Id,
+                    ProductName = product.Title,
+                    Price = product.Price,
+                    Quantity = quantity,
+                    ImageUrlBase = product.ImgUrlBase,
+                    Color = selectedColor?.Name ?? "Unknown",
+                    Size = selectedSize?.Name ?? "Unknown"
+                });
+            }
+
+            HttpContext.Session.SetJson("Cart", cart);
+
+            // Calculate total prices
+            decimal grandTotal = cart.Sum(item => item.Total);
+            decimal subTotal = cart.Sum(item => item.Quantity * item.Price);
+            decimal Total = cart.Sum(item => item.Quantity * item.Price);
+
+            return RedirectToAction("Index", "Cart");
+        }
+
+       
+
     }
 }

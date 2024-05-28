@@ -9,35 +9,38 @@
         <div class="row flex pd">
             <div class="account-element bd-7">
                 <div class="cmt-title text-center abs">
-                    <h1 class="page-title v1">Login</h1>
+                    <h1 class="page-title v1">Register</h1>
                 </div>
                 <div class="page-content">
                     <p>Sign in to your account</p>
                     @Html.ValidationSummary(true, "", new{@class="text-danger"})
                     <form asp-controller="Account" asp-action="Register" method="post">
-                        <div class="form-group"> 
+                        <div class="form-group formr"> 
                             <label>Name <span class="f-red">*</span></label>
-                            <input type="text" asp-for="Name" class="form-control bdr">
+                            <input type="text" asp-for="Name" class="form-control bdr log">
                             <label>Surname <span class="f-red">*</span></label>
-                            <input type="text" asp-for="SurName" class="form-control bdr">
+                            <input type="text" asp-for="SurName" class="form-control bdr log">
                             <label>Email address <span class="f-red">*</span></label>
-                            <input type="email" asp-for="Email" class="form-control bdr">
+                            <input type="email" asp-for="Email" class="form-control bdr log">
                             <label>Password <span class="f-red">*</span></label>
-                            <input asp-for="Password" id="password" type="password" class="form-control bdr" required>
+                            <input asp-for="Password" id="password" type="password" class="form-control bdr log" required>
                             <span style="color:red" asp-validation-for="Password"></span>
                             <label>Confirm Password <span class="f-red">*</span></label>
-                            <input asp-for="ConfirmPassword" id="confirmPassword" type="password" class="form-control bdr" required>
+                            <input asp-for="ConfirmPassword" id="confirmPassword" type="password" class="form-control bdr log" required>
                             <span style="color:red" asp-validation-for="Password"></span>
-                            <button id="showHidePasswords" type="button">Şifreleri Göster/Gizle</button>
+                            <button class="showp" id="showHidePasswords" type="button"><i class="fa-solid fa-eye"></i></button>
+                            <button class="showpt" id="showHidePasswordst" type="button"><i class="fa-solid fa-eye"></i></button>
                         </div>
                         <div class="flex lr">
                             <button type="submit" class="btn btn-submit btn-gradient">
-                                Login
+                                Register
                             </button>
-                            <div class="checkbox checkbox-default">
-                                <input asp-for="IsRemember" class="form-check" />
-                                <label for="remember"><span class="chk-span" tabindex="2"></span>Remember me</label>
-                            </div>
+                            </br>
+                            
+                        </div>
+                        <div class="checkbox checkbox-default">
+                            <input asp-for="IsRemember" class="form-check" />
+                            <label for="remember"><span class="chk-span" tabindex="2"></span>Remember me</label>
                         </div>
                         
 
@@ -53,13 +56,28 @@
         // Şifre alanlarını göster/gizle fonksiyonu
         function togglePasswords() {
             const passwordField = document.getElementById("password");
-            const confirmPasswordField = document.getElementById("confirmPassword");
 
-            if (passwordField.type === "password" && confirmPasswordField.type === "password") {
+            if (passwordField.type === "password") {
                 passwordField.type = "text";
-                confirmPasswordField.type = "text";
             } else {
                 passwordField.type = "password";
+            }
+        }
+
+        // Şifre alanlarını göster/gizle özelliğini dinlemek için
+        document.getElementById("showHidePasswordst").addEventListener("click", function (event) {
+            event.preventDefault();// Formun submit olmasını engeller
+            togglePasswords();
+        });
+    </script>
+    <script>
+        // Şifre alanlarını göster/gizle fonksiyonu
+        function togglePasswordst() {
+            const confirmPasswordField = document.getElementById("confirmPassword");
+
+            if (confirmPasswordField.type === "password") {
+                confirmPasswordField.type = "text";
+            } else {
                 confirmPasswordField.type = "password";
             }
         }
@@ -67,7 +85,7 @@
         // Şifre alanlarını göster/gizle özelliğini dinlemek için
         document.getElementById("showHidePasswords").addEventListener("click", function (event) {
             event.preventDefault();// Formun submit olmasını engeller
-            togglePasswords();
+            togglePasswordst();
         });
     </script>
 }
