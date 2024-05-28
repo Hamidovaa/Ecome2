@@ -232,6 +232,7 @@ namespace Ecome2.Areas.Admin.Controllers
             oldProducts.Title = products.Title;
             oldProducts.Description = products.Description;
             oldProducts.Price = products.Price;
+            oldProducts.OldPrice = products.OldPrice;
             oldProducts.CategoryId = products.CategoryId;
             oldProducts.ColorsId = products.ColorsId;
             oldProducts.SizesId = products.SizesId;

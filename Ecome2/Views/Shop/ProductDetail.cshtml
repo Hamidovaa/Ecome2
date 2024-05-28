@@ -37,9 +37,9 @@
                                 <a href="#" class="hover-images effect"><img src="~/UploadProducts/@item.ImgUrlBase" alt="photo" class="img-reponsive"></a>
                                 @if (item.Images != null)
                                 {
-                                    @foreach (var image in item.Images.Take(5))
+                                    @foreach (var image in item.Images)
                                     {
-                                        <a href="#" class="hover-images effect"><img src="~/UploadProducts/@image" alt="photo" class="img-reponsive"></a>
+                                        <a href="#" class="hover-images effect"><img src="~/UploadProducts/@image.ImgUrl" alt="photo" class="img-reponsive"></a>
                                     }
                                 }
                             </div>
@@ -52,11 +52,11 @@
                             </div>
                             @if (item.Images != null)
                             {
-                                @foreach (var image in item.Images.Take(4))
+                                @foreach (var image in item.Images)
                                 {
                                     <div class="product-col">
                                         <div class="img">
-                                            <img src="~/UploadProducts/@image" alt="images" class="img-responsive">
+                                            <img src="~/UploadProducts/@image.ImgUrl" alt="images" class="img-responsive">
                                         </div>
                                     </div>
                                 }

@@ -41,6 +41,7 @@
                                             </div>
                                         </td>
                                         <td class="total-price">
+                                            <h4>Total</h4>
                                             <p class="price">@item.Total.ToString("c")</p>
                                         </td>
                                     </tr>
@@ -51,14 +52,12 @@
                     </div>
                     <div class="table-cart-bottom">
 
-                        <form class="form_coupon" action="#" method="post">
-                            <input type="email" value="" placeholder="Coupon code" name="EMAIL" id="mail" class="newsletter-input form-control">
+                        <form id="couponForm" class="form_coupon">
+                            <input type="text" placeholder="Coupon code" id="couponCode" name="code" class="newsletter-input form-control">
                             <div class="input-icon">
                                 <img src="img/coupon-icon.png" alt="">
                             </div>
-                            <button id="subscribe2" class="button_mini btn" type="submit">
-                                Apply coupon
-                            </button>
+                            <button id="applyCouponBtn" class="button_mini btn" type="button">Apply coupon</button>
                         </form>
 
                         <a href="#" class="btn btn-update">Update cart</a>
@@ -103,7 +102,8 @@
                         </table>
                     </div>
                     <div class="cart-total-bottom">
-                        <a asp-controller="Checkout" asp-action="Invoice" class="btn-gradient btn-checkout">Proceed to checkout</a>
+                        <a asp-controller="Checkout" asp-action="Invoice"
+                        class="btn-gradient btn-checkout">Proceed to checkout</a>
                     </div>
                     <div class="sign-in-divider">
                         <span>or</span>
@@ -216,9 +216,40 @@
                     }
                 });
             });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#applyCouponBtn').click(function (e) {
+                e.preventDefault();
+                var couponCode = $('#couponCode').val();
+                applyCoupon(couponCode);
+            });
 
-            
+            function applyCoupon(code) {
+                $.ajax({
+                    url: '/Checkout/ApplyCoupon',
+                    method: 'POST',
+                    data: { code: code },
+                    success: function (response) {
+                        updateCartTotal(response.grandTotal);
+                        updateOneProductTotalPrices(productId, response.itemTotal);
+                        console.log('Coupon applied successfully');
+                    },
+                    error: function () {
+                        console.error('Error applying coupon');
+                    }
+                });
+            }
 
+            function updateCartTotal(grandTotal) {
+                $('.cart-subtotal td').text(grandTotal.toFixed(2));
+                $('.order-total td').text(grandTotal.toFixed(2));
+            }
+            function updateOneProductTotalPrices(productId, itemTotal) {
+                var productRow = $(`.remove-cart[data-product-id=${productId}]`).closest('.item_cart');
+                productRow.find('.total-price p').text(itemTotal.toFixed(2));
+            }
         });
     </script>
 }

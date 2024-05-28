@@ -1,7 +1,6 @@
-﻿using Ecome2.DAL;
+﻿ using Ecome2.DAL;
 using Ecome2.EXtentions;
 using Ecome2.Models;
-using Ecome2.Services;
 using Ecome2.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -155,7 +154,87 @@ namespace Ecome2.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-     
+
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                return BadRequest();
+            }
+
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+            {
+                TempData["Message"] = "An email has been sent to your email address with instructions on how to reset your password.";
+                return RedirectToAction("Message");
+            }
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var callbackUrl = Url.Action("ResetPassword", "Account", new { email = email, token = token }, Request.Scheme);
+            await _emailService.SendEmailAsync(email, "Reset Password", $"Please reset your password by <a href='{callbackUrl}'>clicking here</a>.");
+
+            TempData["Message"] = "An email has been sent to your email address with instructions on how to reset your password.";
+            return RedirectToAction("Message");
+        }
+
+        [HttpGet]
+        public IActionResult ResetPassword(string token, string email)
+        {
+            if (token == null || email == null)
+            {
+                return RedirectToAction("Error");
+            }
+
+            var model = new ResetPassword { Token = token, Email = email };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPassword model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user == null)
+                {
+                    return RedirectToAction("Error");
+                }
+                if (model.NewPassword != model.ConfirmNewPassword)
+                {
+                    ModelState.AddModelError(string.Empty, "The password and confirmation password do not match.");
+                    return View(model);
+                }
+                var result = await _userManager.ResetPasswordAsync(user, model.Token, model.NewPassword);
+                if (result.Succeeded)
+                {
+                    TempData["Message"] = "Your password has been reset successfully.";
+                    return RedirectToAction("Message");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+
+                return View(model);
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult Message()
+        {
+            ViewBag.Message = TempData["Message"];
+            return View();
+        }
 
     }
 }

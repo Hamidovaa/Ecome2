@@ -1,9 +1,9 @@
 using Ecome2.DAL;
 using Ecome2.Models;
-using Ecome2.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Ecome2.EXtentions;
+using Ecome2.Services;
 using Stripe;
 
 
@@ -11,6 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration.GetSection("AuthMessageSenderOptions"));
 
 
 builder.Services.AddDbContext<AppDbContext>(option =>
@@ -50,8 +52,8 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
 });
 
+builder.Services.AddScoped<Ecome2.EXtentions.IEmailService, Ecome2.EXtentions.EmailSender>();
 
-builder.Services.AddScoped< IEmailService, EmailService >();
 
 builder.Services.AddSession(options =>
 {

@@ -33,7 +33,9 @@ namespace Ecome2.Services
             var x = emailSettings["SmtpUsername"];
             await client.AuthenticateAsync(emailSettings["FromEmail"], emailSettings["SmtpPassword"]);
             await client.SendAsync(mimeMessage);
-            await client.DisconnectAsync(true);
+            await client.DisconnectAsync(true); var msg = new MimeMessage();
+            var mailFrom = new MailboxAddress("Admin", "Hemidoffa55@gmail.com");
+            var mailTo = new MailboxAddress("User", to);
         }
     }
 }

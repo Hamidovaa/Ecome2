@@ -10,6 +10,7 @@ using System.Linq;
 using Stripe;
 using Microsoft.EntityFrameworkCore;
 using Ecome2.ViewModels;
+using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
 namespace Ecome2.Controllers
 {
@@ -28,15 +29,19 @@ namespace Ecome2.Controllers
         private static decimal total = 0;
 
         [HttpPost]
-        public IActionResult Checkout(Models.Order order, int orderId)
+        public IActionResult Checkout(Models.Order order, int orderId, string code)
         {
             var list = HttpContext.Session.GetJson<List<CartItem>>("Cart");
-        
+            decimal prcntg = 0;
             if (list == null)
             {
                 return RedirectToAction("ShopCart", "Cart");
             }
-
+            if (code != null)
+            {
+                var proCode = appDbContext.Coupons.FirstOrDefault(p => p.Code == code);
+                prcntg = proCode == null ? 0 : proCode.DiscountPercentage;
+            }
             tempOrder = order;
             var domain = "https://localhost:7085/";
             var options = new SessionCreateOptions()
@@ -46,13 +51,14 @@ namespace Ecome2.Controllers
                 LineItems = new List<SessionLineItemOptions>(),
                 Mode = "payment"
             };
+            decimal total = 0;
             foreach (var item in list)
             {
                 var sessionListItem = new SessionLineItemOptions
                 {
                     PriceData = new SessionLineItemPriceDataOptions
                     {
-                        UnitAmountDecimal = item.Price * 100,
+                        UnitAmountDecimal = item.Price * 100*(1 - prcntg / 100),
                         Currency = "usd",
                         ProductData = new SessionLineItemPriceDataProductDataOptions
                         {
@@ -61,7 +67,7 @@ namespace Ecome2.Controllers
                     },
                     Quantity = item.Quantity
                 };
-                total += item.Total;
+                total += item.Total * (1 - prcntg / 100);
                 options.LineItems.Add(sessionListItem);
             }
             var service = new SessionService();
@@ -77,41 +83,6 @@ namespace Ecome2.Controllers
             ViewBag.StripePublishableKey = "your_publishable_key";
             return View();
         }
-
-        //public IActionResult Success(int orderId)
-        //{
-        //    var order = appDbContext.Orders.Include(x => x.OrderItems).ThenInclude(x => x.Product).FirstOrDefault(x => x.Id == orderId);
-
-        //    var viewModel = new OrderVM
-        //    {
-        //        OrderItemList = new OrderItem
-        //        {
-        //            Order = order,
-        //            OrderId = orderId,
-        //        },
-        //        OrderList = new Models.Order()
-                
-        //    };
-
-        //    return View(viewModel);
-
-        //    //var orderVM = new OrderVM
-        //    //{
-        //    //    OrderItemList = appDbContext.OrderItems.ToList(),
-        //    //    OrderList = appDbContext.Orders.ToList()
-        //    //};
-
-        //    //appDbContext.Orders
-        //    // .Include(x => x.OrderItems)
-        //    // .ThenInclude(x => x.Product)
-        //    // .FirstOrDefault(x => x.Id == orderId)
-
-        //    //appDbContext.Orders
-        //    // .Include(x => x.OrderItems)
-        //    // .ThenInclude(x => x.Product)
-        //    // .FirstOrDefault(x => x.Id == orderId)
-        //}
-
 
 
         [Authorize]
@@ -184,6 +155,36 @@ namespace Ecome2.Controllers
                 return View("Success", viewModel);
             }
             return View("Fail");
+        }
+
+        [HttpPost]
+        public IActionResult ApplyCoupon(string code)
+        {
+            var list = HttpContext.Session.GetJson<List<CartItem>>("Cart");
+            decimal prcntg = 0;
+            if (list == null)
+            {
+                return RedirectToAction("ShopCart", "Cart");
+            }
+            if (code != null)
+            {
+                var proCode = appDbContext.Coupons.FirstOrDefault(p => p.Code == code);
+                prcntg = proCode == null ? 0 : proCode.DiscountPercentage;
+            }
+
+            decimal grandTotal = CalculateGrandTotal(list, prcntg);
+
+            return Json(new { grandTotal = grandTotal });
+        }
+
+        private decimal CalculateGrandTotal(List<CartItem> cartItems, decimal discountPercentage)
+        {
+            decimal total = 0;
+            foreach (var item in cartItems)
+            {
+                total += item.Total * (1 - discountPercentage / 100);
+            }
+            return total;
         }
 
     }

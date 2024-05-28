@@ -36,9 +36,14 @@ namespace Ecome2.Controllers
             var productsByCategory = appDbContext.Products.Where(p => p.CategoryId == categoryId && p.IsActive == true).ToList();
             return Json(productsByCategory);
         }
-
+        
 
         public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        public IActionResult AccessDenied()
         {
             return View();
         }
