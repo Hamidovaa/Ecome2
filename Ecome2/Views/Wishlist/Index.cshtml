@@ -14,13 +14,12 @@
             </div>
             <div class="table-responsive">
                 <table class="table cart-table">
-
                     <tbody>
                         @foreach (var item in Model.CartModel.CartItems)
                         {
-                            <tr class="item_cart">
+                            <tr class="item_cart" data-product-id="@item.ProductId">
                                 <td class="product-name flex align-center">
-                                    <a href="#" class="remove-cart x-remove" data-product-id="@item.ProductId"><i class="ion-ios-close-empty"></i></a>
+                                    <button class="remove-from-wishlist" style="background-color:white" data-product-id="@item.ProductId">X</button>
                                     <div class="product-img">
                                         <img width="100px" height="100px" src="~/UploadProducts/@item.ImageUrlBase" alt="Futurelife">
                                     </div>
@@ -63,5 +62,42 @@
                 }
             });
         }
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Sayfa yüklendiğinde localStorage'dan favori sayısını al ve güncelle
+            var wishlistCount = localStorage.getItem('wishlistCount');
+            if (wishlistCount) {
+                $('.cart-count').text(wishlistCount);
+            }
+
+            $('.remove-from-wishlist').on('click', function () {
+                var productId = $(this).data('product-id');
+                $.ajax({
+                    url: '@Url.Action("RemoveFromWishlist", "Wishlist")',
+                    type: 'POST',
+                    data: { id: productId },
+                    success: function (response) {
+                        if (response.success) {
+                            // Favori sayısını güncelle ve localStorage'a kaydet
+                            $('.cart-count').text(response.wishlistCount);
+                            localStorage.setItem('wishlistCount', response.wishlistCount);
+
+                            // Ürünü sayfadan kaldır
+                            $(`[data-product-id="${productId}"]`).remove();
+
+                            // Ara toplam ve toplamı güncelle
+                            $('#subTotal').text(response.subTotal.toFixed(2));
+                            $('#grandTotal').text(response.grandTotal.toFixed(2));
+                        } else {
+                            alert('Ürün favorilerden kaldırılamadı.');
+                        }
+                    },
+                    error: function () {
+                        alert('Ürün favorilerden kaldırılamadı.');
+                    }
+                });
+            });
+        });
     </script>
 }

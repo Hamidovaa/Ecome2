@@ -73,6 +73,7 @@ namespace Ecome2.Controllers
         public async Task<IActionResult> ProductDetail(int id)
         {
             var product = appDbContext.Products
+            .Include(p => p.Images)
             .Include(p => p.ProductColors)
             .ThenInclude(pc => pc.Color)
             .Include(p => p.ProductSizes) 

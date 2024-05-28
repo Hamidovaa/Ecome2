@@ -44,6 +44,7 @@ namespace Ecome2.Controllers
             List<CartItem> cart = HttpContext.Session.GetJson<List<CartItem>>("Cart") ?? new List<CartItem>();
 
             CartItem cartItem = cart.FirstOrDefault(c => c.ProductId == id);
+            bool isNewItem = false;
             if (cartItem != null)
             {
                 cartItem.Quantity++;
@@ -58,6 +59,7 @@ namespace Ecome2.Controllers
                     Quantity = 1,
                     ImageUrlBase = product.ImgUrlBase
                 });
+                isNewItem = true; // Yeni bir ürün eklendi
             }
 
             HttpContext.Session.SetJson("Cart", cart);
@@ -67,7 +69,28 @@ namespace Ecome2.Controllers
             decimal subTotal = cart.Sum(item => item.Quantity * item.Price);
             decimal Total = cart.Sum(item => item.Quantity * item.Price);
 
-            return Json(new { success = true, grandTotal, subTotal, Total });
+            int wishlistCount = cart.Select(item => item.ProductId).Distinct().Count();
+            return Json(new { success = true, grandTotal, subTotal, Total, wishlistCount, isNewItem });
+        }
+
+        [HttpPost]
+        public IActionResult RemoveFromWishlist(int id)
+        {
+            List<CartItem> cart = HttpContext.Session.GetJson<List<CartItem>>("Cart") ?? new List<CartItem>();
+
+            CartItem cartItem = cart.FirstOrDefault(c => c.ProductId == id);
+            if (cartItem != null)
+            {
+                cart.Remove(cartItem);
+            }
+
+            HttpContext.Session.SetJson("Cart", cart);
+
+            int wishlistCount = cart.Select(item => item.ProductId).Distinct().Count();
+            decimal subTotal = cart.Sum(item => item.Quantity * item.Price);
+            decimal grandTotal = subTotal; // Eğer başka eklemeler varsa bunları dahil edebilirsiniz
+
+            return Json(new { success = true, wishlistCount, subTotal, grandTotal });
         }
 
     }

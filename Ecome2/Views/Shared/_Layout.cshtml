@@ -469,10 +469,11 @@
 
   
                             <a  asp-controller="wishlist" asp-action="Index" ><img src="~/demo/img/icons8-heart-24.png" alt=""></a>
+                            <span class="countt cart-count"></span>
                             <div class="cart">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="label5">
                                     <img src="~/demo/img/icons8-bag-24.png" alt="">
-                                    <span class="count cart-count"></span>
+                                   @*  <span class="count cart-count">r</span> *@
                                 </a>
 
                                @*  <div class="dropdown-menu dropdown-cart">
@@ -693,6 +694,15 @@
             }
             function removeViewCartItem(productId) {
                 $(`.remove-cart[data-product-id=${productId}]`).closest('.item_cart').remove();
+            }
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Sayfa yüklendiğinde localStorage'dan favori sayısını al ve güncelle
+            var wishlistCount = localStorage.getItem('wishlistCount');
+            if (wishlistCount) {
+                $('.cart-count').text(wishlistCount);
             }
         });
     </script>

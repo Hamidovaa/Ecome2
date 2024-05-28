@@ -10,6 +10,7 @@ namespace Ecome2.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public int Price { get; set; }
+        public int? OldPrice { get; set; } = 0;
 
 
         public int CategoryId { get; set; }
@@ -42,5 +43,6 @@ namespace Ecome2.Models
         [NotMapped]
         [ValidateNever]
         public List<int> SizesId { get; set; }
+    
     }
 }
