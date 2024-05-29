@@ -276,7 +276,7 @@
                 type: 'POST',
                 data: { id: productId },
                 success: function (response) {
-                    window.location.href = '@Url.Action("Index", "Cart")';
+                    window.location.href = '@Url.Action("Index", "Shop")';
                 },
                 error: function () {
                     alert('Ürün sepete eklenemedi.');
@@ -349,11 +349,6 @@
             sliderTrack.style.background = `linear-gradient(to right, #d7d8d8 ${percent1}% , #3a3535 ${percent1}% , #3a3535 ${percent2}%, #d7d8d8 ${percent2}%)`;
         }
     </script>
-
-    <!-- jQuery ve jQuery UI kütüphanelerini yükleyin -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
 
     <!-- jQuery ve jQuery UI kütüphanelerini yükleyin -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

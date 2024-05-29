@@ -273,7 +273,7 @@
 
 <body>
     <!-- push menu-->
-    <div class="pushmenu menu-home5">
+@*     <div class="pushmenu menu-home5">
         <div class="menu-push">
             <span class="close-left js-close"><i class="icon-close f-20"></i></span>
             <div class="clearfix"></div>
@@ -357,7 +357,7 @@
                     <span class="icon-sub-menu"></span>
                     <ul class="menu-level1 js-open-menu">
                         <li class="level2"><a href="aboutus.html" title="About Us ">About Us </a></li>
-                        <li class="level2"><a href="contactus.html" title="Contact">Contact</a></li>
+                        <li class="level2"><a asp-controller="Home" asp-action="ContactUs" title="Contact">Contact</a></li>
                         <li class="level2"><a href="faq.html" title="FAQs">FAQs</a></li>
                         <li class="level2"><a href="404.html" title="404">404</a></li>
                         <li class="level2"><a href="commingsoon.html" title="Coming Soon">Coming Soon</a></li>
@@ -375,7 +375,7 @@
                 </li>
             </ul>
         </div>
-    </div>
+    </div> *@
     <!-- end push menu-->
     <div class="header-top-banner">
         <a href="#"><img src="~/demo/img/1400x45_1.jpg" alt="" class="img-reponsive"></a>
@@ -402,7 +402,7 @@
                                     <span class="plus js-plus-icon"></span>
                                     <ul class="dropdown-menu menu-level-1">
                                         <li class="level2"><a asp-controller="Home" asp-action="About" title="About Us ">About Us </a></li>
-                                        <li class="level2"><a href="contactus.html" title="Contact">Contact</a></li>
+                                        <li class="level2"><a asp-controller="Home" asp-action="ContactUs" title="Contact">Contact</a></li>
                                         <li class="level2"><a href="faq.html" title="FAQs">FAQs</a></li>
                                         <li class="level2"><a href="404.html" title="404">404</a></li>
                                         <li class="level2"><a href="commingsoon.html" title="Coming Soon">Coming Soon</a></li>
@@ -471,7 +471,7 @@
                             <a  asp-controller="wishlist" asp-action="Index" ><img src="~/demo/img/icons8-heart-24.png" alt=""></a>
                             <span class="countt cart-count"></span>
                             <div class="cart">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="label5">
+                                <a asp-controller="Cart" asp-action="Index" >
                                     <img src="~/demo/img/icons8-bag-24.png" alt="">
                                    @*  <span class="count cart-count">r</span> *@
                                 </a>

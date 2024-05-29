@@ -13,7 +13,7 @@
             <div class="col-lg-12">
                 <div class="card job-filter">
                     <div class="card-body p-3">
-                        <table class="table">
+                        <table class="table" id="myTable">
                             <thead>
                                 <tr>
                                     <th scope="col">Title</th>
@@ -21,6 +21,9 @@
                                     <th scope="col">Price</th>
                                     <th scope="col">Category name</th>
                                     <th scope="col">Stock Quantity</th>
+                                    <th scope="col">Produvt Image</th>
+                                    <th scope="col">Visibility</th>
+                                    <th scope="col">Edit</th>
 
                                 </tr>
                             </thead>
@@ -177,6 +180,6 @@
             });
         });
 
-
+        let table = new DataTable('#myTable');
     </script>
 }

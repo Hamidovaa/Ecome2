@@ -215,7 +215,7 @@ namespace Ecome2.Controllers
             decimal subTotal = cart.Sum(item => item.Quantity * item.Price);
             decimal Total = cart.Sum(item => item.Quantity * item.Price);
 
-            return RedirectToAction("Index", "Cart");
+            return RedirectToAction("Index", "Shop");
         }
 
        

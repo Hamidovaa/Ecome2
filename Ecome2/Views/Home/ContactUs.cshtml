@@ -1,0 +1,92 @@
+﻿@section Styles{
+    <style>
+        #googlemap1 {
+            height: 400px; /* Harita yüksekliği */
+            width: 100%; /* Harita genişliği */
+        }
+    </style>
+}
+<div class="container container-240">
+    <ul class="breadcrumb">
+        <li><a href="#">Home</a></li>
+        <li class="active">Contact </li>
+    </ul>
+    <div class="e-contact">
+        <div id="googlemap1" class="map"></div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-7">
+                <div class="contact-info">
+                    <h1 class="contact-title spc">Contact Details</h1>
+                    <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has...</p>
+                </div>
+                <div class="e-contact-address footer-about">
+                    <h3 class="contact-title v2">London Store</h3>
+                    <ul class="footer-block-content">
+                        <li class="address">
+                            <span>45 Grand Central Terminal New York,NY 1017 United State USA</span>
+                        </li>
+                        <li class="phone">
+                            <span>(+123) 456 789 - (+123) 666 888</span>
+                        </li>
+                        <li class="email">
+                            <span><a href="https://landing.engotheme.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="febd91908a9f9d8abe87918b8c9d91938e9f9087d09d9193">[email&#160;protected]</a></span>
+                        </li>
+                        <li class="time">
+                            <span>Mon-Sat 9:00pm - 5:00pm  &nbsp;&nbsp;&nbsp;  Sun : Closed</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="e-contact-address footer-about">
+                    <h3 class="contact-title v2">NewYork Store</h3>
+                    <ul class="footer-block-content">
+                        <li class="address">
+                            <span>45 Grand Central Terminal New York,NY 1017 United State USA</span>
+                        </li>
+                        <li class="phone">
+                            <span>(+123) 456 789 - (+123) 666 888</span>
+                        </li>
+                        <li class="email">
+                            <span><a href="https://landing.engotheme.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7e3d11100a1f1d0a3e07110b0c1d11130e1f1007501d1113">[email&#160;protected]</a></span>
+                        </li>
+                        <li class="time">
+                            <span>Mon-Sat 9:00pm - 5:00pm  &nbsp;&nbsp;&nbsp;  Sun : Closed</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-5 pdl">
+                <h1 class="contact-title spc">Leave a message</h1>
+                <form class="login-form" action="#">
+                    <div class="form-group">
+                        <input type="text" id="author" class="form-control bdr" name="comment[author]" value="" placeholder="Name *">
+                        <input type="email" id="email" class="form-control bdr" name="comment[email]" value="" placeholder="Emal *">
+                        <input type="text" id="phone" class="form-control bdr" name="comment[phone]" value="" placeholder="Phone Number">
+                        <textarea id="message" class="form-control bdr3" name="comment[body]" rows="10" placeholder="Your message here..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-submit btn-gradient">
+                            Send message
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQkUHAwPoYA_2Kd5uEPLhpIog9Jxh4Ug8&callback=initMap" async defer></script>
+    <script type="text/javascript">
+        function initMap() {
+            var mapOptions = {
+                center: new google.maps.LatLng(40.712776, -74.005974), // New York koordinatları
+                zoom: 12,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var map = new google.maps.Map(document.getElementById("googlemap1"), mapOptions);
+        }
+    </script>
+}
+
+@*     API_KEY=AIzaSyCQkUHAwPoYA_2Kd5uEPLhpIog9Jxh4Ug8 *@

@@ -26,13 +26,12 @@ namespace Ecome2.Controllers
             _emailService = emailService;
             _roleManager = roleManager;
         }
+
         public IActionResult Register()
         {
             return View();
         }
 
-
-      
 
         [HttpPost]
         public async Task<ActionResult> Register(RegisterVM model)
@@ -52,12 +51,14 @@ namespace Ecome2.Controllers
             {
                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(programUser);
                 var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = programUser.Id, token = token }, Request.Scheme);
+
                 await _emailService.SendEmailAsync(model.Email, "Confirm your email", $"Please confirm your account by <a href='{confirmationLink}'>clicking here</a>.");
 
-               await _userManager.AddToRoleAsync(programUser, "User");
-                await _signInManager.SignInAsync(programUser, false);
+                //await _userManager.AddToRoleAsync(programUser, "User");
 
-                return RedirectToAction("Index", "Home");
+                // await _signInManager.SignInAsync(programUser, false);
+
+                return RedirectToAction("ConfirmEmailInfo", "Account");
             }
             foreach(var item in result.Errors)
             {
@@ -86,13 +87,25 @@ namespace Ecome2.Controllers
 
             if (result.Succeeded)
             {
-                // Email onaylama başarılı olduysa, burada gerekli işlemleri yapabilirsiniz
+                // Email confirmation successful, you can redirect to a confirmation page
+                // Add user to "User" role
+                await _userManager.AddToRoleAsync(user, "User");
+
+                // Sign in the user (optional)
+                await _signInManager.SignInAsync(user, false);
+
                 return View("ConfirmEmail"); // Örneğin bir onay sayfasına yönlendirme yapılabilir
             }
             else
             {
                 return RedirectToAction("Index", "Home"); // Email onaylama başarısız olursa
             }
+        }
+
+        [HttpGet]
+        public IActionResult ConfirmEmailInfo()
+        {
+            return View();
         }
 
 
@@ -178,8 +191,9 @@ namespace Ecome2.Controllers
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             var callbackUrl = Url.Action("ResetPassword", "Account", new { email = email, token = token }, Request.Scheme);
-            await _emailService.SendEmailAsync(email, "Reset Password", $"Please reset your password by <a href='{callbackUrl}'>clicking here</a>.");
 
+
+            await _emailService.SendEmailAsync(email, "Reset Password", $"Please reset your password by <a href='{callbackUrl}'>clicking here</a>.");
             TempData["Message"] = "An email has been sent to your email address with instructions on how to reset your password.";
             return RedirectToAction("Message");
         }
@@ -206,12 +220,12 @@ namespace Ecome2.Controllers
                 {
                     return RedirectToAction("Error");
                 }
-                if (model.NewPassword != model.ConfirmNewPassword)
+                if (model.Password != model.ConfirmPassword)
                 {
                     ModelState.AddModelError(string.Empty, "The password and confirmation password do not match.");
                     return View(model);
                 }
-                var result = await _userManager.ResetPasswordAsync(user, model.Token, model.NewPassword);
+                var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
                 if (result.Succeeded)
                 {
                     TempData["Message"] = "Your password has been reset successfully.";

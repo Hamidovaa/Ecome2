@@ -15,9 +15,11 @@
             <div class="col-lg-12">
                 <div class="card job-filter">
                     <div class="card-body p-3">
-                        <table class="table">
+                        <table class="table" id="myTable">
                             <thead>
                                 <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Name</th>
                                     <th scope="col">Name</th>
 
                                 </tr>
@@ -256,6 +258,8 @@
                 }
             });
         });
+
+       let table =  new DataTable('#myTable');
 
 
 

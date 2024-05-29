@@ -11925,12 +11925,11 @@ span.star {
 
 .e-contact {
     padding-top: 24px;
-    padding-bottom: 87px;
 }
 
-    .e-contact .row {
+    /*.e-contact .row {
         margin-bottom: 36px;
-    }
+    }*/
 
 @media (min-width: 1025px) {
     .e-contact .row {
@@ -12167,7 +12166,7 @@ span.star {
 @media (min-width: 1025px) {
     .aboutus {
         padding-top: 25px;
-        padding-bottom: 105px;
+     /*   padding-bottom: 105px;*/
     }
 }
 
@@ -17524,7 +17523,7 @@ span.star {
 
         .entry-title.spc {
             padding-bottom: 34px;
-            margin-bottom: 57px;
+/*            margin-bottom: 57px;*/
             padding-top: 32px;
         }
 }
