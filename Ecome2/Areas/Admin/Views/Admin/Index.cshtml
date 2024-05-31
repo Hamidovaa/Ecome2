@@ -1,0 +1,41 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Ecome2.Models
+@inject UserManager<ProgramUser> UserManager
+
+
+<h2>User List</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Roles</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+                <td> @string.Join(", ", await UserManager.GetRolesAsync(user))</td>
+                <td>
+                    @if (!await UserManager.IsInRoleAsync(user, "Admin"))
+                    {
+                        <form asp-action="AddToAdminRole" asp-route-userId="@user.Id">
+                            <button type="submit" class="btn btn-success">Add Admin Role</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-action="RemoveFromAdminRole" asp-route-userId="@user.Id">
+                            <button type="submit" class="btn btn-danger">Remove Admin Role</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

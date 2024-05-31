@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Views\Messages\" />
     <Folder Include="Helpers\" />
     <Folder Include="wwwroot\UploadProducts\" />
     <Folder Include="wwwroot\UploadSlider\" />

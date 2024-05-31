@@ -35,7 +35,7 @@ namespace Ecome2.Controllers
 
 
         [HttpPost]
-        public IActionResult AddToCart(int id)
+        public IActionResult AddToCart(int id, string color, string size)
         {
             Products product = appDbContext.Products.Find(id);
 
@@ -45,7 +45,7 @@ namespace Ecome2.Controllers
             }
             List<CartItem> cart = HttpContext.Session.GetJson<List<CartItem>>("Cart") ?? new List<CartItem>();
 
-            CartItem cartItem = cart.FirstOrDefault(c => c.ProductId == id);
+            CartItem cartItem = cart.FirstOrDefault(c => c.ProductId == id && c.Color == color && c.Size == size);
             if (cartItem != null)
             {
                 cartItem.Quantity++;
@@ -59,8 +59,8 @@ namespace Ecome2.Controllers
                     Price = product.Price,
                     Quantity = 1,
                     ImageUrlBase = product.ImgUrlBase,
-                    Color = "Pink",
-                    Size = "1TB"
+                    Color = color,
+                    Size = size,
 
                 });
             }

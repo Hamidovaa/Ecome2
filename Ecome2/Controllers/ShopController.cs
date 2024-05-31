@@ -27,9 +27,13 @@ namespace Ecome2.Controllers
                .Where(c => c.IsActive == true)
                .ToList(),
                 products = appDbContext.Products
-                .Include(p => p.Category)
-                .Where(p => p.IsActive == true && p.StockQuantity > 0)
-                .ToList(),
+            .Include(p => p.Category)
+            .Include(p => p.ProductColors)
+                .ThenInclude(pc => pc.Color)
+            .Include(p => p.ProductSizes)
+                .ThenInclude(ps => ps.Size)
+            .Where(p => p.IsActive == true && p.StockQuantity > 0)
+            .ToList(),
                 colors = appDbContext.Colors
                 .Where(c => c.IsActive == true)
                 .ToList(),
@@ -76,8 +80,9 @@ namespace Ecome2.Controllers
             .Include(p => p.Images)
             .Include(p => p.ProductColors)
             .ThenInclude(pc => pc.Color)
-            .Include(p => p.ProductSizes) 
-            .ThenInclude(s => s.Size) 
+            .Include(p => p.ProductSizes)
+            .ThenInclude(s => s.Size)
+            .Include(p => p.Category) // Category verisini dahil et
             .FirstOrDefault(p => p.Id == id);
 
             if (product == null || !product.IsActive)
@@ -147,5 +152,65 @@ namespace Ecome2.Controllers
 
 
 
+
+
+
+        ////[HttpPost]
+        ////public IActionResult AddToCart(int id, string color, string size)
+        ////{
+        ////    Products product = appDbContext.Products.Find(id);
+
+        ////    if (product == null)
+        ////    {
+        ////        return NotFound();
+        ////    }
+        ////    List<CartItem> cart = HttpContext.Session.GetJson<List<CartItem>>("Cart") ?? new List<CartItem>();
+
+        ////    CartItem cartItem = cart.FirstOrDefault(c => c.ProductId == id && c.Color == color && c.Size == size);
+        ////    if (cartItem != null)
+        ////    {
+        ////        cartItem.Quantity++;
+        ////    }
+        ////    else
+        ////    {
+        ////        cart.Add(new CartItem
+        ////        {
+        ////            ProductId = product.Id,
+        ////            ProductName = product.Title,
+        ////            Price = product.Price,
+        ////            Quantity = 1,
+        ////            ImageUrlBase = product.ImgUrlBase,
+        ////            Color = color,
+        ////            Size = size,
+
+        ////        });
+        ////    }
+
+        ////    HttpContext.Session.SetJson("Cart", cart);
+
+        ////    // Calculate total prices
+        ////    decimal grandTotal = cart.Sum(item => item.Total);
+        ////    decimal subTotal = cart.Sum(item => item.Quantity * item.Price);
+        ////    decimal Total = cart.Sum(item => item.Quantity * item.Price);
+
+        ////    return Json(new
+        ////    {
+        ////        success = true,
+        ////        grandTotal,
+        ////        subTotal,
+        ////        Total,
+        ////        product = new
+        ////        {
+        ////            product.Id,
+        ////            product.Title,
+        ////            product.Price,
+        ////            product.ImgUrlBase
+        ////        }
+        ////    });
     }
+
+
+
+
 }
+

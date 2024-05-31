@@ -1,6 +1,35 @@
 ﻿@model TwoModels
 
+@section Styles{
+    <style>
+        .hidden-checkbox {
+            display: none;
+        }
 
+        .label-circle {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            margin-bottom: 5px;
+        }
+
+            .label-circle .circle {
+                width: 20px;
+                height: 20px;
+                display: inline-block;
+                margin-right: 5px;
+                border-radius: 50%;
+                border: 1px solid transparent; /* Varsayılan kenarlık */
+            }
+
+        .hidden-checkbox:checked + .circle {
+            border: 2px solid black; /* Seçili olan renklerin etrafına siyah kenarlık ekler */
+        }
+
+
+
+    </style>
+}
 <div class="container container-240 shop-collection">
     <ul class="breadcrumb">
         <li><a href="#">Home</a></li>
@@ -38,7 +67,8 @@
                             {
                                 <li>
                                     <input type="checkbox" id="color-@item.Id" name="SelectedColors" value="@item.Id" />
-                                    <label for="color-@item.Id">@item.Name</label>
+                                    <label for="color-@item.Id"> <span class="circle" style="background-color:@item.Code;"></span>
+                                        @item.Name</label>
                                 </li>
                             }
                         </ul>
@@ -130,14 +160,36 @@
                                     <div class="product-img">
                                         <a asp-controller="Shop" asp-action="ProductDetail" asp-route-id="@product.Id"><img src="~/UploadProducts/@product.ImgUrlBase" alt="" class="img-reponsive"></a>
                                     </div>
+                                    
                                     <div class="product-info">
                                         <div class="color-group"></div>
                                         <div class="element-list element-list-left">
+                                            <ul class="desc-list" style="display: flex; list-style-type: none; padding: 0; list-style:none;">
+                                                @foreach (var color in product.ProductColors)
+                                                {
+                                                    <li>
+                                                        <input type="checkbox" id="color-@color.ColorId" name="SelectedColors" value="@color.ColorId" class="hidden-checkbox" />
+                                                        <label for="color-@color.ColorId" class="label-circle">
+                                                            <span class="circle" style="background-color:@color.Color.Code"></span>
+                                                            @color.Color.Name
+                                                        </label>
+                                                    </li>
+                                                }
+
+                                               
+                                               
+                                            </ul>
                                             <ul class="desc-list">
-                                                <li>Connects directly to Bluetooth</li>
-                                                <li>Battery Indicator light</li>
-                                                <li>DPI Selection:2600/2000/1600/1200/800</li>
-                                                <li>Computers running Windows</li>
+                                                @foreach (var size in product.ProductSizes)
+                                                {
+                                                    <li>
+                                                        <input type="checkbox" id="color-@size.SizeId" name="SelectedColors" value="@size.SizeId" class="hidden-checkbox" />
+                                                        <label for="color-@size.SizeId" class="label-circle">
+                                                            @size.Size.Name
+                                                        </label>
+                                                    </li>
+                                                }
+                                            
                                             </ul>
                                         </div>
                                         <div class="element-list element-list-middle">
@@ -152,10 +204,10 @@
                                             <h3 class="product-title"><a asp-controller="Shop" asp-action="ProductDetail" asp-route-id="@product.Id">@product.Title</a></h3>
                                             <p class="product-cate">@product.Description</p>
                                             <div class="product-bottom">
-                                                @if (product.OldPrice != null || product.OldPrice != 0)
+                                                @* @if (product.OldPrice != null || product.OldPrice != 0)
                                                 {
                                                     <div class="product-price"><span>@product.OldPrice AZN</span></div>
-                                                }
+                                                } *@
                                                 
                                                 <div class="product-price"><span>@product.Price AZN</span></div>
                                                 <a href="#" class="btn-icon btn-view">

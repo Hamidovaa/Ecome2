@@ -1,0 +1,148 @@
+﻿@model List<Message>
+@section Styles{
+    <style>
+        .message {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .unread {
+            font-weight: bold;
+            color: black;
+        }
+
+        .read {
+            font-weight: normal;
+            color: #888;
+        }
+    </style>
+}
+<div class="container-fluid pt-5">
+    <!-- start page title -->
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <h4 class="mb-sm-0 font-size-18">Inbox</h4>
+            </div>
+        </div>
+    </div>
+    <!-- end page title -->
+
+    <div class="row">
+        <div class="col-12">
+            <!-- Left sidebar -->
+            <div class="email-leftbar card">
+                <button type="button" class="btn btn-danger btn-block waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#composemodal">
+                    Compose
+                </button>
+                <div class="mail-list mt-4">
+                    <a href="javascript:void(0);" class="active" onclick="loadMessages('Inbox')">
+                        <i class="mdi mdi-email-outline me-2"></i> Inbox
+                        <span class="ms-1 float-end">(18)</span>
+                    </a>
+                    <a href="javascript:void(0);" onclick="loadMessages('Starred')">
+                        <i class="mdi mdi-star-outline me-2"></i>Starred
+                    </a>
+                    <a href="javascript:void(0);" onclick="loadMessages('Important')">
+                        <i class="mdi mdi-diamond-stone me-2"></i>Important
+                    </a>
+                    <a href="javascript:void(0);" onclick="loadMessages('Draft')">
+                        <i class="mdi mdi-file-outline me-2"></i>Draft
+                    </a>
+                    <a href="javascript:void(0);" onclick="loadMessages('Sent')">
+                        <i class="mdi mdi-email-check-outline me-2"></i>Sent Mail
+                    </a>
+                    <a href="javascript:void(0);" onclick="loadMessages('Trash')">
+                        <i class="mdi mdi-trash-can-outline me-2"></i>Trash
+                    </a>
+                </div>
+
+                <div class="email-rightbar mb-3" id="messageContainer">
+                    <!-- Mesajlar burada yüklenecek -->
+                </div>
+
+
+            </div>
+            <!-- End Left sidebar -->
+            <!-- Right Sidebar -->
+            <div class="email-rightbar mb-3">
+
+                <div class="card">
+                  
+                    <ul class="message-list">
+                        @foreach (var message in Model)
+                        {
+                            <li class="message @(message.IsRead ? "read" : "unread")">
+                                <div class="col-mail col-md-4 col-lg-4 col-mail-1">
+                                    <div class="checkbox-wrapper-mail">
+                                        <input type="checkbox" id="chk3" checked>
+                                        <label for="chk3" class="toggle"></label>
+                                    </div>
+                                    <a asp-controller="Admin" asp-action="Reademail" asp-route-id="@message.Id">@message.Author</a><span class="star-toggle far fa-star"></span>
+                                </div>
+                                <div class="col-mail col-lg-8 col-md-8 col-mail-2">
+                                    <a asp-controller="Admin" asp-action="Reademail" asp-route-id="@message.Id" onclick="markAsRead(@message.Id)">
+                                        <span class="teaser">@message.Body</span>
+                                    </a>
+                                    <div class="date">@message.DateSent.ToString("yyyy-MM-dd HH:mm:ss")</div>
+                                </div>
+                            </li>
+                        }
+
+                    </ul>
+
+                </div><!-- card -->
+
+                <div class="row">
+                    <div class="col-7">
+                        Showing 1 - 20 of 1,524
+                    </div>
+                    <div class="col-5">
+                        <div class="btn-group float-end">
+                            <button type="button" class="btn btn-sm btn-success waves-effect"><i class="fa fa-chevron-left"></i></button>
+                            <button type="button" class="btn btn-sm btn-success waves-effect"><i class="fa fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!-- end Col-9 -->
+
+        </div>
+
+    </div><!-- End row -->
+
+</div>
+
+@section Scripts{
+    <script>
+        function markAsRead(messageId) {
+            $.ajax({
+                url: '/Admin/MarkAsRead',
+                type: 'POST',
+                data: { id: messageId },
+                success: function (response) {
+                    // İşlem başarılı, mesajı okunmuş olarak işaretle
+                    console.log('Mesaj okunmuş olarak işaretlendi.');
+                },
+                error: function () {
+                    console.error('Bir hata oluştu.');
+                }
+            });
+        }
+    </script>
+    <script>
+        function loadMessages(category) {
+            $.ajax({
+                url: '/Admin/' + category,
+                type: 'GET',
+                success: function (data) {
+                    $('#messageContainer').html(data);
+                },
+                error: function () {
+                    console.error('Mesajları yüklerken bir hata oluştu.');
+                }
+            });
+        }
+    </script>
+
+}

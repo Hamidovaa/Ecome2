@@ -1,0 +1,23 @@
+﻿@model List<Message>
+
+<ul class="message-list">
+    @foreach (var message in Model)
+    {
+        <li class="message @(message.IsRead ? "read" : "unread")">
+            <div class="col-mail col-md-4 col-lg-4 col-mail-1">
+                <div class="checkbox-wrapper-mail">
+                    <input type="checkbox" id="chk3" checked>
+                    <label for="chk3" class="toggle"></label>
+                </div>
+                <a asp-controller="Admin" asp-action="Reademail" asp-route-id="@message.Id">@message.Author</a>
+                <span class="star-toggle far fa-star"></span>
+            </div>
+            <div class="col-mail col-lg-8 col-md-8 col-mail-2">
+                <a asp-controller="Admin" asp-action="Reademail" asp-route-id="@message.Id" onclick="markAsRead(@message.Id)">
+                    <span class="teaser">@message.Body</span>
+                </a>
+                <div class="date">@message.DateSent.ToString("yyyy-MM-dd HH:mm:ss")</div>
+            </div>
+        </li>
+    }
+</ul>

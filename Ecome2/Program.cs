@@ -3,7 +3,6 @@ using Ecome2.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Ecome2.EXtentions;
-using Ecome2.Services;
 using Stripe;
 
 
@@ -74,6 +73,10 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("Admin", policy =>
         policy.RequireRole("Admin"));
 });
+
+builder.Services.AddTransient<IEmailService, EmailSender>();
+
+builder.Services.AddTransient<IMessageRepository, MessageRepository>();
 
 var app = builder.Build();
 

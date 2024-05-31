@@ -54,11 +54,13 @@ namespace Ecome2.Controllers
 
                 await _emailService.SendEmailAsync(model.Email, "Confirm your email", $"Please confirm your account by <a href='{confirmationLink}'>clicking here</a>.");
 
-                //await _userManager.AddToRoleAsync(programUser, "User");
+
 
                 // await _signInManager.SignInAsync(programUser, false);
 
-                return RedirectToAction("ConfirmEmailInfo", "Account");
+                await _userManager.AddToRoleAsync(programUser, "User");
+
+                return RedirectToAction("Index", "Home");
             }
             foreach(var item in result.Errors)
             {
@@ -89,10 +91,10 @@ namespace Ecome2.Controllers
             {
                 // Email confirmation successful, you can redirect to a confirmation page
                 // Add user to "User" role
-                await _userManager.AddToRoleAsync(user, "User");
+                //await _userManager.AddToRoleAsync(user, "User");
 
-                // Sign in the user (optional)
-                await _signInManager.SignInAsync(user, false);
+                //// Sign in the user (optional)
+                //await _signInManager.SignInAsync(user, false);
 
                 return View("ConfirmEmail"); // Örneğin bir onay sayfasına yönlendirme yapılabilir
             }
@@ -102,11 +104,7 @@ namespace Ecome2.Controllers
             }
         }
 
-        [HttpGet]
-        public IActionResult ConfirmEmailInfo()
-        {
-            return View();
-        }
+      
 
 
         public IActionResult Login()
