@@ -80,22 +80,8 @@ namespace Ecome2.Areas.Admin.Controllers
             return RedirectToAction("Index", new { id = userId });
         }
 
-        public async Task<IActionResult> Index()
-        {
-            var users = await _userManager.Users.ToListAsync();
-            return View(users);
-        }
 
-
-
-
-        public async Task<IActionResult> ListMessages()
-        {
-            var messages = await appDbContext.Messages.ToListAsync();
-            return View(messages);
-        }
-
-        
+         
         public async Task<IActionResult> Reademail(int id)
         {
             var message = await appDbContext.Messages.FindAsync(id);
@@ -138,18 +124,32 @@ namespace Ecome2.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SendReplyEmail(string RecipientEmail, string Subject, string Body, int Id)
+        public async Task<IActionResult> SendReplyEmail(string Subject, string Body, int MessageId)
         {
-            if (string.IsNullOrWhiteSpace(RecipientEmail) || string.IsNullOrWhiteSpace(Subject) || string.IsNullOrWhiteSpace(Body))
+            // Gerekli alanların doldurulup doldurulmadığını kontrol edin
+            if (string.IsNullOrWhiteSpace(Subject) || string.IsNullOrWhiteSpace(Body))
             {
                 return BadRequest("All fields are required.");
             }
 
+            // Admin bilgilerini sabit olarak tanımlayın
+            string adminEmail = "Hemidoffa55@gmail.com";
+            string adminPhone = "123-456-7890"; // Örnek telefon numarası, gerçek numaranızı buraya koyabilirsiniz.
+
             try
             {
+                // Orijinal mesajı veritabanından alın
+                var originalMessage = await appDbContext.Messages.FindAsync(MessageId);
+                if (originalMessage == null)
+                {
+                    return NotFound("Original message not found.");
+                }
+
+                string recipientEmail = originalMessage.Email;
+
                 var message = new MimeMessage();
-                message.From.Add(new MailboxAddress("hemidoffa", "Hemidoffa55@gmail.com"));
-                message.To.Add(new MailboxAddress("", RecipientEmail));
+                message.From.Add(new MailboxAddress("Admin", adminEmail));
+                message.To.Add(new MailboxAddress("", recipientEmail));
                 message.Subject = Subject;
 
                 message.Body = new TextPart("plain")
@@ -160,20 +160,105 @@ namespace Ecome2.Areas.Admin.Controllers
                 using (var client = new MailKit.Net.Smtp.SmtpClient())
                 {
                     await client.ConnectAsync("smtp.gmail.com", 587, false);
-                    await client.AuthenticateAsync("Hemidoffa55@gmail.com", "ehakfkeoqhiiamhv");
+                    await client.AuthenticateAsync(adminEmail, "ehakfkeoqhiiamhv");
                     await client.SendAsync(message);
                     await client.DisconnectAsync(true);
                 }
 
+                // Gönderilen mesajı veritabanına kaydet
+                var sentMessage = new Message
+                {
+                    Subject = Subject,
+                    Body = Body,
+                    DateSent = DateTime.Now,
+                    Sender = "Admin", // Admin kullanıcısının kimliği
+                    Receiver = recipientEmail,
+                    IsRead = false,
+                    Author = "Admin", // Admin kullanıcısının kimliği
+                    Email = adminEmail, // Admin e-posta adresi
+                    Phone = adminPhone // Admin telefon numarası
+                };
+
+                appDbContext.Messages.Add(sentMessage);
+                await appDbContext.SaveChangesAsync();
+
                 return RedirectToAction("ListMessages", "Admin");
+            }
+            catch (DbUpdateException ex)
+            {
+                // Inner exception ayrıntılarını yakalama
+                return StatusCode(500, $"Internal server error: {ex.InnerException?.Message}");
             }
             catch (Exception ex)
             {
-                // Hata işlemi
+                // Genel hata işlemi
                 return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var users = await _userManager.Users.ToListAsync();
+            return View(users);
+        }
+
+        public IActionResult Sent()
+        {
+            var sentMessages = appDbContext.Messages.Where(m => m.Sender == "Admin").ToList();
+            return View(sentMessages);
+        }
+
+        //public async Task<IActionResult> Index()
+        //{
+        //    var messages = await appDbContext.Messages.Where(m => m.Category == "Inbox").ToListAsync();
+        //    return PartialView("_MessageListPartial", messages);
+        //}
+
+        //public async Task<IActionResult> Sent()
+        //{
+        //    var messages = await appDbContext.Messages.Where(m => m.Category == "Sent").ToListAsync();
+        //    return PartialView("_MessageListPartial", messages);
+        //}
+
+
+        public async Task<IActionResult> ListMessages()
+        {
+            var inbox = appDbContext.Messages.Where(m => m.Sender != "Admin").ToList();
+            return View(inbox);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteMessage(int id, string returnUrl)
+        {
+            try
+            {
+                var messageToDelete = await appDbContext.Messages.FindAsync(id);
+
+                if (messageToDelete == null)
+                {
+                    return NotFound();
+                }
+
+                appDbContext.Messages.Remove(messageToDelete);
+                await appDbContext.SaveChangesAsync();
+
+                // returnUrl boş değilse oraya yönlendir
+                if (!string.IsNullOrEmpty(returnUrl))
+                {
+                    return Redirect(returnUrl);
+                }
+
+                // returnUrl boş ise default olarak ListMessages sayfasına yönlendir
+                return RedirectToAction(nameof(ListMessages));
+            }
+            catch (Exception ex)
+            {
+                // Hata durumunda geri dönüş
+                return StatusCode(500, $"An error occurred while deleting the message: {ex.Message}");
             }
         }
 
 
     }
+
 }

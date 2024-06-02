@@ -43,7 +43,7 @@ namespace Ecome2.Controllers
             ProgramUser programUser = new ProgramUser
             {
                 Email = model.Email,
-                UserName = model.Email,
+                //UserName = model.Email,
                 Name=model.Name,
             };
             var result=await _userManager.CreateAsync(programUser, model.Password);
@@ -226,8 +226,8 @@ namespace Ecome2.Controllers
                 var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
                 if (result.Succeeded)
                 {
-                    TempData["Message"] = "Your password has been reset successfully.";
-                    return RedirectToAction("Message");
+                    TempData["ConfirmEmail"] = "Your password has been reset successfully.";
+                    return RedirectToAction("ConfirmEmail");
                 }
 
                 foreach (var error in result.Errors)

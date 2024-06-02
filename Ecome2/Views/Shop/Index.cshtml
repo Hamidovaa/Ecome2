@@ -26,6 +26,9 @@
             border: 2px solid black; /* Seçili olan renklerin etrafına siyah kenarlık ekler */
         }
 
+        .Nob li:before {
+            content: " " !important;
+        }
 
 
     </style>
@@ -99,7 +102,7 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="filter-button">Filter</button>
+                    <button  type="submit" class="filter-button">Filter</button>
                 </form>
 
 
@@ -152,7 +155,7 @@
                     </div>
                 </div>
                 <div class="product-collection-grid product-grid product-list product-grid-v2">
-                    <div class="row">
+                    <div class="row" >
                         @foreach (var product in Model.products)
                         {
                             <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 product-item">
@@ -164,32 +167,35 @@
                                     <div class="product-info">
                                         <div class="color-group"></div>
                                         <div class="element-list element-list-left">
-                                            <ul class="desc-list" style="display: flex; list-style-type: none; padding: 0; list-style:none;">
-                                                @foreach (var color in product.ProductColors)
+                                            <ul class="desc-list Nob" style="display: flex; list-style-type: none; padding: 0; list-style:none;">
+                                                @if (product.ProductColors != null)
                                                 {
-                                                    <li>
-                                                        <input type="checkbox" id="color-@color.ColorId" name="SelectedColors" value="@color.ColorId" class="hidden-checkbox" />
-                                                        <label for="color-@color.ColorId" class="label-circle">
-                                                            <span class="circle" style="background-color:@color.Color.Code"></span>
-                                                            @color.Color.Name
-                                                        </label>
-                                                    </li>
+                                                    @foreach (var color in product.ProductColors)
+                                                    {
+                                                        <li>
+                                                            <input type="checkbox" id="color-@color.ColorId" name="SelectedColors" value="@color.ColorId" class="hidden-checkbox" />
+                                                            <label for="color-@color.ColorId" class="label-circle">
+                                                                <span class="circle" style="background-color:@color.Color.Code"></span>
+                                                                @color.Color.Name
+                                                            </label>
+                                                        </li>
+                                                    }
                                                 }
 
-                                               
-                                               
                                             </ul>
                                             <ul class="desc-list">
-                                                @foreach (var size in product.ProductSizes)
+                                                @if (product.ProductSizes != null)
                                                 {
-                                                    <li>
-                                                        <input type="checkbox" id="color-@size.SizeId" name="SelectedColors" value="@size.SizeId" class="hidden-checkbox" />
-                                                        <label for="color-@size.SizeId" class="label-circle">
-                                                            @size.Size.Name
-                                                        </label>
-                                                    </li>
+                                                    @foreach (var size in product.ProductSizes)
+                                                    {
+                                                        <li>
+                                                            <input type="checkbox" id="size-@size.SizeId" name="SelectedSizes" value="@size.SizeId" class="hidden-checkbox" />
+                                                            <label for="size-@size.SizeId" class="label-circle">
+                                                                @size.Size.Name
+                                                            </label>
+                                                        </li>
+                                                    }
                                                 }
-                                            
                                             </ul>
                                         </div>
                                         <div class="element-list element-list-middle">
@@ -401,6 +407,7 @@
             sliderTrack.style.background = `linear-gradient(to right, #d7d8d8 ${percent1}% , #3a3535 ${percent1}% , #3a3535 ${percent2}%, #d7d8d8 ${percent2}%)`;
         }
     </script>
+ 
 
     <!-- jQuery ve jQuery UI kütüphanelerini yükleyin -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

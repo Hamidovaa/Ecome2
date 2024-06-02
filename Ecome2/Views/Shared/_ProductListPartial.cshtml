@@ -1,0 +1,11 @@
+﻿@model List<Products>
+@foreach (var product in Model)
+{
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">@product.Title</h5>
+            <p class="card-text">Renkler: @string.Join(", ", product.ProductColors.Select(c => c.Color.Name))</p>
+            <p class="card-text">Bedenler: @string.Join(", ", product.ProductSizes.Select(s => s.Size.Name))</p>
+        </div>
+    </div>
+}

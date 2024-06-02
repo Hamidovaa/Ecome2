@@ -54,7 +54,7 @@
                             </div>
                         </div>
 
-                        <p>Subject:</p>
+                        <p>Subject: @Model.Subject</p>
                         <p>
                             @Model.Body
                         </p>
@@ -85,7 +85,10 @@
             </div>
             <div class="modal-body">
                 <form id="replyForm" asp-action="SendReplyEmail" method="post">
-                    <input type="hidden" name="RecipientEmail" value="@Model.Email" />
+                    
+                   
+
+
                     <input type="hidden" name="MessageId" value="@Model.Id" />
                     <div class="mb-3">
                         <label for="emailSubject" class="form-label">Subject</label>
@@ -95,6 +98,15 @@
                         <label for="emailBody" class="form-label">Message</label>
                         <textarea class="form-control" id="emailBody" name="Body" rows="3" required></textarea>
                     </div>
+
+                   @*  <div class="mb-3">
+                        <label for="RecipientEmail class="form-label">Email</label>
+                        <input type="email" class="form-control" id="RecipientEmail" name="RecipientEmail" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="emailPhone" class="form-label">Phone</label>
+                        <input type="text" class="form-control" id="emailPhone" name="Phone" required />
+                    </div> *@
                     <button type="submit" class="btn btn-primary">Send</button>
                 </form>
             </div>

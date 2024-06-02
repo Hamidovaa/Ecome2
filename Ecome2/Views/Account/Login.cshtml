@@ -16,8 +16,8 @@
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <form asp-controller="Account" id="loginForm" asp-action="Login" method="post">
                         <div class="form-group formr">
-                            <label>Username <span class="f-red">*</span></label>
-                            <input type="text" asp-for="Name" class="form-control bdr log">
+                           @*  <label>Username <span class="f-red">*</span></label>
+                            <input type="text" asp-for="Name" class="form-control bdr log"> *@
                             <label>email address <span class="f-red">*</span></label>
                             <input type="email" asp-for="Email" class="form-control bdr log">
                             <label>Password <span class="f-red">*</span></label>
@@ -41,6 +41,7 @@
                         </div>
                     </form>
                     <a asp-controller="Account" asp-action="ForgotPassword" class="btn-lostpwd spc">Lost your password?</a>
+                    <a asp-controller="Account" asp-action="Register" class="btn-lostpwd spc have">Don't Have an Account?</a>
                 </div>
             </div>
         </div>

@@ -32,7 +32,8 @@ namespace Ecome2.Controllers
                 .ThenInclude(pc => pc.Color)
             .Include(p => p.ProductSizes)
                 .ThenInclude(ps => ps.Size)
-            .Where(p => p.IsActive == true && p.StockQuantity > 0)
+            .Where(p => p.IsActive == true &&
+            p.StockQuantity > 0)
             .ToList(),
                 colors = appDbContext.Colors
                 .Where(c => c.IsActive == true)
@@ -115,12 +116,12 @@ namespace Ecome2.Controllers
                 .Where(p => p.IsActive && p.StockQuantity > 0)
                 .AsQueryable();
 
-            if (model.SelectedColors != null && model.SelectedColors.Any())
+            if (model.colors != null && model.colors.Any())
             {
                 products = products.Where(p => model.SelectedColors.Contains(p.Id));
             }
 
-            if (model.SelectedSizes != null && model.SelectedSizes.Any())
+            if (model.sizes != null && model.sizes.Any())
             {
                 products = products.Where(p => model.SelectedSizes.Contains(p.Id));
             }
@@ -148,6 +149,7 @@ namespace Ecome2.Controllers
             return RedirectToAction("AddToCartt", "Cart", new { productId, selectedColorId, selectedSizeId, quantity });
         }
 
+      
 
 
 

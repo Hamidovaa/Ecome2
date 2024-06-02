@@ -22,6 +22,8 @@ namespace Ecome2.Controllers
         {
             if (ModelState.IsValid)
             {
+                message.Receiver = "hemidoffa55@gmail.com";
+                message.Sender=message.Email;
                 await _messageRepository.AddMessageAsync(message);
                 // Optionally, you can send an email notification to admin here
 

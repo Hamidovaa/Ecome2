@@ -16,6 +16,14 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
+        .fD{
+            width:40%;
+            background-color:#333;
+        }
+        .bPd{
+            background: linear-gradient(to right, #868f96 0%, #596164 100%);
+            border-radius:10%;
+        }
     </style>
 }
 
@@ -84,34 +92,24 @@
                                 <div class="product-price">
                                     <span>@item.Price.ToString("C")</span>
                                 </div>
-                                <div class="product-sku">
-                                    <label>SKU :</label><span>SKU</span>
-                                </div>
-                                <div class="short-desc">
-                                    <p class="product-desc">@item.Description</p>
-                                    <ul class="desc-list">
-                                        <li>Battery Indicator light</li>
-                                        <li>DPI Selection:2600/2000/1600/1200/800</li>
-                                        <li>Computers running Windows</li>
-                                    </ul>
-                                </div>
+                               
                             </div>
 
                             <form method="post" action="@Url.Action("AddToCartt", "Cart")">
                                 <input type="hidden" name="productId" value="@Model.products.FirstOrDefault().Id">
-                                <div class="color-group">
+                                <div class="color-group col-md-5">
                                     <label>Color :</label>
-                                    <select name="SelectedColorId" class="form-control">
+                                    <select name="SelectedColorId" class="form-control fD">
                                         @foreach (var color in item.ProductColors.Select(pc => pc.Color))
                                         {
-                                            <option value="@color.Id">@color.Name</option>
+                                            <option style="background-color:@color.Code" value="@color.Id">@color.Name</option>
                                         }
                                     </select>
                                 </div>
 
-                                <div class="size-group">
+                                <div class="size-group col-md-5">
                                     <label>Size :</label>
-                                    <select name="SelectedSizeId" class="form-control">
+                                    <select name="SelectedSizeId" class="form-control fD">
                                         @foreach (var size in item.ProductSizes.Select(ps => ps.Size))
                                         {
                                             <option value="@size.Id">@size.Name</option>
@@ -119,7 +117,7 @@
                                     </select>  
                                 </div>
 
-                                <div class="single-product-button-group">
+                                <div class="single-product-button-group col-md-12" style="padding-top:30px;">
                                     <div class="e-btn cart-qtt btn-gradient">
                                         <div class="e-quantity">
                                             <input type="number" step="1" min="1" max="999" name="Quantity" value="1" title="Qty" class="qty input-text js-number" size="4">
@@ -128,7 +126,7 @@
                                                 <a class="js-minus quantity-left-minus"><i class="fa fa-caret-down"></i></a>
                                             </div>
                                         </div>
-                                        <button type="submit" class="btn-add-cart">Add to cart <span class="icon-bg icon-cart v2"></span></button>
+                                        <button type="submit" class="btn-add-cart bPd">Add to cart <span class="icon-bg icon-cart v2"></span></button>
                                     </div>
                                     <a href="#" class="e-btn btn-icon">
                                         <span class="icon-bg icon-wishlist"></span>
@@ -139,12 +137,6 @@
                                 </div>
                             </form>
 
-                            <div class="product-tags">
-                                <label>Tags :</label>
-                                <a href="#">Fast,</a>
-                                <a href="#">Gaming,</a>
-                                <a href="#">Strong</a>
-                            </div>
                         </div>
                     </div>
                 </div>

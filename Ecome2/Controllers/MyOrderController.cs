@@ -21,7 +21,7 @@ namespace Ecome2.Controllers
                     .Include(o=> o.Product)
                 .Where(o => o.Order.UserId == userId) 
                 .ToList();
-
+            var items=appDbContext.OrderItems.ToList();
 
             return View(orders); // Doğru view dosyasını döndürdüğümüzden emin olun
         }

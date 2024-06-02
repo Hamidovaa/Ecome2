@@ -20047,7 +20047,7 @@ span.star {
 
 @media (min-width: 1025px) {
     .co-coupon {
-        padding-bottom: 76px;
+        padding-bottom: 36px;
     }
 }
 
@@ -23268,7 +23268,7 @@ border-bottom: 1px solid #eeeeee;
     width: 257px;
     border: 1px solid #ebebeb;
     z-index: 9;
-    height: 469px;
+    height: auto;
     min-width: 257px;
     border-radius: 10px;
     color: #333;

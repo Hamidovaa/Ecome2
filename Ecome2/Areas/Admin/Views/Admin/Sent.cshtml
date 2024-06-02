@@ -1,5 +1,5 @@
 ﻿@model List<Message>
-@section Styles{
+@section Styles {
     <style>
         .message {
             padding: 10px;
@@ -15,39 +15,39 @@
             font-weight: normal;
             color: #888;
         }
-        .inb{
-            padding-top:30px !important;
+        .trashBtn{
+            color:#F46A6A;
+            background-color: #f8f9fa;
+            border:none;
+            font-size:17px;
+            font-weight:bolder;
+        }
+        .pdg{
+            padding-top:70px;
         }
     </style>
 }
-<div class="container-fluid pt-5">
-   
+<div class="container-fluid">
 
     <div class="row">
         <div class="col-12">
             <!-- Left sidebar -->
-            <div class="email-leftbar card">
+            <div class="email-leftbar card pdg">
                 <button type="button" class="btn btn-danger btn-block waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#composemodal">
                     Compose
                 </button>
                 <div class="mail-list mt-4">
-                    <a  class="active"  asp-controller="Admin" asp-action="ListMessages">
+                    <a asp-controller="Admin" asp-action="ListMessages"  >
                         <i class="mdi mdi-email-outline me-2"></i> Inbox
                         <span class="ms-1 float-end"></span>
                     </a>
-                   @*  <a href="javascript:void(0);" onclick="loadMessages('Starred')">
-                        <i class="mdi mdi-star-outline me-2"></i>Starred
-                    </a>
-                    <a href="javascript:void(0);" onclick="loadMessages('Important')">
-                        <i class="mdi mdi-diamond-stone me-2"></i>Important
-                    </a>
-                    <a href="javascript:void(0);" onclick="loadMessages('Draft')">
-                        <i class="mdi mdi-file-outline me-2"></i>Draft
-                    </a> *@
-                    <a asp-controller="Admin" asp-action="Sent">
+
+                    <a asp-controller="Admin" asp-action="Sent" class="active">
                         <i class="mdi mdi-email-check-outline me-2"></i>Sent Mail
                     </a>
-                   
+                  
+                    
+                
                 </div>
 
                 <div class="email-rightbar mb-3" id="messageContainer">
@@ -58,10 +58,10 @@
             </div>
             <!-- End Left sidebar -->
             <!-- Right Sidebar -->
-            <div class="email-rightbar mb-3">
+            <div class="email-rightbar mb-3 pdg">
 
                 <div class="card">
-                  
+
                     <ul class="message-list">
                         @foreach (var message in Model)
                         {
@@ -73,17 +73,15 @@
                                     </div>
                                     <a asp-controller="Admin" asp-action="Reademail" asp-route-id="@message.Id">@message.Author</a><span class="star-toggle far fa-star"></span>
                                 </div>
-                                <div class="col-mail col-lg-7 col-md-7 col-mail-2">
+                                <div class="col-mail col-lg-6 col-md-6 col-mail-2">
                                     <a asp-controller="Admin" asp-action="Reademail" asp-route-id="@message.Id" onclick="markAsRead(@message.Id)">
                                         <span class="teaser">@message.Body</span>
                                     </a>
                                     <div class="date">@message.DateSent.ToString("yyyy-MM-dd HH:mm:ss")</div>
                                 </div>
-                                <form asp-action="DeleteMessage" asp-route-id="@message.Id" method="post" class="float-end class=" float-end col-lg-1 col-md-1"">
-
-                                    <button type="submit" class="btn btn-danger btn-sm"><i class="mdi mdi-trash-can-outline me-2"></i></button>
+                                <form asp-action="DeleteMessage" asp-route-id="@message.Id" method="post" class="float-end col-lg-1 col-md-1">
+                                    <button type="submit" class="btn btn-danger btn-sm trashBtn"><i class="mdi mdi-trash-can-outline me-2"></i></button>
                                 </form>
-                               
                             </li>
                         }
 
@@ -91,7 +89,7 @@
 
                 </div><!-- card -->
 
-               @*  <div class="row">
+                <div class="row">
                     <div class="col-7">
                         Showing 1 - 20 of 1,524
                     </div>
@@ -101,7 +99,7 @@
                             <button type="button" class="btn btn-sm btn-success waves-effect"><i class="fa fa-chevron-right"></i></button>
                         </div>
                     </div>
-                </div> *@
+                </div>
 
             </div> <!-- end Col-9 -->
 
@@ -111,7 +109,7 @@
 
 </div>
 
-@section Scripts{
+@section Scripts {
     <script>
         function markAsRead(messageId) {
             $.ajax({

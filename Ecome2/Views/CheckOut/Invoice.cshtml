@@ -4,6 +4,17 @@
     ViewBag.Title = "Invoice";
 }
  *@
+ @section Styles{
+     <style>
+        .placeOlder{
+            display:flex;
+            align-items:center;
+            margin:auto;
+        }
+       
+
+     </style>
+ }
 <div class="main-content space1">
     <div class="container container-240">
         <ul class="breadcrumb">
@@ -11,7 +22,7 @@
             <li class="active">Cart</li>
         </ul>
         <div class="co-coupon">
-            <div class="row">
+            @* <div class="row">
                 <div class="checkout-login col-xs-12 col-sm-6">
                     <div class="box-toggle box-login">
                         <img src="img/co-login.png" alt="">Returning customer?
@@ -47,11 +58,11 @@
                         </button>
                     </form>
                 </div>
-            </div>
+            </div> *@
         </div>
         <form asp-controller="CheckOut" asp-action="CheckOut" name="checkout" method="post" class="co">
             <div class="cart-box-container-ver2">
-                <div class="row">
+                <div class="row full-height">
                     <div class="col-md-8">
                         <div class="co-left bd-7">
                             <div class="cmt-title text-center abs">
@@ -60,76 +71,68 @@
                             <div class="row form-customer">
                                 <div class="form-group col-md-6">
                                     <label for="inputfname_2" class="control-label">First Name <span class="f-red">*</span></label>
-                                    <input type="text" asp-for="FirstName" id="inputfname_2" class="form-control form-account">
+                                    <input type="text" asp-for="FirstName" id="inputfname_2" class="form-control form-account log">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="inputlname" class=" control-label">Last Name <span class="f-red">*</span></label>
-                                    <input type="text" asp-for="LastName" id="inputlname" class="form-control form-account">
+                                    <input type="text" asp-for="LastName" id="inputlname" class="form-control form-account log">
                                 </div>
                             
                                 <div class="form-group col-md-12">
                                     <label for="inputcountry1" class=" control-label">Country <span class="f-red">*</span></label>
-                                    <input type="text" asp-for="Country" id="inputcountry1" class="form-control form-account">
+                                    <input type="text" asp-for="Country" id="inputcountry1" class="form-control form-account log">
                                 </div>
                                 <div class="form-group col-md-12">
                                     <label for="inputstreet" class=" control-label">Street address <span class="f-red">*</span></label>
-                                    <input type="text" asp-for="Address" id="inputstreet" class="form-control form-account">
+                                    <input type="text" asp-for="Address" id="inputstreet" class="form-control form-account log">
                                 </div>
                                 <div class="form-group col-md-12">
                                     <label for="inputpostcode" class=" control-label">Postcode / ZIP</label>
-                                    <input type="text" asp-for="PostCode" id="inputpostcode" class="form-control form-account">
+                                    <input type="text" asp-for="PostCode" id="inputpostcode" class="form-control form-account log">
                                 </div>
                                 <div class="form-group col-md-12">
                                     <label for="inputfState" class=" control-label">Town / City <span class="f-red">*</span></label>
-                                    <input type="text" asp-for="City" id="inputfState" class="form-control form-account">
+                                    <input type="text" asp-for="City" id="inputfState" class="form-control form-account log">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="inputphone" class=" control-label">Phone <span class="f-red">*</span></label>
-                                    <input type="text" asp-for="Phone" id="inputphone" class="form-control form-account">
+                                    <input type="text" asp-for="Phone" id="inputphone" class="form-control form-account log">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="inputemail" class=" control-label">Email Address <span class="f-red">*</span></label>
-                                    <input type="text" asp-for="Email" id="inputemail" class="form-control form-account">
+                                    <input type="text" asp-for="Email" id="inputemail" class="form-control form-account log">
                                 </div>
                                 <div class="form-check col-md-12">
                                     <label class="form-check-label ver2">
                                         <input type="checkbox" class="form-check-input">
                                         <span>Create an account?</span>
                                     </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="co-left bd-7">
-                            <div class="cmt-title text-center abs">
-                                <h1 class="page-title v5">Shipping Details</h1>
-                            </div>
-                            <div class="row form-customer v2">
-                                <div class="form-check col-md-12">
-                                    <label class="form-check-label ver2">
-                                        <input type="checkbox" class="form-check-input">
-                                        <span>Ship to a different address?</span>
-                                    </label>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <label for="inputfState" class=" control-label">Order Notes</label>
-                                    <textarea name="message" rows="8" id="message" class="form-control form-note" placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
+                                    <div class="cart-total-bottom v2">
+                                        <button class="btn btn-primary placeOlder" type="submit" >PLACE ORDER</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-4 image-c">
+                       
+                    </div>
                     <!-- End contact-form -->
-                    <div class="col-md-4">
+                     <div class="col-md-4">
                         <div class="cart-total bd-7">
                             <div class="cmt-title text-center abs">
                                 <h1 class="page-title v3">Your order</h1>
                             </div>
                             <div class="table-responsive">
-                                <div class="co-pd">
+                               @*  <div class="co-pd">
                                     <p class="co-title">
                                         Product<span>Total</span>
                                     </p>
                                     <ul class="co-pd-list">
-                                      @*   @foreach (var item in Model.OrderItems)
+                                        <div class="co-price">
+                                            
+                                        </div>
+                                        @foreach (var item in Model.OrderItems)
                                         {
                                             <li class="clearfix">
                                                 <div class="co-name">
@@ -139,15 +142,12 @@
                                                     $@item.Subtotal
                                                 </div>
                                             </li>
-                                        }; *@
+                                        };
                                     </ul>
-                                </div>
+                                </div> *@
                                 <table class="shop_table">
                                     <tbody>
-                                        <tr class="cart-subtotal">
-                                            <th>Subtotal</th>
-                                          @*   <td>$@Model.Total</td> *@
-                                        </tr>
+                                        
                                         <tr class="cart-shipping v2">
                                             <th>Shipping</th>
                                             <td class="td">
@@ -163,10 +163,10 @@
                                                 </ul>
                                             </td>
                                         </tr>
-                                        <tr class="order-total v2">
+                                     @*    <tr class="order-total v2">
                                             <th>Total</th>
-                                           @*  <td>$@Model.Total</td> *@
-                                        </tr>
+                                            <td>$@Model.Total</td>
+                                        </tr> *@
                                     </tbody>
                                 </table>
                             </div>
@@ -196,11 +196,9 @@
                                     <span>I’ve read and accept the <a href="#" class="term">terms & conditions *</a></span>
                                 </label>
                             </div>
-                            <div class="cart-total-bottom v2">
-                                <button class="btn btn-primary" type="submit">PLACE ORDER</button>
-                            </div>
+                           
                         </div>
-                    </div>
+                    </div> 
                 </div>
             </div>
         </form>

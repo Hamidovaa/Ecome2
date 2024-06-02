@@ -1,26 +1,32 @@
 ﻿@model Ecome2.Models.TwoModels
 
-<h2>Order Confirmation</h2>
-<p>Order Number: @Model.Order.OrderNumber</p>
-<p>Order Date: @Model.Order.Date</p>
-<p>Total: @Model.Order.Total</p>
+<div class="container" style="margin:auto; padding-top:20px">
+    <h2>Order Confirmation</h2>
+    <p>Order Number: @Model.Order.OrderNumber</p>
+    <p>Order Date: @Model.Order.Date</p>
+    <p>Total: @Model.Order.Total</p>
+</div>
 
-<table>
-    <thead>
-        <tr>
-            <th>Product Name</th>
-            <th>Quantity</th>
-            <th>Price</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.OrderItems)
-        {
+
+<div class="container" style="margin-left:auto; margin-bottom:50px">
+    <table>
+        <thead>
             <tr>
-                <td>@item.Product.Title</td>
-                <td>@item.Quantity</td>
-                <td>@item.Subtotal</td>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderItems)
+            {
+                <tr>
+                    <td>@item.Product.Title</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Subtotal</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 
 namespace Ecome2.Models
 {
@@ -12,8 +13,10 @@ namespace Ecome2.Models
         [Required]
         [EmailAddress]
         public string Email { get; set; }
-
+        [ValidateNever]
         public string Phone { get; set; }
+        [ValidateNever]
+        public string Subject { get; set; }
 
         [Required]
         public string Body { get; set; }
@@ -21,6 +24,10 @@ namespace Ecome2.Models
         public DateTime DateSent { get; set; } = DateTime.UtcNow;
 
         public bool IsRead { get; set; } = false;
-        public string Category { get; set; }
+        //public string Category { get; set; }
+        [ValidateNever]
+        public string Sender { get; set; } // Gönderen
+        [ValidateNever]
+        public string Receiver { get; set; } // Alıcı
     }
 }
